@@ -2,5 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:vm="clr-namespace:Messenger.ViewModels"
                     xmlns:view="clr-namespace:Messenger.Views">
+    <DataTemplate DataType="{x:Type vm:MainPageViewModel}">
+        <view:MainPage />
+    </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:LoginPageViewModel}">
+        <view:LoginPage />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:SignupPageViewModel}">
+        <view:SignupPage />
+    </DataTemplate>
 </ResourceDictionary>

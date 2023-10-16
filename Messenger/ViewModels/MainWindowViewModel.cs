@@ -1,36 +1,40 @@
-﻿using Messenger.Models;
+﻿using Messenger.Interfaces;
 using Messenger.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Messenger.ViewModels
 {
-    class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, IWindow
     {
-        private ObservableCollection<Chat> _chats;
-        public ObservableCollection<Chat> Chats
-        { 
-            get { return _chats; }
-            set { _chats = value; OnPropertyChanged(); }
+        private object _currentView;
+        public object CurrentView
+        {
+            get { return _currentView; }
+            set { _currentView = value; OnPropertyChanged(); }
         }
 
         public MainWindowViewModel()
         {
-            Chats = new ObservableCollection<Chat> 
-            {
-                new Chat{ LastMessage = "Test message", LastMessageTime = DateTime.Now, Name = "Test user" },
-                new Chat{ LastMessage = "Test message", LastMessageTime = DateTime.Now, Name = "Test user" },
-                new Chat{ LastMessage = "Test message", LastMessageTime = DateTime.Now, Name = "Test user" },
-                new Chat{ LastMessage = "Test message", LastMessageTime = DateTime.Now, Name = "Test user" },
-                new Chat{ LastMessage = "Test message", LastMessageTime = DateTime.Now, Name = "Test user" },
-                new Chat{ LastMessage = "Test message", LastMessageTime = DateTime.Now, Name = "Test user" },
-                new Chat{ LastMessage = "Test message", LastMessageTime = DateTime.Now, Name = "Test user" },
-                new Chat{ LastMessage = "Test message", LastMessageTime = DateTime.Now, Name = "Test user" },
-            };
+            CurrentView = new LoginPageViewModel(this);
+        }
+
+        public void NavigateToLogin()
+        {
+            CurrentView = new LoginPageViewModel(this);
+        }
+
+        public void NavigateToSignup()
+        {
+            CurrentView = new SignupPageViewModel(this);
+        }
+
+        public void NavigateToMain()
+        {
+            CurrentView = new MainPageViewModel(this);
         }
     }
 }

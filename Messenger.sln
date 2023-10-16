@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger", "Messenger\Messenger.csproj", "{BBA856EC-9155-4AA3-AFE3-AC9EA51507E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messenger", "Messenger\Messenger.csproj", "{BBA856EC-9155-4AA3-AFE3-AC9EA51507E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerApi", "MessengerApi\MessengerApi.csproj", "{74ABD49E-3D85-48E4-BFBC-FADF42041595}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerApiServices", "MessengerApiServices\MessengerApiServices.csproj", "{750FA9E5-570E-4669-A625-3E7AF57B603F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerApiDomain", "MessengerApiDomain\MessengerApiDomain.csproj", "{B4ECB99C-ADE0-4B0B-B239-26284B186072}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerApiInfrasctructure", "MessengerApiInfrasctructure\MessengerApiInfrasctructure.csproj", "{3395E8E7-EA41-407F-8D45-44F12CBED522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerModels", "MessengerModels\MessengerModels.csproj", "{78F22CA2-B356-4383-A12D-4FD0BCBA2BB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,26 @@ Global
 		{BBA856EC-9155-4AA3-AFE3-AC9EA51507E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBA856EC-9155-4AA3-AFE3-AC9EA51507E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBA856EC-9155-4AA3-AFE3-AC9EA51507E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74ABD49E-3D85-48E4-BFBC-FADF42041595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74ABD49E-3D85-48E4-BFBC-FADF42041595}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74ABD49E-3D85-48E4-BFBC-FADF42041595}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74ABD49E-3D85-48E4-BFBC-FADF42041595}.Release|Any CPU.Build.0 = Release|Any CPU
+		{750FA9E5-570E-4669-A625-3E7AF57B603F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{750FA9E5-570E-4669-A625-3E7AF57B603F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{750FA9E5-570E-4669-A625-3E7AF57B603F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{750FA9E5-570E-4669-A625-3E7AF57B603F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4ECB99C-ADE0-4B0B-B239-26284B186072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4ECB99C-ADE0-4B0B-B239-26284B186072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4ECB99C-ADE0-4B0B-B239-26284B186072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4ECB99C-ADE0-4B0B-B239-26284B186072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3395E8E7-EA41-407F-8D45-44F12CBED522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3395E8E7-EA41-407F-8D45-44F12CBED522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3395E8E7-EA41-407F-8D45-44F12CBED522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3395E8E7-EA41-407F-8D45-44F12CBED522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78F22CA2-B356-4383-A12D-4FD0BCBA2BB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78F22CA2-B356-4383-A12D-4FD0BCBA2BB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78F22CA2-B356-4383-A12D-4FD0BCBA2BB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78F22CA2-B356-4383-A12D-4FD0BCBA2BB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

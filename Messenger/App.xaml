@@ -8,7 +8,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/RoundPlusButton.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Button.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Text.xaml" />
+                <ResourceDictionary Source="Resources/Styles/TextBox.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ListBox.xaml" />
                 <ResourceDictionary Source="Utilities/DataTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>

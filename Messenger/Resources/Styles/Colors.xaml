@@ -14,4 +14,6 @@
     <Color x:Key="LessLightGray">#94a3b8</Color>
     <Brush x:Key="PurpleBrush">#4338ca</Brush>
     <Color x:Key="Purple">#4338ca</Color>
+    <Brush x:Key="LightPurpleBrush">#4f46e5</Brush>
+    <Color x:Key="LightPurple">#4f46e5</Color>
 </ResourceDictionary>
