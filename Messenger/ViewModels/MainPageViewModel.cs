@@ -1,6 +1,7 @@
 ﻿using Messenger.Interfaces;
-using Messenger.Models;
+using Messenger.Services;
 using Messenger.Utilities;
+using MessengerModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,15 +16,15 @@ namespace Messenger.ViewModels
     {
         private readonly IWindow _window;
 
-        private ObservableCollection<Chat> _chats;
-        public ObservableCollection<Chat> Chats
+        private ObservableCollection<ChatResponse> _chats;
+        public ObservableCollection<ChatResponse> Chats
         { 
             get { return _chats; }
             set { _chats = value; OnPropertyChanged(); }
         }
 
-        private Chat _selectedChat;
-        public Chat SelectedChat
+        private ChatResponse _selectedChat;
+        public ChatResponse SelectedChat
         {
             get { return _selectedChat; }
             set { _selectedChat = value; OnPropertyChanged();}
@@ -33,13 +34,38 @@ namespace Messenger.ViewModels
         {
             _window = window;
 
+            NewChatCommand = new RelayCommand(NewChat);
+            SettingsCommand = new RelayCommand(Settings);
+
             SelectedChat = null;
-            Chats = new ObservableCollection<Chat>
-            {
-                new Chat{ LastMessage = "Hello", LastMessageTime = DateTime.Now, Name = "Jack" },
-                new Chat{ LastMessage = "No", LastMessageTime = DateTime.Now, Name = "John" },
-                new Chat{ LastMessage = "Yes", LastMessageTime = DateTime.Now, Name = "Jane" },
-            };
+            Chats = new ObservableCollection<ChatResponse>();
+
+            GetChatsAsync();
+        }
+
+        private async Task GetChatsAsync()
+        {
+            var chats = await ChatsService.GetAllAsync();
+
+            Chats = new ObservableCollection<ChatResponse>(chats);
+        }
+
+        private async Task SearchChatsAsync()
+        {
+
+        }
+
+        public ICommand NewChatCommand { get; set; }
+        public ICommand SettingsCommand { get; set; }
+
+        private void NewChat(object obj)
+        {
+            _window.NavigateToSettings();
+        }
+
+        private void Settings(object obj)
+        {
+            _window.NavigateToSettings();
         }
     }
 }

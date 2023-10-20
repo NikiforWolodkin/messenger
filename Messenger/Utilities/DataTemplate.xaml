@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:vm="clr-namespace:Messenger.ViewModels"
-                    xmlns:view="clr-namespace:Messenger.Views">
+                    xmlns:view="clr-namespace:Messenger.Views"
+                    xmlns:settings="clr-namespace:Messenger.ViewModels.Settings"
+                    xmlns:settingsViews="clr-namespace:Messenger.Views.Settings">
     <DataTemplate DataType="{x:Type vm:MainPageViewModel}">
         <view:MainPage />
     </DataTemplate>
@@ -12,5 +14,13 @@
 
     <DataTemplate DataType="{x:Type vm:SignupPageViewModel}">
         <view:SignupPage />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:SettingsPageViewModel}">
+        <view:SettingsPage />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type settings:ContactsPageViewModel}">
+        <settingsViews:ContactsPage />
     </DataTemplate>
 </ResourceDictionary>

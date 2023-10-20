@@ -11,5 +11,6 @@ namespace Messenger.Interfaces
         void NavigateToLogin();
         void NavigateToSignup();
         void NavigateToMain();
+        void NavigateToSettings();
     }
 }

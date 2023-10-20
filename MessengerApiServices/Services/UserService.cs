@@ -22,11 +22,30 @@ namespace MessengerApiServices.Services
             _mapper = mapper;
         }
 
+        public async Task<ICollection<UserResponse>> GetAllAsync(Guid filterUserId)
+        {
+            var user = await _userRepository.GetByIdAsync(filterUserId);
+
+            var users = await _userRepository.GetAllAsync(user);
+
+            return _mapper.Map<ICollection<UserResponse>>(users);
+        }
+
+        public async Task<ICollection<UserResponse>> SearchAsync(string search, Guid filterUserId)
+        {
+            var user = await _userRepository.GetByIdAsync(filterUserId);
+
+            var users = await _userRepository.SearchAsync(search, user);
+
+            return _mapper.Map<ICollection<UserResponse>>(users);
+        }
+
         async Task<UserResponse> IUserService.AddAsync(UserSignUpRequest request)
         {
             var user = new User
             {
                 Name = request.Name,
+                DisplayName = request.Name,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
             };
 

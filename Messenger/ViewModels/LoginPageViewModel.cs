@@ -19,7 +19,11 @@ namespace Messenger.ViewModels
         public string Login
         {
             get { return _login; }
-            set { _login = value; OnPropertyChanged(); }
+            set 
+            { 
+                _login = value; 
+                OnPropertyChanged(); 
+            }
         }
 
         private string _password;

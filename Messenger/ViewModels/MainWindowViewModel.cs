@@ -36,5 +36,10 @@ namespace Messenger.ViewModels
         {
             CurrentView = new MainPageViewModel(this);
         }
+
+        public void NavigateToSettings()
+        {
+            CurrentView = new SettingsPageViewModel(this);
+        }
     }
 }

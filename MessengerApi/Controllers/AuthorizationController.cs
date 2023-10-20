@@ -23,19 +23,6 @@ namespace MessengerApi.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("users")]
-        public async Task<IActionResult> AddUserAsync(UserSignUpRequest request)
-        {
-            if (await _userService.UserExistsAsync(request.Name))
-            {
-                return BadRequest(new ErrorResponse("This username is already in use."));
-            }
-
-            var user = await _userService.AddAsync(request);
-
-            return Created($"api/users/{user.Id}", user);
-        }
-
         [HttpPost("authorize")]
         public async Task<IActionResult> AuthorizeAsync(UserLogInRequest request)
         {

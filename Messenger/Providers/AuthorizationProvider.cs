@@ -40,7 +40,7 @@ namespace Messenger.Providers
 
             var apiUrl = ConfigurationManager.AppSettings["ApiUrl"];
 
-            var response = await client.PostAsync($"{apiUrl}/api/authorize", data);
+            var response = await client.PostAsync($"{apiUrl}/authorize", data);
 
             string result = await response.Content.ReadAsStringAsync();
 
@@ -71,7 +71,7 @@ namespace Messenger.Providers
 
             var apiUrl = ConfigurationManager.AppSettings["ApiUrl"];
 
-            var response = await client.PostAsync($"{apiUrl}/api/users", data);
+            var response = await client.PostAsync($"{apiUrl}/users", data);
 
             string result = await response.Content.ReadAsStringAsync();
 

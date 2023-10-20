@@ -47,7 +47,8 @@
                 </Grid>
 
                 <Button Style="{StaticResource RoundPlusButton}"
-                    HorizontalAlignment="Center">
+                        HorizontalAlignment="Center"
+                        Command="{Binding NewChatCommand}">
                     New chat
                 </Button>
 

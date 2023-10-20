@@ -9,8 +9,11 @@ namespace MessengerApiDomain.RepositoryInterfaces
 {
     public interface IUserRepository
     {
+        Task<ICollection<User>> GetAllAsync(User filterUser);
+        Task<ICollection<User>> SearchAsync(string search, User filterUser);
         Task AddUserAsync(User user);
         Task<bool> UserExistsAsync(string name);
         Task<User?> GetByNameAsync(string name);
+        Task<User?> GetByIdAsync(Guid id);
     }
 }

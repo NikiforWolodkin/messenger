@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Messenger.Views.SettingsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Messenger.Views"
+             xmlns:menu="clr-namespace:Messenger.Utilities"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Border Background="{StaticResource BackgroundLightBrush}">
+            <Grid Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Background="{StaticResource GrayBrush}"
+                        Width="1"
+                        Grid.Column="1">
+                    
+                </Border>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Margin="0,4,0,0">
+                        <menu:RadioNavigationButton Style="{StaticResource RadioNavigation}"
+                                                    IsChecked="{Binding ProfileSelected}">
+                            <Grid>
+                                <TextBlock Text="My profile" />
+                            </Grid>
+                        </menu:RadioNavigationButton>
+                        <menu:RadioNavigationButton Style="{StaticResource RadioNavigation}"
+                                                    IsChecked="{Binding GroupsSelected}">
+                            <Grid>
+                                <TextBlock Text="Groups" />
+                            </Grid>
+                        </menu:RadioNavigationButton>
+                        <menu:RadioNavigationButton Style="{StaticResource RadioNavigation}"
+                                                    IsChecked="{Binding ContactsSelected}">
+                            <Grid>
+                                <TextBlock Text="Contacts" />
+                            </Grid>
+                        </menu:RadioNavigationButton>
+                        <menu:RadioNavigationButton Style="{StaticResource RadioNavigation}"
+                                                    IsChecked="{Binding BlacklistSelected}">
+                            <Grid>
+                                <TextBlock Text="Blacklist" />
+                            </Grid>
+                        </menu:RadioNavigationButton>
+                    </StackPanel>
+
+                    <Button Grid.Row="1"
+                            Margin="0,0,0,8"
+                            Style="{StaticResource ButtonGray}"
+                            HorizontalAlignment="Center"
+                            Width="150"
+                            Command="{Binding BackCommand}">
+                        Back
+                    </Button>
+                </Grid>
+
+                <ContentControl Margin="20,8,0,8" Grid.Column="2" Content="{Binding CurrentView}" />
+            </Grid>    
+        </Border>
+    </Grid>
+</UserControl>
