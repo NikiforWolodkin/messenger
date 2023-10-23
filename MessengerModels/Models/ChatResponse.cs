@@ -14,8 +14,8 @@ namespace MessengerModels.Models
         [JsonPropertyName("name")]
         public string Name { get; set; }
         [JsonPropertyName("lastMessage")]
-        public string LastMessage { get; set; }
+        public string? LastMessage { get; set; }
         [JsonPropertyName("lastMessageTime")]
-        public DateTime LastMessageTime { get; set; }
+        public DateTime? LastMessageTime { get; set; }
     }
 }

@@ -11,7 +11,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="305"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Grid>
@@ -57,6 +57,7 @@
             <ListBox ItemsSource="{Binding Chats}"
                      Style="{StaticResource ListBox}"
                      SelectedItem="{Binding SelectedChat}"
+                     x:Name="ChatListBox"
                      Grid.Row="1"
                      Margin="10,16,10,10"
                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -107,7 +108,7 @@
                                     <!-- Message time below message -->
                                     <TextBlock Text="{Binding LastMessageTime, StringFormat=t}" 
                                                Grid.Column="1"
-                                               Margin="0,2,0,0"
+                                               Margin="10,2,0,0"
                                                Foreground="{StaticResource LessLightGrayBrush}"
                                                FontSize="15"/>
                                 </Grid>
@@ -126,6 +127,12 @@
                                             <SolidColorBrush x:Name="BorderBackground"
                                                              Color="{StaticResource BackgroundLight}" />
                                         </Border.Background>
+
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="{x:Static MouseAction.LeftClick}"
+                                                          Command="{Binding DataContext.SelectChatCommand, ElementName=ChatListBox}"  
+                                                          CommandParameter="{Binding}" />
+                                        </Border.InputBindings>
 
                                         <ContentPresenter />
                                     </Border>
@@ -181,7 +188,12 @@
         <Grid Grid.Column="1">
             <Border Background="{StaticResource BackgroundBrush}"/>
 
-            <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
                 <Grid Height="60">
                     <Border Background="{StaticResource BackgroundLightBrush}" />
 
@@ -189,7 +201,9 @@
                            FontSize="22"
                            Margin="20,0,0,0"/>
                 </Grid>
-            </StackPanel>
+
+                <ContentControl Content="{Binding CurrentView}" Grid.Row="1" />
+            </Grid>
         </Grid>
 
     </Grid>

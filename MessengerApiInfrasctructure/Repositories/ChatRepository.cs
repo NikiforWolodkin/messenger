@@ -31,6 +31,11 @@ namespace MessengerApiInfrasctructure.Repositories
             return await _context.Chats.ToListAsync();
         }
 
+        async Task<Chat?> IChatRepository.GetByIdAsync(Guid id)
+        {
+            return await _context.Chats.FirstOrDefaultAsync(chat => chat.Id == id);
+        }
+
         async Task<ICollection<Chat>> IChatRepository.GetUserChatsAsync(User user)
         {
             return await _context.Chats

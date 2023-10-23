@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Resources/Styles/RoundPlusButton.xaml" />
                 <ResourceDictionary Source="Resources/Styles/RoundPlusButtonPurple.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Button.xaml" />
+                <ResourceDictionary Source="Resources/Styles/SendButton.xaml" />
                 <ResourceDictionary Source="Resources/Styles/RadioNavigation.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ButtonGray.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Text.xaml" />

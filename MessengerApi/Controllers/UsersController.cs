@@ -1,6 +1,7 @@
 ﻿using MessengerApi.Helpers;
 using MessengerApiServices.Interfaces;
 using MessengerModels.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MessengerApi.Controllers
@@ -16,6 +17,7 @@ namespace MessengerApi.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAsync(string? search)
         {

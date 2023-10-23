@@ -47,14 +47,21 @@ namespace MessengerApiServices.Services
             return ToModel(chats, userId);
         }
 
+        // TODO: Move to profile
         private ChatResponse ToModel(Chat chat, Guid userId)
         {
             if (chat.ChatType == ChatType.Conversation) 
             {
+                var lastMessage = chat.Messages
+                    .OrderByDescending(message => message.SendTime)
+                    .FirstOrDefault();
+
                 var response = new ChatResponse()
                 {
                     Id = chat.Id,
                     Name = chat.Participants.Where(chat => chat.Id != userId).Single().Name,
+                    LastMessage = lastMessage?.Text,
+                    LastMessageTime = lastMessage?.SendTime,
                 };
 
                 return response;

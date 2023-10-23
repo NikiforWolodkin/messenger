@@ -28,6 +28,7 @@
     <None Remove="Resources\Fonts\Kanit-ThinItalic.ttf" />
     <None Remove="Resources\Icons\Menu.png" />
     <None Remove="Resources\Icons\Plus.png" />
+    <None Remove="Resources\Icons\Send.png" />
     <None Remove="Resources\Images\avatar.jpg" />
   </ItemGroup>
 
@@ -86,6 +87,10 @@
     <Content Include="Resources\Fonts\Kanit-ThinItalic.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Send.png" />
   </ItemGroup>
 
   <ItemGroup>

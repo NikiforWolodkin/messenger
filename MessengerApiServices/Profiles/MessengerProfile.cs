@@ -14,6 +14,10 @@ namespace MessengerApiServices.Profiles
         public MessengerProfile()
         {
             CreateMap<User, UserResponse>();
+
+            CreateMap<Message, MessageResponse>()
+                .ForMember(destination => destination.AuthorName, config => 
+                    config.MapFrom(source => source.Author.DisplayName));
         }
     }
 }

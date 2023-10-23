@@ -20,9 +20,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
 
 builder.Services.AddDbContextPool<DataContext>(options =>
 {
@@ -45,6 +47,8 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ))
     };
 });
+
+// TODO: Add exception handling middleware and change methods to throw an exception if not found
 
 var app = builder.Build();
 
