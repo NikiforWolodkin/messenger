@@ -11,6 +11,8 @@ namespace MessengerModels.Models
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
+        [JsonPropertyName("authorId")]
+        public Guid AuthorId { get; set; }
         [JsonPropertyName("authorName")]
         public string AuthorName { get; set; }
         [JsonPropertyName("text")]

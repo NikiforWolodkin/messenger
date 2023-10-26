@@ -30,7 +30,7 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="10,0,10,5">
+                    <Grid Margin="10,0,10,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40" />
                             <ColumnDefinition Width="Auto" />
@@ -42,7 +42,7 @@
                         </Grid.RowDefinitions>
                         
                         <Image Width="40" Height="40"
-                               VerticalAlignment="Top"
+                               VerticalAlignment="Bottom"
                                Stretch="UniformToFill" 
                                Grid.RowSpan="2">
                             <Image.Clip>

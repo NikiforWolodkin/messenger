@@ -14,6 +14,7 @@ namespace Messenger.Providers
     public static class AuthorizationProvider
     {
         private static string? _token = null;
+        private static Guid? _userId = null;
 
         public static string GetToken()
         {
@@ -23,6 +24,16 @@ namespace Messenger.Providers
             }
 
             return _token;
+        }
+
+        public static Guid GetUserId()
+        {
+            if (_userId is null)
+            {
+                throw new LoggedOutException("You are logged out. Please log in again.");
+            }
+
+            return (Guid)_userId;
         }
 
         public static async Task LogInAsync(string name, string password)
@@ -46,7 +57,10 @@ namespace Messenger.Providers
 
             if (response.IsSuccessStatusCode)
             {
-                _token = result;
+                var authResponse = JsonSerializer.Deserialize<AuthorizationResponse>(result);
+
+                _token = authResponse.AuthorizationToken;
+                _userId = authResponse.Id;
             }
             else
             {

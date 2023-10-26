@@ -1,8 +1,6 @@
-﻿using MessengerApiDomain.Models;
-using MessengerApiServices.Interfaces;
+﻿using MessengerApiServices.Interfaces;
 using MessengerModels.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -37,7 +35,13 @@ namespace MessengerApi.Controllers
 
             var token = CreateToken(user.Id, user.Name);
 
-            return Ok(token);
+            var response = new AuthorizationResponse
+            {
+                Id = user.Id,
+                AuthorizationToken = token,
+            };
+
+            return Ok(response);
         }
 
         private string CreateToken(Guid id, string name)

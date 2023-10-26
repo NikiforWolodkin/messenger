@@ -1,3 +1,4 @@
+using MessengerApi.Hubs;
 using MessengerApiDomain.RepositoryInterfaces;
 using MessengerApiInfrasctructure.Data;
 using MessengerApiInfrasctructure.Repositories;
@@ -48,6 +49,8 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     };
 });
 
+builder.Services.AddSignalR();
+
 // TODO: Add exception handling middleware and change methods to throw an exception if not found
 
 var app = builder.Build();
@@ -64,5 +67,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("api/chat-hub");
+app.MapHub<UserChatsHub>("api/user-chats-hub");
 
 app.Run();

@@ -1,4 +1,5 @@
-﻿using MessengerApiDomain.Enums;
+﻿using AutoMapper;
+using MessengerApiDomain.Enums;
 using MessengerApiDomain.Models;
 using MessengerApiDomain.RepositoryInterfaces;
 using MessengerApiServices.Interfaces;
@@ -15,11 +16,13 @@ namespace MessengerApiServices.Services
     {
         private readonly IChatRepository _chatRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public ChatService(IChatRepository chatRepository, IUserRepository userRepository)
+        public ChatService(IChatRepository chatRepository, IUserRepository userRepository, IMapper mapper)
         {
             _chatRepository = chatRepository;
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         async Task<ChatResponse> IChatService.AddConversationAsync(Guid userId, ConversationAddRequest request)
@@ -38,6 +41,15 @@ namespace MessengerApiServices.Services
             return ToModel(chat, userId);
         }
 
+        async Task<ICollection<UserResponse>> IChatService.GetChatUsers(Guid id)
+        {
+            var chat = await _chatRepository.GetByIdAsync(id);
+
+            var users = chat.Participants;
+
+            return _mapper.Map<ICollection<UserResponse>>(users);
+        }
+
         async Task<ICollection<ChatResponse>> IChatService.GetUserChatsAsync(Guid userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -52,7 +64,7 @@ namespace MessengerApiServices.Services
         {
             if (chat.ChatType == ChatType.Conversation) 
             {
-                var lastMessage = chat.Messages
+                var lastMessage = chat.Messages?
                     .OrderByDescending(message => message.SendTime)
                     .FirstOrDefault();
 

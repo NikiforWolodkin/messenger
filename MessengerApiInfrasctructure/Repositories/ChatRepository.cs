@@ -40,6 +40,14 @@ namespace MessengerApiInfrasctructure.Repositories
         {
             return await _context.Chats
                 .Where(chat => chat.Participants.Contains(user))
+                // TODO: Check if this is slow
+                .OrderByDescending(chat =>
+                    chat.Messages.Count != 0 
+                        ? chat.Messages
+                            .OrderByDescending(message => message.SendTime)
+                            .First().SendTime
+                        : DateTime.MinValue
+                )
                 .ToListAsync();
         }
     }

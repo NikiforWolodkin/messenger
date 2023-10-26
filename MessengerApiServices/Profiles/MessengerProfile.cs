@@ -17,7 +17,9 @@ namespace MessengerApiServices.Profiles
 
             CreateMap<Message, MessageResponse>()
                 .ForMember(destination => destination.AuthorName, config => 
-                    config.MapFrom(source => source.Author.DisplayName));
+                    config.MapFrom(source => source.Author.DisplayName))
+                .ForMember(destination => destination.AuthorId, config =>
+                    config.MapFrom(source => source.Author.Id));
         }
     }
 }
