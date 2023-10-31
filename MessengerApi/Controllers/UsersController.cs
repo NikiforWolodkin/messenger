@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MessengerApi.Controllers
 {
-    [Route("api/users")]
+    [Route("api")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -18,8 +18,30 @@ namespace MessengerApi.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetAsync(string? search)
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfileAsync()
+        {
+            var id = JwtClaimsHelper.GetId(User.Identity);
+
+            // TODO: Check if users exist
+
+            return Ok(await _userService.GetByIdAsync(id));
+        }
+
+        [Authorize]
+        [HttpPut("profile")]
+        public async Task<IActionResult> UpdateProfileAsync(ProfileUpdateRequest request)
+        {
+            var id = JwtClaimsHelper.GetId(User.Identity);
+
+            // TODO: Check if users exist
+
+            return Ok(await _userService.UpdateProfileAsync(id, request));
+        }
+
+        [Authorize]
+        [HttpGet("users")]
+        public async Task<IActionResult> GetAllAsync(string? search)
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
@@ -33,7 +55,7 @@ namespace MessengerApi.Controllers
             return Ok(await _userService.SearchAsync(search, id));
         }
 
-        [HttpPost]
+        [HttpPost("users")]
         public async Task<IActionResult> AddAsync(UserSignUpRequest request)
         {
             if (await _userService.UserExistsAsync(request.Name))

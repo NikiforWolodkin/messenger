@@ -71,9 +71,11 @@ namespace MessengerApiServices.Services
                 var response = new ChatResponse()
                 {
                     Id = chat.Id,
-                    Name = chat.Participants.Where(chat => chat.Id != userId).Single().Name,
+                    Name = chat.Participants.Where(chat => chat.Id != userId).Single().DisplayName,
+                    ImageUrl = chat.Participants.Where(chat => chat.Id != userId).Single().AvatarUrl,
                     LastMessage = lastMessage?.Text,
                     LastMessageTime = lastMessage?.SendTime,
+                    Type = chat.ChatType,
                 };
 
                 return response;

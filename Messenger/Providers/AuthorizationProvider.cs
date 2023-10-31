@@ -96,5 +96,11 @@ namespace Messenger.Providers
                 throw new AuthorizationFailedException(error.Message);
             }
         }
+
+        public static void LogOut()
+        {
+            _token = null;
+            _userId = null;
+        }
     }
 }

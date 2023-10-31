@@ -4,12 +4,16 @@ using MessengerModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net.Cache;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Linq;
 
 namespace Messenger.Utilities
@@ -18,7 +22,7 @@ namespace Messenger.Utilities
     {
         public static async Task<Result<TResponse>> GetAsync<TResponse>(string uri)
         {
-            var client = new HttpClient();
+            using var client = new HttpClient();
 
             var token = AuthorizationProvider.GetToken();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -27,7 +31,7 @@ namespace Messenger.Utilities
 
             var httpResponse = await client.GetAsync($"{apiUrl}/{uri}");
 
-            string result = await httpResponse.Content.ReadAsStringAsync();
+            var result = await httpResponse.Content.ReadAsStringAsync();
 
             if (httpResponse.IsSuccessStatusCode)
             {
@@ -45,7 +49,7 @@ namespace Messenger.Utilities
 
         public static async Task<Result<TResponse>> PostAsync<TResponse, TBody>(string uri, TBody body)
         {
-            var client = new HttpClient();
+            using var client = new HttpClient();
 
             var token = AuthorizationProvider.GetToken();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -57,7 +61,7 @@ namespace Messenger.Utilities
 
             var httpResponse = await client.PostAsync($"{apiUrl}/{uri}", data);
 
-            string result = await httpResponse.Content.ReadAsStringAsync();
+            var result = await httpResponse.Content.ReadAsStringAsync();
 
             if (httpResponse.IsSuccessStatusCode)
             {
@@ -72,5 +76,66 @@ namespace Messenger.Utilities
                 return new Result<TResponse>(error);
             }
         }
+
+        public static async Task<Result<TResponse>> PutAsync<TResponse, TBody>(string uri, TBody body)
+        {
+            using var client = new HttpClient();
+
+            var token = AuthorizationProvider.GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var json = JsonSerializer.Serialize(body);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var apiUrl = ConfigurationManager.AppSettings["ApiUrl"];
+
+            var httpResponse = await client.PutAsync($"{apiUrl}/{uri}", data);
+
+            var result = await httpResponse.Content.ReadAsStringAsync();
+
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                var response = JsonSerializer.Deserialize<TResponse>(result);
+
+                return new Result<TResponse>(response);
+            }
+            else
+            {
+                var error = JsonSerializer.Deserialize<ErrorResponse>(result);
+
+                return new Result<TResponse>(error);
+            }
+        }
+
+        public static async Task<Result<string>> PostFileAsync(string uri, string filePath)
+        {
+            using var client = new HttpClient();
+            using var content = new MultipartFormDataContent();
+
+            var token = AuthorizationProvider.GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var fileBytes = File.ReadAllBytes(filePath);
+            var byteContent = new ByteArrayContent(fileBytes);
+            content.Add(byteContent, "image", Path.GetFileName(filePath)); // Add file data to form data
+
+            var apiUrl = ConfigurationManager.AppSettings["ApiUrl"];
+
+            var httpResponse = await client.PostAsync($"{apiUrl}/{uri}", content); // Send form data
+
+            var result = await httpResponse.Content.ReadAsStringAsync();
+
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                return new Result<string>(result);
+            }
+            else
+            {
+                var error = JsonSerializer.Deserialize<ErrorResponse>(result);
+
+                return new Result<string>(error);
+            }
+        }
+
     }
 }

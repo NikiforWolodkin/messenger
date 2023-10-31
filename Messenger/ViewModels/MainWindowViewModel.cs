@@ -1,5 +1,6 @@
 ﻿using Messenger.Interfaces;
 using Messenger.Utilities;
+using Messenger.ViewModels.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +38,9 @@ namespace Messenger.ViewModels
             CurrentView = new MainPageViewModel(this);
         }
 
-        public void NavigateToSettings()
+        public void NavigateToSettings(SettingsTab tab)
         {
-            CurrentView = new SettingsPageViewModel(this);
+            CurrentView = new SettingsPageViewModel(this, tab);
         }
     }
 }

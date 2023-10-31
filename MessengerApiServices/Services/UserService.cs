@@ -22,7 +22,7 @@ namespace MessengerApiServices.Services
             _mapper = mapper;
         }
 
-        public async Task<ICollection<UserResponse>> GetAllAsync(Guid filterUserId)
+        async Task<ICollection<UserResponse>> IUserService.GetAllAsync(Guid filterUserId)
         {
             var user = await _userRepository.GetByIdAsync(filterUserId);
 
@@ -31,7 +31,7 @@ namespace MessengerApiServices.Services
             return _mapper.Map<ICollection<UserResponse>>(users);
         }
 
-        public async Task<ICollection<UserResponse>> SearchAsync(string search, Guid filterUserId)
+        async Task<ICollection<UserResponse>> IUserService.SearchAsync(string search, Guid filterUserId)
         {
             var user = await _userRepository.GetByIdAsync(filterUserId);
 
@@ -46,7 +46,8 @@ namespace MessengerApiServices.Services
             {
                 Name = request.Name,
                 DisplayName = request.Name,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                AvatarUrl = "http://127.0.0.1:10000/devstoreaccount1/messenger-container/default-avatar.png",
             };
 
             await _userRepository.AddUserAsync(user);
@@ -78,6 +79,25 @@ namespace MessengerApiServices.Services
             bool verificationResult = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
 
             return verificationResult;
+        }
+
+        async Task<UserResponse?> IUserService.GetByIdAsync(Guid id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+
+            return _mapper.Map<UserResponse?>(user);
+        }
+
+        async Task<UserResponse> IUserService.UpdateProfileAsync(Guid id, ProfileUpdateRequest request)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+
+            user.DisplayName = request.DisplayName;
+            user.AvatarUrl = request.AvatarUrl;
+
+            await _userRepository.SaveChangesAsync();
+
+            return _mapper.Map<UserResponse>(user);
         }
     }
 }

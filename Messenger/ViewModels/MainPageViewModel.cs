@@ -3,6 +3,7 @@ using Messenger.Interfaces;
 using Messenger.Providers;
 using Messenger.Services;
 using Messenger.Utilities;
+using Messenger.ViewModels.Settings;
 using Messenger.Views;
 using MessengerModels.Models;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -93,9 +94,12 @@ namespace Messenger.ViewModels
 
                     if (SelectedChat?.Id != chatId)
                     {
-                        var chat = Chats.Where(chat => chat.Id == chatId).First();
+                        var chat = Chats.Where(chat => chat.Id == chatId).FirstOrDefault();
 
-                        IncrementUnreadMessages(chat);
+                        if (chat is not null)
+                        {
+                            IncrementUnreadMessages(chat);
+                        }
                     }
                 });
             });
@@ -120,7 +124,6 @@ namespace Messenger.ViewModels
 
             int oldIndex = Chats.IndexOf(chat);
             Chats.Move(oldIndex, 0);
-
         }
 
         public ICommand NewChatCommand { get; set; }
@@ -129,12 +132,12 @@ namespace Messenger.ViewModels
 
         private void NewChat(object obj)
         {
-            _window.NavigateToSettings();
+            _window.NavigateToSettings(SettingsTab.Contacts);
         }
 
         private void Settings(object obj)
         {
-            _window.NavigateToSettings();
+            _window.NavigateToSettings(SettingsTab.Profile);
         }
 
         private void SelectChat(object obj)
@@ -158,12 +161,15 @@ namespace Messenger.ViewModels
 
         public void UpdateLastMessage(Guid chatId, MessageResponse message)
         {
-            var chat = Chats.First(chat => chat.Id == chatId);
+            var chat = Chats.FirstOrDefault(chat => chat.Id == chatId);
 
-            chat.LastMessage = message.Text;
-            chat.LastMessageTime = message.SendTime;
+            if (chat is not null)
+            {
+                chat.LastMessage = message.Text;
+                chat.LastMessageTime = message.SendTime;
 
-            CollectionViewSource.GetDefaultView(Chats).Refresh();
+                CollectionViewSource.GetDefaultView(Chats).Refresh();
+            }
         }
 
         public void Dispose()

@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using MessengerApi.Hubs;
 using MessengerApiDomain.RepositoryInterfaces;
 using MessengerApiInfrasctructure.Data;
@@ -6,9 +7,32 @@ using MessengerApiServices.Interfaces;
 using MessengerApiServices.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("BearerAuth", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "BearerAuth" }
+                },
+                Array.Empty<string>()
+            }
+        });
+});
 
 // Add services to the container.
 
@@ -26,6 +50,7 @@ builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddDbContextPool<DataContext>(options =>
 {
@@ -47,6 +72,13 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
             builder.Configuration.GetSection("Jwt:Token").Value!
         ))
     };
+});
+
+builder.Services.AddSingleton(provider =>
+{
+    var connectionString = builder.Configuration.GetValue<string>("AzureBlobStorage:ConnectionString");
+
+    return new BlobServiceClient(connectionString);
 });
 
 builder.Services.AddSignalR();

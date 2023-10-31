@@ -14,5 +14,6 @@ namespace MessengerApiDomain.Models
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ChatType ChatType { get; set; }
         public virtual string? Name { get; set; }
+        public virtual string? ImageUrl { get; set; }
     }
 }

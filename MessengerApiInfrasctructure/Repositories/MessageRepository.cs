@@ -33,5 +33,10 @@ namespace MessengerApiInfrasctructure.Repositories
                 .OrderBy(message => message.SendTime)
                 .ToListAsync();
         }
+
+        async Task IMessageRepository.SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

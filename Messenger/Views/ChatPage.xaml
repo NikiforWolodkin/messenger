@@ -50,7 +50,7 @@
                             </Image.Clip>
 
                             <Image.Source>
-                                <BitmapImage DecodePixelWidth="200" DecodePixelHeight="200" UriSource="/Resources/Images/Avatar.jpg" />
+                                <BitmapImage DecodePixelWidth="200" DecodePixelHeight="200" UriSource="{Binding AuthorAvatarUrl}" />
                             </Image.Source>
                         </Image>
                         

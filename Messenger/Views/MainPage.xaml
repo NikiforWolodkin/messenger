@@ -39,11 +39,19 @@
                            FontFamily="/Resources/Fonts/#Kanit Medium"
                            FontSize="26"/>
 
-                    <Image Margin="0,0,22,0" Width="25" Height="25" Grid.Column="1">
-                        <Image.Source>
-                            <BitmapImage DecodePixelWidth="50" DecodePixelHeight="50" UriSource="/Resources/Icons/Menu.png" />
-                        </Image.Source>
-                    </Image>
+                    <Button Command="{Binding SettingsCommand}"
+                            Grid.Column="1">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Image Margin="0,0,22,0" Width="25" Height="25">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="50" DecodePixelHeight="50" UriSource="/Resources/Icons/Menu.png" />
+                            </Image.Source>
+                        </Image>
+                    </Button>
                 </Grid>
 
                 <Button Style="{StaticResource RoundPlusButton}"
@@ -79,7 +87,7 @@
                                 </Image.Clip>
 
                                 <Image.Source>
-                                    <BitmapImage DecodePixelWidth="200" DecodePixelHeight="200" UriSource="/Resources/Images/Avatar.jpg" />
+                                    <BitmapImage DecodePixelWidth="200" DecodePixelHeight="200" UriSource="{Binding ImageUrl}" />
                                 </Image.Source>
                             </Image>
 

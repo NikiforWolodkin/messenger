@@ -11,5 +11,6 @@ namespace MessengerApiDomain.RepositoryInterfaces
     {
         Task<ICollection<Message>> GetAllChatMessagesAsync(Chat chat);
         Task AddAsync(Message message);
+        Task SaveChangesAsync();
     }
 }

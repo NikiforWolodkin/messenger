@@ -19,7 +19,7 @@ namespace MessengerApiInfrasctructure.Repositories
             _context = context;
         }
 
-        public async Task<ICollection<User>> GetAllAsync(User filterUser)
+        async Task<ICollection<User>> IUserRepository.GetAllAsync(User filterUser)
         {
             var usersWithConversation = filterUser
                 .Chats
@@ -33,7 +33,7 @@ namespace MessengerApiInfrasctructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<ICollection<User>> SearchAsync(string search, User filterUser)
+        async Task<ICollection<User>> IUserRepository.SearchAsync(string search, User filterUser)
         {
             var usersWithConversation = filterUser
                 .Chats
@@ -71,6 +71,11 @@ namespace MessengerApiInfrasctructure.Repositories
         async Task<bool> IUserRepository.UserExistsAsync(string name)
         {
             return await _context.Users.AnyAsync(user => user.Name == name);
+        }
+
+        async Task IUserRepository.SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Messenger.Helpers
             Name = chat.Name;
             LastMessage = chat.LastMessage;
             LastMessageTime = chat.LastMessageTime;
+            ImageUrl = chat.ImageUrl;
         }
 
         public static ChatResponseDecorator ToDecorator(ChatResponse chat)

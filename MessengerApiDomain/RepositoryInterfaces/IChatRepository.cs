@@ -13,5 +13,6 @@ namespace MessengerApiDomain.RepositoryInterfaces
         Task<ICollection<Chat>> GetUserChatsAsync(User user);
         Task AddAsync(Chat chat);
         Task<Chat?> GetByIdAsync(Guid id);
+        Task SaveChangesAsync();
     }
 }

@@ -31,7 +31,6 @@
     <None Remove="Resources\Icons\Menu.png" />
     <None Remove="Resources\Icons\Plus.png" />
     <None Remove="Resources\Icons\Send.png" />
-    <None Remove="Resources\Images\avatar.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -98,15 +97,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="7.0.13" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MessengerModels\MessengerModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\Images\Avatar.jpg" />
   </ItemGroup>
 
   <ItemGroup>

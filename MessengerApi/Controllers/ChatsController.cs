@@ -1,5 +1,6 @@
 ﻿using MessengerApi.Helpers;
 using MessengerApi.Hubs;
+using MessengerApiDomain.Enums;
 using MessengerApiServices.Interfaces;
 using MessengerModels.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -54,9 +55,22 @@ namespace MessengerApi.Controllers
                 .Where(user => user.Id != authorId)
                 .ToList();
 
+            var chatToSend = chat;
+
+            if (chat.Type == ChatType.Conversation)
+            {
+                chatToSend = new ChatResponse
+                {
+                    Id = chat.Id,
+                    ImageUrl = chatUsers.Where(user => user.Id == authorId).First().AvatarUrl,
+                    Name = chatUsers.Where(user => user.Id == authorId).First().DisplayName,
+                    Type = ChatType.Conversation,
+                };
+            }
+
             foreach (var user in chatUsersWithoutAuthor)
             {
-                await _userChatsHubContext.Clients.Group(user.Id.ToString()).SendAsync("ReceiveChat", chat);
+                await _userChatsHubContext.Clients.Group(user.Id.ToString()).SendAsync("ReceiveChat", chatToSend);
             }
         }
     }

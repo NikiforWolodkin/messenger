@@ -24,6 +24,10 @@
         <settingsViews:ContactsPage />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type settings:ProfilePageViewModel}">
+        <settingsViews:ProfilePage/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm:ChatPageViewModel}">
         <view:ChatPage />
     </DataTemplate>

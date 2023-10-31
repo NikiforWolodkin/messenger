@@ -15,5 +15,6 @@ namespace MessengerApiDomain.RepositoryInterfaces
         Task<bool> UserExistsAsync(string name);
         Task<User?> GetByNameAsync(string name);
         Task<User?> GetByIdAsync(Guid id);
+        Task SaveChangesAsync();
     }
 }

@@ -50,5 +50,10 @@ namespace MessengerApiInfrasctructure.Repositories
                 )
                 .ToListAsync();
         }
+
+        async Task IChatRepository.SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

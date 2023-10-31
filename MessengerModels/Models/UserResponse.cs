@@ -15,5 +15,7 @@ namespace MessengerModels.Models
         public string Name { get; set; }
         [JsonPropertyName("displayName")]
         public string DisplayName { get; set; }
+        [JsonPropertyName("avatarUrl")]
+        public string AvatarUrl { get; set; }
     }
 }

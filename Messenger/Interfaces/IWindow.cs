@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Messenger.ViewModels.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,6 @@ namespace Messenger.Interfaces
         void NavigateToLogin();
         void NavigateToSignup();
         void NavigateToMain();
-        void NavigateToSettings();
+        void NavigateToSettings(SettingsTab tab);
     }
 }

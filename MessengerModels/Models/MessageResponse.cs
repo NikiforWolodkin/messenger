@@ -15,6 +15,8 @@ namespace MessengerModels.Models
         public Guid AuthorId { get; set; }
         [JsonPropertyName("authorName")]
         public string AuthorName { get; set; }
+        [JsonPropertyName("authorAvatarUrl")]
+        public string AuthorAvatarUrl {  get; set; }
         [JsonPropertyName("text")]
         public string Text { get; set; }
         [JsonPropertyName("sendTime")]
