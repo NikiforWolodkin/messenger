@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/RoundPlusButton.xaml" />
                 <ResourceDictionary Source="Resources/Styles/RoundPlusButtonPurple.xaml" />
+                <ResourceDictionary Source="Resources/Styles/RoundMinusButtonPurple.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Button.xaml" />
                 <ResourceDictionary Source="Resources/Styles/SendButton.xaml" />
                 <ResourceDictionary Source="Resources/Styles/UploadButton.xaml" />

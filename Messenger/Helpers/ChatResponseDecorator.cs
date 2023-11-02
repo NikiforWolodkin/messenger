@@ -11,7 +11,7 @@ namespace Messenger.Helpers
     {
         public int UnreadMessages { get; set; } = 0;
 
-        public ChatResponseDecorator(ChatResponse chat) 
+        private ChatResponseDecorator(ChatResponse chat) 
         { 
             Id = chat.Id;
             Name = chat.Name;

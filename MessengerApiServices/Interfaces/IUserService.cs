@@ -9,6 +9,8 @@ namespace MessengerApiServices.Interfaces
 {
     public interface IUserService
     {
+        Task<ICollection<UserResponse>> GetAllUsersWithoutConversationAsync(Guid filterUserId);
+        Task<ICollection<UserResponse>> SearchUsersWithoutConversationAsync(string search, Guid filterUserId);
         Task<ICollection<UserResponse>> GetAllAsync(Guid filterUserId);
         Task<ICollection<UserResponse>> SearchAsync(string search, Guid filterUserId);
         Task<UserResponse?> GetByNameAsync(string name);

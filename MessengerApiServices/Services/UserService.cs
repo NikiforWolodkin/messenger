@@ -22,6 +22,24 @@ namespace MessengerApiServices.Services
             _mapper = mapper;
         }
 
+        async Task<ICollection<UserResponse>> IUserService.GetAllUsersWithoutConversationAsync(Guid filterUserId)
+        {
+            var user = await _userRepository.GetByIdAsync(filterUserId);
+
+            var users = await _userRepository.GetAllUsersWithoutConversationAsync(user);
+
+            return _mapper.Map<ICollection<UserResponse>>(users);
+        }
+
+        async Task<ICollection<UserResponse>> IUserService.SearchUsersWithoutConversationAsync(string search, Guid filterUserId)
+        {
+            var user = await _userRepository.GetByIdAsync(filterUserId);
+
+            var users = await _userRepository.SearchUsersWithoutConversationAsync(search, user);
+
+            return _mapper.Map<ICollection<UserResponse>>(users);
+        }
+
         async Task<ICollection<UserResponse>> IUserService.GetAllAsync(Guid filterUserId)
         {
             var user = await _userRepository.GetByIdAsync(filterUserId);

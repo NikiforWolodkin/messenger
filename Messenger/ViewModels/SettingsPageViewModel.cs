@@ -70,13 +70,17 @@ namespace Messenger.ViewModels
 
             switch (tab)
             {
-                case SettingsTab.Contacts:
-                    ContactsSelected = true;
-                    CurrentView = new ContactsPageViewModel(window);
-                    break;
                 case SettingsTab.Profile:
                     ProfileSelected = true;
                     CurrentView = new ProfilePageViewModel(_window);
+                    break;
+                case SettingsTab.Groups:
+                    GroupsSelected = true;
+                    CurrentView = new GroupsPageViewModel(_window);
+                    break;
+                case SettingsTab.Contacts:
+                    ContactsSelected = true;
+                    CurrentView = new ContactsPageViewModel(_window);
                     break;
                 default:
                     CurrentView = null;
@@ -97,6 +101,9 @@ namespace Messenger.ViewModels
             {
                 case SettingsTab.Profile:
                     CurrentView = new ProfilePageViewModel(_window);
+                    break;
+                case SettingsTab.Groups:
+                    CurrentView = new GroupsPageViewModel(_window);
                     break;
                 case SettingsTab.Contacts:
                     CurrentView = new ContactsPageViewModel(_window);

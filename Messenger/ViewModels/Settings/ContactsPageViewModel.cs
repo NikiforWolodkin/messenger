@@ -20,10 +20,10 @@ namespace Messenger.ViewModels.Settings
         public string Search
         {
             get { return _search; }
-            set 
-            { 
+            set
+            {
                 _search = value;
-                OnPropertyChanged(); 
+                OnPropertyChanged();
             }
         }
 
@@ -48,7 +48,7 @@ namespace Messenger.ViewModels.Settings
 
         private async Task GetUsersAsync()
         {
-            var users = await UsersService.SearchAsync();
+            var users = await UsersService.SearchUsersWithoutConversationAsync();
 
             Users = new ObservableCollection<UserResponse>(users);
         }
@@ -60,7 +60,7 @@ namespace Messenger.ViewModels.Settings
         {
             if (obj is Guid userId)
             {
-                await ChatsService.AddAsync(userId);
+                await ChatsService.AddConversationAsync(userId);
 
                 _window.NavigateToMain();
             }
@@ -68,7 +68,7 @@ namespace Messenger.ViewModels.Settings
 
         private async Task SearchUsersAsync(object obj)
         {
-            var users = await UsersService.SearchAsync(Search);
+            var users = await UsersService.SearchUsersWithoutConversationAsync(Search);
 
             Users = new ObservableCollection<UserResponse>(users);
         }

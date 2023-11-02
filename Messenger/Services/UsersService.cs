@@ -52,5 +52,19 @@ namespace Messenger.Services
 
             return result.Response;
         }
+
+        public static async Task<ICollection<UserResponse>> SearchUsersWithoutConversationAsync(string? search = null)
+        {
+            var result = await Api.GetAsync<ICollection<UserResponse>>(search == null 
+                ? "users?filterUsersWithConversation=true"
+                : $"users?search={search}&filterUsersWithConversation=true");
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error);
+            }
+
+            return result.Response;
+        }
     }
 }

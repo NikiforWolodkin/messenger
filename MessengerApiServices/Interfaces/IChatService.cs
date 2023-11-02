@@ -13,5 +13,6 @@ namespace MessengerApiServices.Interfaces
         Task<ICollection<ChatResponse>> GetUserChatsAsync(Guid userId);
         Task<ICollection<UserResponse>> GetChatUsers(Guid id);
         Task<ChatResponse> AddConversationAsync(Guid userId, ConversationAddRequest request);
+        Task<ChatResponse> AddGroupAsync(Guid userId, GroupAddRequest request);
     }
 }

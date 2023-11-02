@@ -86,11 +86,13 @@ namespace Messenger.ViewModels.Settings
         private async Task SaveAsync(object obj)
         {
             await UsersService.UpdateProfileAsync(DisplayName, Profile.AvatarUrl);
+
+            _window.NavigateToMain();
         }
 
         private async Task UploadImageAsync(object obj)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
 
             if (openFileDialog.ShowDialog() == true)
             {

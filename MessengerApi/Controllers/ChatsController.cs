@@ -33,14 +33,28 @@ namespace MessengerApi.Controllers
             return Ok(await _chatService.GetUserChatsAsync(id));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddAsync(ConversationAddRequest request)
+        [HttpPost("conversations")]
+        public async Task<IActionResult> AddConversationAsync(ConversationAddRequest request)
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
             // TODO: Check if users exist
 
             var chat = await _chatService.AddConversationAsync(id, request);
+
+            await SendChatAsync(id, chat);
+
+            return Created($"api/chats/{chat.Id}", chat);
+        }
+
+        [HttpPost("groups")]
+        public async Task<IActionResult> AddGroupAsync(GroupAddRequest request)
+        {
+            var id = JwtClaimsHelper.GetId(User.Identity);
+
+            // TODO: Check if users exist
+
+            var chat = await _chatService.AddGroupAsync(id, request);
 
             await SendChatAsync(id, chat);
 

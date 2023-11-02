@@ -19,7 +19,7 @@ namespace MessengerApiInfrasctructure.Repositories
             _context = context;
         }
 
-        async Task<ICollection<User>> IUserRepository.GetAllAsync(User filterUser)
+        async Task<ICollection<User>> IUserRepository.GetAllUsersWithoutConversationAsync(User filterUser)
         {
             var usersWithConversation = filterUser
                 .Chats
@@ -33,7 +33,7 @@ namespace MessengerApiInfrasctructure.Repositories
                 .ToListAsync();
         }
 
-        async Task<ICollection<User>> IUserRepository.SearchAsync(string search, User filterUser)
+        async Task<ICollection<User>> IUserRepository.SearchUsersWithoutConversationAsync(string search, User filterUser)
         {
             var usersWithConversation = filterUser
                 .Chats
@@ -48,6 +48,23 @@ namespace MessengerApiInfrasctructure.Repositories
                 )
                 .Where(user => user.Id != filterUser.Id)
                 .Where(user => usersWithConversation.Contains(user.Id) != true)
+                .ToListAsync();
+        }
+        async Task<ICollection<User>> IUserRepository.GetAllAsync(User filterUser)
+        {
+            return await _context.Users
+                .Where(user => user.Id != filterUser.Id)
+                .ToListAsync();
+        }
+
+        async Task<ICollection<User>> IUserRepository.SearchAsync(string search, User filterUser)
+        {
+            return await _context.Users
+                .Where(user =>
+                    user.Name.ToUpper().Contains(search.ToUpper()) ||
+                    user.DisplayName.ToUpper().Contains(search.ToUpper())
+                )
+                .Where(user => user.Id != filterUser.Id)
                 .ToListAsync();
         }
 

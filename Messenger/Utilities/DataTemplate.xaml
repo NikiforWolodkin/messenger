@@ -28,6 +28,10 @@
         <settingsViews:ProfilePage/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type settings:GroupsPageViewModel}">
+        <settingsViews:GroupsPage/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm:ChatPageViewModel}">
         <view:ChatPage />
     </DataTemplate>

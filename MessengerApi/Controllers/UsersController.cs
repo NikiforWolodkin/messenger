@@ -41,11 +41,21 @@ namespace MessengerApi.Controllers
 
         [Authorize]
         [HttpGet("users")]
-        public async Task<IActionResult> GetAllAsync(string? search)
+        public async Task<IActionResult> GetAllAsync(string? search, bool? filterUsersWithConversation)
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
             // TODO: Check if users exist
+
+            if (filterUsersWithConversation is not null && filterUsersWithConversation == true)
+            {
+                if (string.IsNullOrEmpty(search))
+                {
+                    return Ok(await _userService.GetAllUsersWithoutConversationAsync(id));
+                }
+
+                return Ok(await _userService.SearchUsersWithoutConversationAsync(search, id));
+            }
 
             if (string.IsNullOrEmpty(search))
             {

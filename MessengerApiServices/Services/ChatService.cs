@@ -41,6 +41,29 @@ namespace MessengerApiServices.Services
             return ToModel(chat, userId);
         }
 
+        async Task<ChatResponse> IChatService.AddGroupAsync(Guid userId, GroupAddRequest request)
+        {
+            var participants = new List<User>();
+
+            participants.Add(await _userRepository.GetByIdAsync(userId));
+            foreach (var id in request.ParticipantIds)
+            {
+                participants.Add(await _userRepository.GetByIdAsync(id));
+            }
+
+            var chat = new Chat
+            {
+                ChatType = ChatType.Group,
+                Name = request.Name,
+                ImageUrl = request.ImageUrl,
+                Participants = participants,
+            };
+
+            await _chatRepository.AddAsync(chat);
+
+            return ToModel(chat, userId);
+        }
+
         async Task<ICollection<UserResponse>> IChatService.GetChatUsers(Guid id)
         {
             var chat = await _chatRepository.GetByIdAsync(id);
@@ -73,6 +96,25 @@ namespace MessengerApiServices.Services
                     Id = chat.Id,
                     Name = chat.Participants.Where(chat => chat.Id != userId).Single().DisplayName,
                     ImageUrl = chat.Participants.Where(chat => chat.Id != userId).Single().AvatarUrl,
+                    LastMessage = lastMessage?.Text,
+                    LastMessageTime = lastMessage?.SendTime,
+                    Type = chat.ChatType,
+                };
+
+                return response;
+            }
+
+            if (chat.ChatType == ChatType.Group)
+            {
+                var lastMessage = chat.Messages?
+                    .OrderByDescending(message => message.SendTime)
+                    .FirstOrDefault();
+
+                var response = new ChatResponse()
+                {
+                    Id = chat.Id,
+                    Name = chat.Name,
+                    ImageUrl = chat.ImageUrl,
                     LastMessage = lastMessage?.Text,
                     LastMessageTime = lastMessage?.SendTime,
                     Type = chat.ChatType,

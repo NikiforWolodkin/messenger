@@ -29,6 +29,7 @@
     <None Remove="Resources\Fonts\Kanit-Thin.ttf" />
     <None Remove="Resources\Fonts\Kanit-ThinItalic.ttf" />
     <None Remove="Resources\Icons\Menu.png" />
+    <None Remove="Resources\Icons\Minus.png" />
     <None Remove="Resources\Icons\Plus.png" />
     <None Remove="Resources\Icons\Send.png" />
   </ItemGroup>
@@ -91,6 +92,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Icons\Minus.png" />
     <Resource Include="Resources\Icons\Send.png" />
   </ItemGroup>
 

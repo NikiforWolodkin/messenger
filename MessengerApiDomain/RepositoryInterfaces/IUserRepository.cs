@@ -9,6 +9,8 @@ namespace MessengerApiDomain.RepositoryInterfaces
 {
     public interface IUserRepository
     {
+        Task<ICollection<User>> GetAllUsersWithoutConversationAsync(User filterUser);
+        Task<ICollection<User>> SearchUsersWithoutConversationAsync(string search, User filterUser);
         Task<ICollection<User>> GetAllAsync(User filterUser);
         Task<ICollection<User>> SearchAsync(string search, User filterUser);
         Task AddUserAsync(User user);

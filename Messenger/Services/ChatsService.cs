@@ -23,14 +23,33 @@ namespace Messenger.Services
             return result.Response;
         }
 
-        public static async Task<ChatResponse> AddAsync(Guid userId)
+        public static async Task<ChatResponse> AddConversationAsync(Guid userId)
         {
             var request = new ConversationAddRequest
             {
                 userId = userId
             };
 
-            var result = await Api.PostAsync<ChatResponse, ConversationAddRequest>("chats", request);
+            var result = await Api.PostAsync<ChatResponse, ConversationAddRequest>("chats/conversations", request);
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error);
+            }
+
+            return result.Response;
+        }
+
+        public static async Task<ChatResponse> AddGroupAsync(string name, string imageUrl, ICollection<Guid> participantIds)
+        {
+            var request = new GroupAddRequest
+            {
+                Name = name,
+                ImageUrl = imageUrl,
+                ParticipantIds = participantIds,
+            };
+
+            var result = await Api.PostAsync<ChatResponse, GroupAddRequest>("chats/groups", request);
 
             if (!result.IsSuccessful)
             {
