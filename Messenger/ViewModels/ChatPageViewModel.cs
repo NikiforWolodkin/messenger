@@ -5,15 +5,19 @@ using Messenger.Services;
 using Messenger.Utilities;
 using MessengerModels.Models;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Messenger.ViewModels
 {
@@ -23,8 +27,16 @@ namespace Messenger.ViewModels
         private readonly HubConnection _hubConnection;
 
         private bool _disconnected = false;
+        private string? _imageUrl = null;
 
         public Guid ChatId { get; set; }
+
+        private bool _isBlacklisted;
+        public bool IsBlacklisted
+        {
+            get { return _isBlacklisted; }
+            set { _isBlacklisted = value; OnPropertyChanged(); }
+        }
 
         private ObservableCollection<MessageResponse> _messages;
         public ObservableCollection<MessageResponse> Messages
@@ -47,18 +59,37 @@ namespace Messenger.ViewModels
             set { _text = value; OnPropertyChanged(); }
         }
 
-        public ChatPageViewModel(IMainPage mainPage, Guid chatId)
+        private string _attachmentName;
+        public string AttachmentName
+        {
+            get { return _attachmentName; }
+            set { _attachmentName = value; OnPropertyChanged(); }
+        }
+
+        private bool _isAttachmentAdded;
+        public bool IsAttachmentAdded
+        {
+            get { return _isAttachmentAdded; }
+            set { _isAttachmentAdded = value; OnPropertyChanged(); }
+        }
+
+        public ChatPageViewModel(IMainPage mainPage, ChatResponse chat)
         {
             _mainPage = mainPage;
             _hubConnection = HubConnectionFactory.CreateChatConnection();
 
-            ChatId = chatId;
+            ChatId = chat.Id;
+            IsBlacklisted = (bool)chat.IsBlacklisted;
 
-            SendMessageCommand = new AsyncRelayCommand(SendMessage);
+            SendMessageCommand = new AsyncRelayCommand(SendMessageAsync);
+            AddAttachmentCommand = new AsyncRelayCommand(AddAttachmentAsync);
+            RemoveAttachmentCommand = new AsyncRelayCommand(RemoveAttachmentAsync);
 
             Text = string.Empty;
             SelectedItem = null;
             Messages = new ObservableCollection<MessageResponse>();
+            IsAttachmentAdded = false;
+            AttachmentName = string.Empty;
 
             GetMessagesAsync();
             ConnectToHubAsync();
@@ -105,17 +136,60 @@ namespace Messenger.ViewModels
         }
 
         public ICommand SendMessageCommand { get; set; }
+        public ICommand AddAttachmentCommand { get; set; }
+        public ICommand RemoveAttachmentCommand { get; set; }
 
-        private async Task SendMessage(object obj)
+        private async Task SendMessageAsync(object obj)
         {
-            var message = await MessagesService.AddAsync(ChatId, Text);
+            MessageResponse message;
+
+            if (_imageUrl is not null)
+            {
+                message = await MessagesService.AddImageMessageAsync(ChatId, _imageUrl);
+            }
+            else
+            {
+                message = await MessagesService.AddAsync(ChatId, Text);
+            }
 
             Messages.Add(message);
 
             SelectedItem = message;
             Text = string.Empty;
+            IsAttachmentAdded = false;
+            _imageUrl = null;
 
             _mainPage.UpdateLastMessage(ChatId, message);
+        }
+
+        private async Task AddAttachmentAsync(object obj)
+        {
+            var openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var extension = Path.GetExtension(openFileDialog.FileName).ToLower();
+
+                if (extension == ".png" || extension == ".jpg" || extension == ".jpeg")
+                {
+                    var imageUrl = await FilesService.UploadImageAsync(openFileDialog.FileName);
+
+                    _imageUrl = imageUrl;
+
+                    IsAttachmentAdded = true;
+                    AttachmentName = Path.GetFileName(openFileDialog.FileName);
+                }
+                else
+                {
+                    MessageBox.Show("Only PNG and JPEG files are allowed.");
+                }
+            }
+        }
+
+        private async Task RemoveAttachmentAsync(object obj)
+        {
+            _imageUrl = null;
+            IsAttachmentAdded = false;
         }
 
         public void Dispose()

@@ -82,6 +82,10 @@ namespace Messenger.ViewModels
                     ContactsSelected = true;
                     CurrentView = new ContactsPageViewModel(_window);
                     break;
+                case SettingsTab.Blacklist:
+                    ContactsSelected = true;
+                    CurrentView = new BlacklistPageViewModel();
+                    break;
                 default:
                     CurrentView = null;
                     break;
@@ -107,6 +111,9 @@ namespace Messenger.ViewModels
                     break;
                 case SettingsTab.Contacts:
                     CurrentView = new ContactsPageViewModel(_window);
+                    break;
+                case SettingsTab.Blacklist:
+                    CurrentView = new BlacklistPageViewModel();
                     break;
                 default:
                     break;

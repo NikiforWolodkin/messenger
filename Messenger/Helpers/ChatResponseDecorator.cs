@@ -18,6 +18,7 @@ namespace Messenger.Helpers
             LastMessage = chat.LastMessage;
             LastMessageTime = chat.LastMessageTime;
             ImageUrl = chat.ImageUrl;
+            IsBlacklisted = chat.IsBlacklisted;
         }
 
         public static ChatResponseDecorator ToDecorator(ChatResponse chat)

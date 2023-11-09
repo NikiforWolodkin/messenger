@@ -28,6 +28,8 @@
     <None Remove="Resources\Fonts\Kanit-SemiBoldItalic.ttf" />
     <None Remove="Resources\Fonts\Kanit-Thin.ttf" />
     <None Remove="Resources\Fonts\Kanit-ThinItalic.ttf" />
+    <None Remove="Resources\Icons\Attachment.png" />
+    <None Remove="Resources\Icons\Image.png" />
     <None Remove="Resources\Icons\Menu.png" />
     <None Remove="Resources\Icons\Minus.png" />
     <None Remove="Resources\Icons\Plus.png" />
@@ -89,6 +91,11 @@
     <Content Include="Resources\Fonts\Kanit-ThinItalic.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Attachment.png" />
+    <Resource Include="Resources\Icons\Image.png" />
   </ItemGroup>
 
   <ItemGroup>

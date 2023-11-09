@@ -8,14 +8,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Messenger.ViewModels.Settings
 {
-    public class ContactsPageViewModel : ViewModelBase
+    public class BlacklistPageViewModel : ViewModelBase
     {
-        private readonly IWindow _window;
-
         private string _search;
         public string Search
         {
@@ -34,11 +33,10 @@ namespace Messenger.ViewModels.Settings
             set { _users = value; OnPropertyChanged(); }
         }
 
-        public ContactsPageViewModel(IWindow window)
+        public BlacklistPageViewModel()
         {
-            _window = window;
-
-            AddConversationCommand = new AsyncRelayCommand(AddConversationAsync);
+            AddToBlacklistCommand = new AsyncRelayCommand(AddToBlacklistAsync);
+            RemoveFromBlacklistCommand = new AsyncRelayCommand(RemoveFromBlacklistAsync);
             SearchUsersCommand = new AsyncRelayCommand(SearchUsersAsync);
 
             Users = new ObservableCollection<UserResponse>();
@@ -48,30 +46,42 @@ namespace Messenger.ViewModels.Settings
 
         private async Task GetUsersAsync()
         {
-            var users = await UsersService.SearchUsersWithoutConversationAsync();
+            var users = await UsersService.SearchAsync();
 
             Users = new ObservableCollection<UserResponse>(users);
         }
 
-        public ICommand AddConversationCommand { get; set; }
+        public ICommand AddToBlacklistCommand { get; set; }
+        public ICommand RemoveFromBlacklistCommand { get; set; }
         public ICommand SearchUsersCommand { get; set; }
 
-        private async Task AddConversationAsync(object obj)
+        private async Task AddToBlacklistAsync(object obj)
         {
-            if (obj is Guid userId)
+            if (obj is UserResponse user)
             {
-                var result = await ChatsService.AddConversationAsync(userId);
+                await UsersService.AddToBlacklistAsync(user.Id);
 
-                if (result is not null) 
-                {
-                    _window.NavigateToMain();
-                }
+                user.IsBlacklisted = true;
+
+                CollectionViewSource.GetDefaultView(Users).Refresh();
+            }
+        }
+
+        private async Task RemoveFromBlacklistAsync(object obj)
+        {
+            if (obj is UserResponse user)
+            {
+                await UsersService.RemoveFromBlacklist(user.Id);
+
+                user.IsBlacklisted = false;
+
+                CollectionViewSource.GetDefaultView(Users).Refresh();
             }
         }
 
         private async Task SearchUsersAsync(object obj)
         {
-            var users = await UsersService.SearchUsersWithoutConversationAsync(Search);
+            var users = await UsersService.SearchAsync(Search);
 
             Users = new ObservableCollection<UserResponse>(users);
         }

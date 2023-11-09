@@ -40,6 +40,32 @@ namespace MessengerApi.Controllers
         }
 
         [Authorize]
+        [HttpPost("profile/blacklist")]
+        public async Task<IActionResult> AddToBlacklistAsync(BlacklistAddRequest request)
+        {
+            var id = JwtClaimsHelper.GetId(User.Identity);
+
+            // TODO: Check if users exist
+
+            await _userService.AddToBlacklistAsync(id, request);
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpDelete("profile/blacklist/{blacklistedUserId:Guid}")]
+        public async Task<IActionResult> AddToBlacklistAsync(Guid blacklistedUserId)
+        {
+            var id = JwtClaimsHelper.GetId(User.Identity);
+
+            // TODO: Check if users exist
+
+            await _userService.RemoveFromBlacklistAsync(id, blacklistedUserId);
+
+            return Ok();
+        }
+
+        [Authorize]
         [HttpGet("users")]
         public async Task<IActionResult> GetAllAsync(string? search, bool? filterUsersWithConversation)
         {

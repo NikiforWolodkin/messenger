@@ -18,7 +18,9 @@ namespace MessengerModels.Models
         [JsonPropertyName("authorAvatarUrl")]
         public string AuthorAvatarUrl {  get; set; }
         [JsonPropertyName("text")]
-        public string Text { get; set; }
+        public string? Text { get; set; }
+        [JsonPropertyName("imageUrl")]
+        public string? ImageUrl { get; set; }
         [JsonPropertyName("sendTime")]
         public DateTime SendTime { get; set; }
     }

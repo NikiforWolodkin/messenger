@@ -12,8 +12,9 @@ namespace MessengerApiDomain.Models
         public virtual string Name { get; set; }
         public virtual string DisplayName { get; set; }
         public virtual string PasswordHash { get; set; }
+        public virtual string AvatarUrl { get; set; }
         public virtual ICollection<Chat> Chats { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
-        public virtual string AvatarUrl { get; set; }
+        public virtual ICollection<User> Blacklist { get; set; }
     }
 }

@@ -155,7 +155,7 @@ namespace Messenger.ViewModels
 
                 CollectionViewSource.GetDefaultView(Chats).Refresh();
 
-                CurrentView = new ChatPageViewModel(this, chat.Id);
+                CurrentView = new ChatPageViewModel(this, chat);
             }
         }
 

@@ -70,14 +70,21 @@
 
                         <Grid Grid.Row="1" Grid.Column="1"
                               Margin="10,2,0,0">
+
                             <Border Background="{StaticResource BackgroundLightBrush}"
-                                    CornerRadius="5"/>
+                                    CornerRadius="5"
+                                    Grid.RowSpan="2"/>
 
                             <TextBlock Text="{Binding Text}"
                                        TextWrapping="Wrap"
                                        Margin="10,4,10,4"
                                        MaxWidth="584" />
+                            
+                            <Image Source="{Binding ImageUrl}"
+                                   Margin="10"
+                                   MaxHeight="320"/>
                         </Grid>
+
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -97,6 +104,17 @@
 
         <Grid Grid.Row="1" Grid.Column="1" Height="60">
             <Grid Margin="10">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBlacklisted}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -115,16 +133,118 @@
                          FontSize="16"
                          FontFamily="/Resources/Fonts/#Kanit Regular"
                          Margin="15,0,15,0">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAttachmentAdded}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding SendMessageCommand}" Key="Enter"/>
                     </TextBox.InputBindings>
                 </TextBox>
 
-                <Button Grid.Column="1"
-                        Style="{StaticResource SendButton}"
-                        Command="{Binding SendMessageCommand}"
-                        Margin="0,0,10,0"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAttachmentAdded}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+
+                    <Image Source="/Resources/Icons/Image.png"
+                           Width="20"
+                           Height="20"
+                           Margin="15,0,0,0"
+                           VerticalAlignment="Center"/>
+
+                    <TextBlock Text="{Binding AttachmentName}"
+                               Foreground="White"
+                               FontFamily="/Resources/Fonts/#Kanit Regular"
+                               FontSize="16"
+                               Margin="15,0,15,0"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+
+                    <Button Command="{Binding AddAttachmentCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsAttachmentAdded}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Image Source="/Resources/Icons/Attachment.png"
+                               Width="20"
+                               Height="20"
+                               Margin="0,0,10,0"/>
+                    </Button>
+
+                    <Button Command="{Binding RemoveAttachmentCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsAttachmentAdded}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Image Source="/Resources/Icons/Minus.png"
+                               Width="20"
+                               Height="20"
+                               Margin="0,0,10,0"/>
+                    </Button>
+
+                    <Button Style="{StaticResource SendButton}"
+                            Command="{Binding SendMessageCommand}"
+                            Margin="0,0,10,0"/>
+
+                </StackPanel>
+
             </Grid>
+
+            <TextBlock 
+                Text="This chat is unavailable because of the blacklist policy.">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" >
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="FontSize" Value="18" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBlacklisted}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </Grid>
     </Grid>
 </UserControl>

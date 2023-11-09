@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Messenger.Services
 {
@@ -34,7 +35,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                MessageBox.Show(result.Error.Message, "Error");
             }
 
             return result.Response;

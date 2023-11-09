@@ -17,6 +17,9 @@ namespace MessengerApiServices.Interfaces
         Task<UserResponse?> GetByIdAsync(Guid id);
         Task<UserResponse> AddAsync(UserSignUpRequest request);
         Task<UserResponse> UpdateProfileAsync(Guid id, ProfileUpdateRequest request);
+        Task<bool> IsBlacklistedAsync(Guid FirstId, Guid SecondId);
+        Task AddToBlacklistAsync(Guid id, BlacklistAddRequest request);
+        Task RemoveFromBlacklistAsync(Guid id, Guid blacklistedUserId);
         Task<bool> UserExistsAsync(string name);
         Task<bool> VerifyPasswordAsync(UserLogInRequest request);
     }

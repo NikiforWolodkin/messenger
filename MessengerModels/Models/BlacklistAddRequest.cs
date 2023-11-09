@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace MessengerModels.Models
 {
-    public class MessageAddRequest
+    public class BlacklistAddRequest
     {
-        public Guid ChatId { get; set; }
-        public string? Text { get; set; }
-        public string? ImageUrl { get; set; }
+        public Guid UserId { get; set; }
     }
 }

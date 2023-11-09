@@ -15,11 +15,14 @@ namespace MessengerApi.Controllers
     public class ChatsController : ControllerBase
     {
         private readonly IChatService _chatService;
+        private readonly IUserService _userService;
         private readonly IHubContext<UserChatsHub> _userChatsHubContext;
 
-        public ChatsController(IChatService chatService, IHubContext<UserChatsHub> userChatsHubContext)
+        public ChatsController(IChatService chatService, IUserService userService,
+                               IHubContext<UserChatsHub> userChatsHubContext)
         {
             _chatService = chatService;
+            _userService = userService;
             _userChatsHubContext = userChatsHubContext;
         }
 
@@ -39,6 +42,11 @@ namespace MessengerApi.Controllers
             var id = JwtClaimsHelper.GetId(User.Identity);
 
             // TODO: Check if users exist
+
+            if (await _userService.IsBlacklistedAsync(id, request.userId))
+            {
+                return BadRequest(new ErrorResponse("You can't start this conversation because of the blacklist policy."));
+            }
 
             var chat = await _chatService.AddConversationAsync(id, request);
 

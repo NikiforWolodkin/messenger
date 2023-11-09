@@ -22,5 +22,7 @@ namespace MessengerModels.Models
         public DateTime? LastMessageTime { get; set; }
         [JsonPropertyName("type")]
         public ChatType? Type { get; set; }
+        [JsonPropertyName("isBlacklisted")]
+        public bool? IsBlacklisted { get; set; }
     }
 }

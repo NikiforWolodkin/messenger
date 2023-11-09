@@ -38,6 +38,7 @@ namespace MessengerApiServices.Services
                 Chat = chat,
                 SendTime = DateTime.Now,
                 Text = request.Text,
+                ImageUrl = request.ImageUrl,
             };
 
             await _messageRepository.AddAsync(message);

@@ -40,5 +40,23 @@ namespace Messenger.Services
 
             return result.Response;
         }
+
+        public static async Task<MessageResponse> AddImageMessageAsync(Guid chatId, string imageUrl)
+        {
+            var request = new MessageAddRequest
+            {
+                ChatId = chatId,
+                ImageUrl = imageUrl,
+            };
+
+            var result = await Api.PostAsync<MessageResponse, MessageAddRequest>("messages", request);
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error);
+            }
+
+            return result.Response;
+        }
     }
 }

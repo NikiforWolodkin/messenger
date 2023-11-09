@@ -25,4 +25,6 @@ namespace Messenger.Utilities
             Error = error;
         }
     }
+
+    public record struct EmptyResult;
 }

@@ -29,6 +29,31 @@ namespace Messenger.Services
             return result.Response;
         }
 
+        public static async Task AddToBlacklistAsync(Guid userId)
+        {
+            var request = new BlacklistAddRequest
+            {
+                UserId = userId,
+            };
+
+            var result = await Api.PostAsync<BlacklistAddRequest>("profile/blacklist", request);
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error);
+            }
+        }
+
+        public static async Task RemoveFromBlacklist(Guid userId)
+        {
+            var result = await Api.DeleteAsync($"profile/blacklist/{userId}");
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error);
+            }
+        }
+
         public static async Task<UserResponse> GetProfileAsync()
         {
             var result = await Api.GetAsync<UserResponse>("profile");

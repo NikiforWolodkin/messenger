@@ -32,6 +32,11 @@
         <settingsViews:GroupsPage/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type settings:BlacklistPageViewModel}">
+        <settingsViews:BlacklistPage/>
+    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type vm:ChatPageViewModel}">
         <view:ChatPage />
     </DataTemplate>

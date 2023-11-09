@@ -16,12 +16,15 @@ namespace MessengerApiServices.Services
     {
         private readonly IChatRepository _chatRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public ChatService(IChatRepository chatRepository, IUserRepository userRepository, IMapper mapper)
+        public ChatService(IChatRepository chatRepository, IUserRepository userRepository, 
+                           IUserService userService, IMapper mapper)
         {
             _chatRepository = chatRepository;
             _userRepository = userRepository;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -38,7 +41,7 @@ namespace MessengerApiServices.Services
 
             await _chatRepository.AddAsync(chat);
 
-            return ToModel(chat, userId);
+            return await ToModelAsync(chat, userId);
         }
 
         async Task<ChatResponse> IChatService.AddGroupAsync(Guid userId, GroupAddRequest request)
@@ -61,7 +64,7 @@ namespace MessengerApiServices.Services
 
             await _chatRepository.AddAsync(chat);
 
-            return ToModel(chat, userId);
+            return await ToModelAsync(chat, userId);
         }
 
         async Task<ICollection<UserResponse>> IChatService.GetChatUsers(Guid id)
@@ -79,11 +82,11 @@ namespace MessengerApiServices.Services
 
             var chats = await _chatRepository.GetUserChatsAsync(user);
 
-            return ToModel(chats, userId);
+            return await ToModelAsync(chats, userId);
         }
 
         // TODO: Move to profile
-        private ChatResponse ToModel(Chat chat, Guid userId)
+        private async Task<ChatResponse> ToModelAsync(Chat chat, Guid userId)
         {
             if (chat.ChatType == ChatType.Conversation) 
             {
@@ -99,6 +102,8 @@ namespace MessengerApiServices.Services
                     LastMessage = lastMessage?.Text,
                     LastMessageTime = lastMessage?.SendTime,
                     Type = chat.ChatType,
+                    // TODO: Check if this is slow
+                    IsBlacklisted = await _userService.IsBlacklistedAsync(chat.Participants.First().Id, chat.Participants.Last().Id),
                 };
 
                 return response;
@@ -126,13 +131,13 @@ namespace MessengerApiServices.Services
             return null;
         }
 
-        private ICollection<ChatResponse> ToModel(ICollection<Chat> chats, Guid userId)
+        private async Task<ICollection<ChatResponse>> ToModelAsync(ICollection<Chat> chats, Guid userId)
         {
             var response = new List<ChatResponse>();
 
             foreach (var chat in chats)
             {
-                var model = ToModel(chat, userId);
+                var model = await ToModelAsync(chat, userId);
 
                 response.Add(model);
             }

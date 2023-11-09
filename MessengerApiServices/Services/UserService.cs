@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using MessengerApiDomain.Models;
 using MessengerApiDomain.RepositoryInterfaces;
 using MessengerApiServices.Interfaces;
@@ -46,7 +47,17 @@ namespace MessengerApiServices.Services
 
             var users = await _userRepository.GetAllAsync(user);
 
-            return _mapper.Map<ICollection<UserResponse>>(users);
+            var userResponses = _mapper.Map<ICollection<UserResponse>>(users);
+
+            foreach (var response in userResponses)
+            {
+                if (user.Blacklist.Select(user => user.Id).Contains(response.Id))
+                {
+                    response.IsBlacklisted = true;
+                }
+            }
+
+            return userResponses;
         }
 
         async Task<ICollection<UserResponse>> IUserService.SearchAsync(string search, Guid filterUserId)
@@ -55,7 +66,17 @@ namespace MessengerApiServices.Services
 
             var users = await _userRepository.SearchAsync(search, user);
 
-            return _mapper.Map<ICollection<UserResponse>>(users);
+            var userResponses = _mapper.Map<ICollection<UserResponse>>(users);
+
+            foreach (var response in userResponses)
+            {
+                if (user.Blacklist.Select(user => user.Id).Contains(response.Id))
+                {
+                    response.IsBlacklisted = true;
+                }
+            }
+
+            return userResponses;
         }
 
         async Task<UserResponse> IUserService.AddAsync(UserSignUpRequest request)
@@ -116,6 +137,44 @@ namespace MessengerApiServices.Services
             await _userRepository.SaveChangesAsync();
 
             return _mapper.Map<UserResponse>(user);
+        }
+
+        async Task IUserService.AddToBlacklistAsync(Guid id, BlacklistAddRequest request)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            var blacklistedUser = await _userRepository.GetByIdAsync(request.UserId);
+
+            user.Blacklist.Add(blacklistedUser);
+
+            await _userRepository.SaveChangesAsync();
+        }
+
+        async Task IUserService.RemoveFromBlacklistAsync(Guid id, Guid blacklistedUserId)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            var blacklistedUser = await _userRepository.GetByIdAsync(blacklistedUserId);
+
+            user.Blacklist.Remove(blacklistedUser);
+
+            await _userRepository.SaveChangesAsync();
+        }
+
+        async Task<bool> IUserService.IsBlacklistedAsync(Guid FirstId, Guid SecondId)
+        {
+            var firstUser = await _userRepository.GetByIdAsync(FirstId);
+            var secondUser = await _userRepository.GetByIdAsync(SecondId);
+
+            if (firstUser.Blacklist.Contains(secondUser))
+            {
+                return true;
+            }
+
+            if (secondUser.Blacklist.Contains(firstUser)) 
+            { 
+                return true; 
+            }
+
+            return false;
         }
     }
 }

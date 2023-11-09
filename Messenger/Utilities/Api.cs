@@ -77,6 +77,34 @@ namespace Messenger.Utilities
             }
         }
 
+        public static async Task<Result<EmptyResult>> PostAsync<TBody>(string uri, TBody body)
+        {
+            using var client = new HttpClient();
+
+            var token = AuthorizationProvider.GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var json = JsonSerializer.Serialize(body);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var apiUrl = ConfigurationManager.AppSettings["ApiUrl"];
+
+            var httpResponse = await client.PostAsync($"{apiUrl}/{uri}", data);
+
+            var result = await httpResponse.Content.ReadAsStringAsync();
+
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                return new Result<EmptyResult>(new EmptyResult());
+            }
+            else
+            {
+                var error = JsonSerializer.Deserialize<ErrorResponse>(result);
+
+                return new Result<EmptyResult>(error);
+            }
+        }
+
         public static async Task<Result<TResponse>> PutAsync<TResponse, TBody>(string uri, TBody body)
         {
             using var client = new HttpClient();
@@ -137,5 +165,29 @@ namespace Messenger.Utilities
             }
         }
 
+        public static async Task<Result<EmptyResult>> DeleteAsync(string uri)
+        {
+            using var client = new HttpClient();
+
+            var token = AuthorizationProvider.GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var apiUrl = ConfigurationManager.AppSettings["ApiUrl"];
+
+            var httpResponse = await client.DeleteAsync($"{apiUrl}/{uri}");
+
+            var result = await httpResponse.Content.ReadAsStringAsync();
+
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                return new Result<EmptyResult>(new EmptyResult());
+            }
+            else
+            {
+                var error = JsonSerializer.Deserialize<ErrorResponse>(result);
+
+                return new Result<EmptyResult>(error);
+            }
+        }
     }
 }
