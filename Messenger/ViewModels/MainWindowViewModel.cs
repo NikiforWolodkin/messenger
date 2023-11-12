@@ -18,37 +18,7 @@ namespace Messenger.ViewModels
         public object CurrentView
         {
             get { return _currentView; }
-            set
-            {
-                try
-                {
-                    _currentView = value;
-                    OnPropertyChanged();
-                }
-                catch (LoggedOutException ex)
-                {
-                    MessageBox.Show($"You are logged out. Please log in again. Details: {ex.Message}", "Logged out");
-
-                    NavigateToLogin();
-                }
-                catch (HttpException ex)
-                {
-                    if (ex.ErrorCode == HttpStatusCode.Unauthorized || ex.ErrorCode == HttpStatusCode.Forbidden)
-                    {
-                        MessageBox.Show($"An authorization error occurred: {ex.Message}", "Error");
-
-                        NavigateToLogin();
-                    }
-                    else
-                    {
-                        MessageBox.Show($"An error occurred: {ex.Message}", "Error");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"An error occurred: {ex.Message}", "Error");
-                }
-            }
+            set { _currentView = value; OnPropertyChanged(); }
         }
 
         public MainWindowViewModel()

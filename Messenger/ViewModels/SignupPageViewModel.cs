@@ -55,12 +55,12 @@ namespace Messenger.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
             {
-                MessageBox.Show("Login and password can't be empty.", "Error");
+                MessageBox.Show("Login and password can't be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             if (Password != RepeatPassword)
             {
-                MessageBox.Show("Please check your password.", "Error");
+                MessageBox.Show("Please check your password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             try
@@ -69,7 +69,7 @@ namespace Messenger.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return;
             }
