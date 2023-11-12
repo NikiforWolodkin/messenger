@@ -22,8 +22,6 @@ namespace MessengerApi.Controllers
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            // TODO: Check if users exist
-
             var imageName = await _imageService.UploadImageAsync(id, image);
 
             return Ok($"http://127.0.0.1:10000/devstoreaccount1/messenger-container/{imageName}");

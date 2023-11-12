@@ -14,5 +14,7 @@ namespace MessengerApiDomain.Models
         public virtual string? Text { get; set; }
         public virtual string? ImageUrl { get; set; }
         public virtual DateTime SendTime { get; set; }
+        public virtual ICollection<User> UserReports { get; set; }
+        public virtual bool IsBanned { get; set; }
     }
 }

@@ -26,6 +26,7 @@
                        Stretch="UniformToFill"
                        HorizontalAlignment="Left"
                        Margin="0,0,0,0"
+                       RenderOptions.BitmapScalingMode="HighQuality"
                        Source="{Binding Profile.AvatarUrl}" >
                     <Image.Clip>
                         <EllipseGeometry RadiusX="75" RadiusY="75" Center="75,75"/>

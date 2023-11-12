@@ -36,6 +36,9 @@
         <settingsViews:BlacklistPage/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type settings:ReportsPageViewModel}">
+        <settingsViews:ReportsPage/>
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:ChatPageViewModel}">
         <view:ChatPage />

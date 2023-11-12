@@ -66,9 +66,20 @@
                                 <TextBlock Text="Blacklist" />
                             </Grid>
                         </menu:RadioNavigationButton>
-                        <menu:RadioNavigationButton Style="{StaticResource RadioNavigation}"
-                                                    Command="{Binding ReportsCommand}"
+                        <menu:RadioNavigationButton Command="{Binding ReportsCommand}"
                                                     IsChecked="{Binding ReportsSelected}">
+                            <menu:RadioNavigationButton.Style>
+                                <Style BasedOn="{StaticResource RadioNavigation}"
+                                       TargetType="RadioButton">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsUserAdmin}"
+                                                     Value="False">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </menu:RadioNavigationButton.Style>
                             <Grid>
                                 <TextBlock Text="Reports" />
                             </Grid>

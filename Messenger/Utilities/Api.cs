@@ -43,7 +43,7 @@ namespace Messenger.Utilities
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
 
-                return new Result<TResponse>(error);
+                return new Result<TResponse>(error, httpResponse.StatusCode);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Messenger.Utilities
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
 
-                return new Result<TResponse>(error);
+                return new Result<TResponse>(error, httpResponse.StatusCode);
             }
         }
 
@@ -101,7 +101,7 @@ namespace Messenger.Utilities
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
 
-                return new Result<EmptyResult>(error);
+                return new Result<EmptyResult>(error, httpResponse.StatusCode);
             }
         }
 
@@ -131,7 +131,7 @@ namespace Messenger.Utilities
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
 
-                return new Result<TResponse>(error);
+                return new Result<TResponse>(error, httpResponse.StatusCode);
             }
         }
 
@@ -161,7 +161,7 @@ namespace Messenger.Utilities
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
 
-                return new Result<string>(error);
+                return new Result<string>(error, httpResponse.StatusCode);
             }
         }
 
@@ -186,7 +186,7 @@ namespace Messenger.Utilities
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
 
-                return new Result<EmptyResult>(error);
+                return new Result<EmptyResult>(error, httpResponse.StatusCode);
             }
         }
     }

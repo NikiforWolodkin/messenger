@@ -11,6 +11,10 @@ namespace MessengerApiServices.Interfaces
     public interface IMessageService
     {
         Task<ICollection<MessageResponse>> GetAllChatMessagesAsync(Guid chatId);
+        Task<ICollection<MessageResponse>> GetReportedMessageAsync();
         Task<MessageResponse> AddAsync(Guid userId, MessageAddRequest request);
+        Task<MessageResponse> AddUserReportAsync(Guid userId, UserReportAddRequest request);
+        Task RemoveUserReportsAsync(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

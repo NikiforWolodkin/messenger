@@ -1,4 +1,5 @@
 ﻿using Messenger.Exceptions;
+using Messenger.Interfaces;
 using MessengerModels.Models;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,11 @@ namespace Messenger.Providers
 {
     public static class AuthorizationProvider
     {
+        private static IWindow? _window = null;
+
         private static string? _token = null;
         private static Guid? _userId = null;
+        private static bool? _isUserAdmin = null;
 
         public static string GetToken()
         {
@@ -34,6 +38,16 @@ namespace Messenger.Providers
             }
 
             return (Guid)_userId;
+        }
+
+        public static bool GetIsUserAdmin()
+        {
+            if (_isUserAdmin is null)
+            {
+                throw new LoggedOutException("You are logged out. Please log in again.");
+            }
+
+            return (bool)_isUserAdmin;
         }
 
         public static async Task LogInAsync(string name, string password)
@@ -61,6 +75,7 @@ namespace Messenger.Providers
 
                 _token = authResponse.AuthorizationToken;
                 _userId = authResponse.Id;
+                _isUserAdmin = authResponse.IsAdmin;
             }
             else
             {
@@ -101,6 +116,21 @@ namespace Messenger.Providers
         {
             _token = null;
             _userId = null;
+            _isUserAdmin = null;
+        }
+
+        public static void SetWindow(IWindow window)
+        {
+            _window = window;
+        }
+
+        public static void LogOutAndGoToLogin()
+        {
+            _token = null;
+            _userId = null;
+            _isUserAdmin = null;
+
+            _window?.NavigateToLogin();
         }
     }
 }

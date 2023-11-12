@@ -46,9 +46,10 @@
                                 <ContentPresenter />
                             </ControlTemplate>
                         </Button.Template>
-                        <Image Margin="0,0,22,0" Width="25" Height="25">
+                        <Image Margin="0,0,22,0" Width="25" Height="25"
+                               RenderOptions.BitmapScalingMode="HighQuality">
                             <Image.Source>
-                                <BitmapImage DecodePixelWidth="50" DecodePixelHeight="50" UriSource="/Resources/Icons/Menu.png" />
+                                <BitmapImage RenderOptions.BitmapScalingMode="HighQuality" UriSource="/Resources/Icons/Menu.png" />
                             </Image.Source>
                         </Image>
                     </Button>
@@ -81,13 +82,14 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Fully rounded image on the left -->
-                            <Image Width="50" Height="50" Stretch="UniformToFill">
+                            <Image Width="50" Height="50" Stretch="UniformToFill"
+                                   RenderOptions.BitmapScalingMode="HighQuality">
                                 <Image.Clip>
                                     <EllipseGeometry RadiusX="25" RadiusY="25" Center="25,25"/>
                                 </Image.Clip>
 
                                 <Image.Source>
-                                    <BitmapImage DecodePixelWidth="200" DecodePixelHeight="200" UriSource="{Binding ImageUrl}" />
+                                    <BitmapImage RenderOptions.BitmapScalingMode="HighQuality" UriSource="{Binding ImageUrl}" />
                                 </Image.Source>
                             </Image>
 

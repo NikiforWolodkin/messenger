@@ -34,6 +34,19 @@ namespace MessengerApiInfrasctructure.Repositories
                 .ToListAsync();
         }
 
+        async Task<Message?> IMessageRepository.GetByIdAsync(Guid id)
+        {
+            return await _context.Messages.FirstOrDefaultAsync(message => message.Id == id);
+        }
+
+        async Task<ICollection<Message>> IMessageRepository.GetReportedMessageAsync()
+        {
+            return await _context.Messages
+                .Where(message => message.UserReports.Count > 0)
+                .OrderByDescending(message => message.SendTime)
+                .ToListAsync();
+        }
+
         async Task IMessageRepository.SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

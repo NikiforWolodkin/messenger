@@ -11,6 +11,8 @@ namespace MessengerModels.Models
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
+        [JsonPropertyName("isAdmin")]
+        public bool IsAdmin { get; set; }
         [JsonPropertyName("authorizationToken")]
         public string AuthorizationToken { get; set; }
     }

@@ -24,8 +24,17 @@ namespace MessengerApiInfrasctructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
-                .HasMany(entity => entity.Chats)
-                .WithMany(entity => entity.Participants);
+                .HasMany(user => user.Chats)
+                .WithMany(chat => chat.Participants);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(message => message.Author)
+                .WithMany(user => user.Messages)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasMany(message => message.UserReports)
+                .WithMany(user => user.ReportedMessages);
         }
     }
 }

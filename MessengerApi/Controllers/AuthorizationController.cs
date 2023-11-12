@@ -1,4 +1,5 @@
-﻿using MessengerApiServices.Interfaces;
+﻿using MessengerApiServices.Exceptions;
+using MessengerApiServices.Interfaces;
 using MessengerModels.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -31,13 +32,20 @@ namespace MessengerApi.Controllers
                 return BadRequest(new ErrorResponse("Login or password is incorrect."));
             }
 
-            var user = await _userService.GetByNameAsync(request.Name);
+            var user = await _userService.GetByNameAsync(request.Name)
+                ?? throw new NotFoundException("User not found.");
+
+            if (user.IsBanned)
+            {
+                return BadRequest(new ErrorResponse("You are banned and can not log in anymore."));
+            }
 
             var token = CreateToken(user.Id, user.Name);
 
             var response = new AuthorizationResponse
             {
                 Id = user.Id,
+                IsAdmin = user.IsAdmin,
                 AuthorizationToken = token,
             };
 

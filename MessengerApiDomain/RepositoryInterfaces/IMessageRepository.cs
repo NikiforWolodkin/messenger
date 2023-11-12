@@ -10,6 +10,8 @@ namespace MessengerApiDomain.RepositoryInterfaces
     public interface IMessageRepository
     {
         Task<ICollection<Message>> GetAllChatMessagesAsync(Chat chat);
+        Task<ICollection<Message>> GetReportedMessageAsync();
+        Task<Message?> GetByIdAsync(Guid id);
         Task AddAsync(Message message);
         Task SaveChangesAsync();
     }

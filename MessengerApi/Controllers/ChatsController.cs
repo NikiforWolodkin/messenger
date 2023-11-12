@@ -31,8 +31,6 @@ namespace MessengerApi.Controllers
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            // TODO: Check if users exist
-
             return Ok(await _chatService.GetUserChatsAsync(id));
         }
 
@@ -40,8 +38,6 @@ namespace MessengerApi.Controllers
         public async Task<IActionResult> AddConversationAsync(ConversationAddRequest request)
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
-
-            // TODO: Check if users exist
 
             if (await _userService.IsBlacklistedAsync(id, request.userId))
             {
@@ -59,8 +55,6 @@ namespace MessengerApi.Controllers
         public async Task<IActionResult> AddGroupAsync(GroupAddRequest request)
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
-
-            // TODO: Check if users exist
 
             var chat = await _chatService.AddGroupAsync(id, request);
 
@@ -87,6 +81,7 @@ namespace MessengerApi.Controllers
                     ImageUrl = chatUsers.Where(user => user.Id == authorId).First().AvatarUrl,
                     Name = chatUsers.Where(user => user.Id == authorId).First().DisplayName,
                     Type = ChatType.Conversation,
+                    IsBlacklisted = false,
                 };
             }
 

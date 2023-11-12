@@ -19,5 +19,9 @@ namespace MessengerModels.Models
         public string AvatarUrl { get; set; }
         [JsonPropertyName("isBlacklisted")]
         public bool? IsBlacklisted { get; set; }
+        [JsonPropertyName("isAdmin")]
+        public bool IsAdmin { get; set; }
+        [JsonPropertyName("isBanned")]
+        public bool IsBanned { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using MessengerApiDomain.Enums;
 using MessengerApiDomain.Models;
 using MessengerApiDomain.RepositoryInterfaces;
+using MessengerApiServices.Exceptions;
 using MessengerApiServices.Interfaces;
 using MessengerModels.Models;
 using System;
@@ -30,8 +31,11 @@ namespace MessengerApiServices.Services
 
         async Task<ChatResponse> IChatService.AddConversationAsync(Guid userId, ConversationAddRequest request)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
-            var requestUser = await _userRepository.GetByIdAsync(request.userId);
+            var user = await _userRepository.GetByIdAsync(userId) 
+                ?? throw new NotFoundException("User not found.");
+            
+            var requestUser = await _userRepository.GetByIdAsync(request.userId) 
+                ?? throw new NotFoundException("User not found.");
 
             var chat = new Chat
             {
@@ -48,10 +52,17 @@ namespace MessengerApiServices.Services
         {
             var participants = new List<User>();
 
-            participants.Add(await _userRepository.GetByIdAsync(userId));
-            foreach (var id in request.ParticipantIds)
+            try
             {
-                participants.Add(await _userRepository.GetByIdAsync(id));
+                participants.Add(await _userRepository.GetByIdAsync(userId));
+                foreach (var id in request.ParticipantIds)
+                {
+                    participants.Add(await _userRepository.GetByIdAsync(id));
+                }
+            }
+            catch
+            {
+                throw new NotFoundException("User not found.");
             }
 
             var chat = new Chat
@@ -69,7 +80,8 @@ namespace MessengerApiServices.Services
 
         async Task<ICollection<UserResponse>> IChatService.GetChatUsers(Guid id)
         {
-            var chat = await _chatRepository.GetByIdAsync(id);
+            var chat = await _chatRepository.GetByIdAsync(id) 
+                ?? throw new NotFoundException("Chat not found.");
 
             var users = chat.Participants;
 
@@ -78,9 +90,11 @@ namespace MessengerApiServices.Services
 
         async Task<ICollection<ChatResponse>> IChatService.GetUserChatsAsync(Guid userId)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = await _userRepository.GetByIdAsync(userId)
+                ?? throw new NotFoundException("User not found.");
 
-            var chats = await _chatRepository.GetUserChatsAsync(user);
+            var chats = await _chatRepository.GetUserChatsAsync(user)
+                ?? throw new NotFoundException("Chat not found.");
 
             return await ToModelAsync(chats, userId);
         }

@@ -4,6 +4,7 @@ using MessengerModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;
@@ -40,7 +41,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
         }
 
@@ -50,7 +51,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
         }
 
@@ -60,7 +61,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;
@@ -72,7 +73,7 @@ namespace Messenger.Services
             
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;
@@ -86,10 +87,20 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;
+        }
+
+        public static async Task BanAndDeleteMessages(Guid messageId)
+        {
+            var result = await Api.DeleteAsync($"users/{messageId}");
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
+            }
         }
     }
 }

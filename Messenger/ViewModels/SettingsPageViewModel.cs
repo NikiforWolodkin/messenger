@@ -1,4 +1,5 @@
 ﻿using Messenger.Interfaces;
+using Messenger.Providers;
 using Messenger.Utilities;
 using Messenger.ViewModels.Settings;
 using System;
@@ -57,6 +58,13 @@ namespace Messenger.ViewModels
             set { _reportsSelected = value; OnPropertyChanged(); }
         }
 
+        private bool _isUserAdmin;
+        public bool IsUserAdmin
+        {
+            get { return _isUserAdmin; }
+            set { _isUserAdmin = value; OnPropertyChanged(); }
+        }
+
         public SettingsPageViewModel(IWindow window, SettingsTab tab)
         {
             _window = window;
@@ -86,10 +94,16 @@ namespace Messenger.ViewModels
                     ContactsSelected = true;
                     CurrentView = new BlacklistPageViewModel();
                     break;
+                case SettingsTab.Reports:
+                    ReportsSelected = true;
+                    CurrentView = new ReportsPageViewModel();
+                    break;
                 default:
                     CurrentView = null;
                     break;
             }
+
+            _isUserAdmin = AuthorizationProvider.GetIsUserAdmin();
         }
 
         public ICommand ProfileCommand { get; set; }
@@ -114,6 +128,9 @@ namespace Messenger.ViewModels
                     break;
                 case SettingsTab.Blacklist:
                     CurrentView = new BlacklistPageViewModel();
+                    break;
+                case SettingsTab.Reports:
+                    CurrentView = new ReportsPageViewModel();
                     break;
                 default:
                     break;

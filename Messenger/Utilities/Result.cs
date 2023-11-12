@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace Messenger.Utilities
         public bool IsSuccessful { get; set; }
         public T? Response { get; set; }
         public ErrorResponse? Error { get; set; }
+        public HttpStatusCode? StatusCode { get; set; }
 
         public Result(T response)
         {
@@ -19,10 +21,11 @@ namespace Messenger.Utilities
             Response = response;
         }
 
-        public Result(ErrorResponse error)
+        public Result(ErrorResponse error, HttpStatusCode statusCode)
         {
             IsSuccessful = false;
             Error = error;
+            StatusCode = statusCode;
         }
     }
 

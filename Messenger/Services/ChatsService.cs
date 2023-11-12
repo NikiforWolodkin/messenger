@@ -4,6 +4,7 @@ using MessengerModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,7 +19,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;
@@ -54,7 +55,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;

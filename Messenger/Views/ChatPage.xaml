@@ -24,6 +24,7 @@
                  ItemsSource="{Binding Messages}"
                  SelectedItem="{Binding SelectedItem}"
                  Grid.Column="1"
+                 x:Name="messagesList"
                  utils:ListBoxExtensions.AutoScrollToEnd="True"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
@@ -34,6 +35,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -42,6 +44,7 @@
                         </Grid.RowDefinitions>
                         
                         <Image Width="40" Height="40"
+                               RenderOptions.BitmapScalingMode="HighQuality"
                                VerticalAlignment="Bottom"
                                Stretch="UniformToFill" 
                                Grid.RowSpan="2">
@@ -50,7 +53,7 @@
                             </Image.Clip>
 
                             <Image.Source>
-                                <BitmapImage DecodePixelWidth="200" DecodePixelHeight="200" UriSource="{Binding AuthorAvatarUrl}" />
+                                <BitmapImage RenderOptions.BitmapScalingMode="HighQuality" UriSource="{Binding AuthorAvatarUrl}" />
                             </Image.Source>
                         </Image>
                         
@@ -82,9 +85,29 @@
                             
                             <Image Source="{Binding ImageUrl}"
                                    Margin="10"
-                                   MaxHeight="320"/>
+                                   MaxHeight="320"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Grid>
 
+                        <Button Command="{Binding Path=DataContext.ReportMessageCommand, ElementName=messagesList}"
+                                CommandParameter="{Binding}"
+                                Grid.Column="2"
+                                Grid.Row="1">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Button.Template>
+
+                            <Image Source="/Resources/Icons/Report.png"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Grid.Row="1"
+                                   Grid.Column="2"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"
+                                   Width="20"
+                                   Height="20" />
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -160,6 +183,7 @@
                     </StackPanel.Style>
 
                     <Image Source="/Resources/Icons/Image.png"
+                           RenderOptions.BitmapScalingMode="HighQuality"
                            Width="20"
                            Height="20"
                            Margin="15,0,0,0"
@@ -193,6 +217,7 @@
                             </ControlTemplate>
                         </Button.Template>
                         <Image Source="/Resources/Icons/Attachment.png"
+                               RenderOptions.BitmapScalingMode="HighQuality"
                                Width="20"
                                Height="20"
                                Margin="0,0,10,0"/>
@@ -215,6 +240,7 @@
                             </ControlTemplate>
                         </Button.Template>
                         <Image Source="/Resources/Icons/Minus.png"
+                               RenderOptions.BitmapScalingMode="HighQuality"
                                Width="20"
                                Height="20"
                                Margin="0,0,10,0"/>

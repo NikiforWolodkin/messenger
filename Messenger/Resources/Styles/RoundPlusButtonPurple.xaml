@@ -26,9 +26,10 @@
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                     VerticalAlignment="Center">
-                            <Image Margin="0,1,10,0" Width="15" Height="15" Grid.Column="1">
+                            <Image Margin="0,1,10,0" Width="15" Height="15" Grid.Column="1"
+                                   RenderOptions.BitmapScalingMode="HighQuality">
                                 <Image.Source>
-                                    <BitmapImage DecodePixelWidth="50" DecodePixelHeight="50" UriSource="/Resources/Icons/Plus.png" />
+                                    <BitmapImage RenderOptions.BitmapScalingMode="HighQuality" UriSource="/Resources/Icons/Plus.png" />
                                 </Image.Source>
                             </Image>
 

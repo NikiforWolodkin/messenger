@@ -4,6 +4,7 @@ using MessengerModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,19 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
+            }
+
+            return result.Response;
+        }
+
+        public static async Task<ICollection<MessageResponse>> GetReportedMessagesAsync()
+        {
+            var result = await Api.GetAsync<ICollection<MessageResponse>>($"messages/reported");
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;
@@ -35,7 +48,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;
@@ -53,10 +66,47 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                throw new HttpException(result.Error);
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
 
             return result.Response;
+        }
+
+        public static async Task<MessageResponse> AddReportAsync(Guid messageId)
+        {
+            var request = new UserReportAddRequest
+            {
+                MessageId = messageId,
+            };
+
+            var result = await Api.PostAsync<MessageResponse, UserReportAddRequest>("messages/reports", request);
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
+            }
+
+            return result.Response;
+        }
+
+        public static async Task DeleteReportAsync(Guid messageId)
+        {
+            var result = await Api.DeleteAsync($"messages/reports/{messageId}");
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
+            }
+        }
+
+        public static async Task DeleteMessageAsync(Guid messageId)
+        {
+            var result = await Api.DeleteAsync($"messages/{messageId}");
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
+            }
         }
     }
 }

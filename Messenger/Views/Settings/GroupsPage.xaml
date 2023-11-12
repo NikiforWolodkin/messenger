@@ -31,7 +31,7 @@
                 </TextBox.InputBindings>
             </TextBox>
 
-            <TextBlock Margin="27,25,0,0" Text="Users"
+            <TextBlock Margin="27,25,0,0" Text="Search users"
                        FontSize="22"
                        FontFamily="/Resources/Fonts/#Kanit Medium"/>
 
@@ -47,6 +47,7 @@
         <Grid Grid.Column="1">
             <Image Width="120" Height="120" 
                    Stretch="UniformToFill"
+                   RenderOptions.BitmapScalingMode="HighQuality"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top"
                    Margin="0,7,0,0"
@@ -86,13 +87,14 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Fully rounded image on the left -->
-                        <Image Width="50" Height="50" Stretch="UniformToFill">
+                        <Image Width="50" Height="50" Stretch="UniformToFill"
+                               RenderOptions.BitmapScalingMode="HighQuality">
                             <Image.Clip>
                                 <EllipseGeometry RadiusX="25" RadiusY="25" Center="25,25"/>
                             </Image.Clip>
 
                             <Image.Source>
-                                <BitmapImage DecodePixelWidth="200" DecodePixelHeight="200" UriSource="{Binding AvatarUrl}" />
+                                <BitmapImage RenderOptions.BitmapScalingMode="HighQuality" UriSource="{Binding AvatarUrl}" />
                             </Image.Source>
                         </Image>
 

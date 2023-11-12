@@ -4,9 +4,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Image Margin="0,0,0,0" Width="20" Height="20" Grid.Column="1">
+                    <Image Margin="0,0,0,0" Width="20" Height="20" Grid.Column="1"
+                           RenderOptions.BitmapScalingMode="HighQuality">
                         <Image.Source>
-                            <BitmapImage DecodePixelWidth="40" DecodePixelHeight="40" UriSource="/Resources/Icons/Send.png" />
+                            <BitmapImage RenderOptions.BitmapScalingMode="HighQuality" UriSource="/Resources/Icons/Send.png" />
                         </Image.Source>
                     </Image>
                 </ControlTemplate>

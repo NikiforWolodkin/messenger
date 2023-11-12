@@ -23,8 +23,6 @@ namespace MessengerApi.Controllers
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            // TODO: Check if users exist
-
             return Ok(await _userService.GetByIdAsync(id));
         }
 
@@ -34,8 +32,6 @@ namespace MessengerApi.Controllers
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            // TODO: Check if users exist
-
             return Ok(await _userService.UpdateProfileAsync(id, request));
         }
 
@@ -44,8 +40,6 @@ namespace MessengerApi.Controllers
         public async Task<IActionResult> AddToBlacklistAsync(BlacklistAddRequest request)
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
-
-            // TODO: Check if users exist
 
             await _userService.AddToBlacklistAsync(id, request);
 
@@ -58,8 +52,6 @@ namespace MessengerApi.Controllers
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            // TODO: Check if users exist
-
             await _userService.RemoveFromBlacklistAsync(id, blacklistedUserId);
 
             return Ok();
@@ -70,8 +62,6 @@ namespace MessengerApi.Controllers
         public async Task<IActionResult> GetAllAsync(string? search, bool? filterUsersWithConversation)
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
-
-            // TODO: Check if users exist
 
             if (filterUsersWithConversation is not null && filterUsersWithConversation == true)
             {
@@ -102,6 +92,16 @@ namespace MessengerApi.Controllers
             var user = await _userService.AddAsync(request);
 
             return Created($"api/users/{user.Id}", user);
+        }
+
+        [HttpDelete("users/{messageId:Guid}")]
+        public async Task<IActionResult> AddAsync(Guid messageId)
+        {
+            var id = JwtClaimsHelper.GetId(User.Identity);
+
+            await _userService.BanUserAndDeleteAllMessagesAsync(messageId);
+
+            return NoContent();
         }
     }
 }

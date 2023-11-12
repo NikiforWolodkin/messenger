@@ -28,6 +28,7 @@ namespace MessengerApiInfrasctructure.Repositories
                 .Select(user => user.Id);
 
             return await _context.Users
+                .Where(user => user.IsBanned != true)
                 .Where(user => user.Id != filterUser.Id)
                 .Where(user => usersWithConversation.Contains(user.Id) != true)
                 .ToListAsync();
@@ -42,6 +43,7 @@ namespace MessengerApiInfrasctructure.Repositories
                 .Select(user => user.Id);
 
             return await _context.Users
+                .Where(user => user.IsBanned != true)
                 .Where(user => 
                     user.Name.ToUpper().Contains(search.ToUpper()) ||
                     user.DisplayName.ToUpper().Contains(search.ToUpper())
@@ -53,6 +55,7 @@ namespace MessengerApiInfrasctructure.Repositories
         async Task<ICollection<User>> IUserRepository.GetAllAsync(User filterUser)
         {
             return await _context.Users
+                .Where(user => user.IsBanned != true)
                 .Where(user => user.Id != filterUser.Id)
                 .ToListAsync();
         }
@@ -60,6 +63,7 @@ namespace MessengerApiInfrasctructure.Repositories
         async Task<ICollection<User>> IUserRepository.SearchAsync(string search, User filterUser)
         {
             return await _context.Users
+                .Where(user => user.IsBanned != true)
                 .Where(user =>
                     user.Name.ToUpper().Contains(search.ToUpper()) ||
                     user.DisplayName.ToUpper().Contains(search.ToUpper())

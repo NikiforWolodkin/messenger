@@ -52,6 +52,8 @@ namespace Messenger.ViewModels
             try
             {
                 await AuthorizationProvider.LogInAsync(Login, Password);
+
+                AuthorizationProvider.SetWindow(_window);
             }
             catch (Exception ex)
             {

@@ -17,7 +17,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Messenger.ViewModels
 {
@@ -84,6 +83,7 @@ namespace Messenger.ViewModels
             SendMessageCommand = new AsyncRelayCommand(SendMessageAsync);
             AddAttachmentCommand = new AsyncRelayCommand(AddAttachmentAsync);
             RemoveAttachmentCommand = new AsyncRelayCommand(RemoveAttachmentAsync);
+            ReportMessageCommand = new AsyncRelayCommand(ReportMessageAsync);
 
             Text = string.Empty;
             SelectedItem = null;
@@ -138,6 +138,7 @@ namespace Messenger.ViewModels
         public ICommand SendMessageCommand { get; set; }
         public ICommand AddAttachmentCommand { get; set; }
         public ICommand RemoveAttachmentCommand { get; set; }
+        public ICommand ReportMessageCommand { get; set; }
 
         private async Task SendMessageAsync(object obj)
         {
@@ -190,6 +191,19 @@ namespace Messenger.ViewModels
         {
             _imageUrl = null;
             IsAttachmentAdded = false;
+        }
+
+        private async Task ReportMessageAsync(object obj)
+        {
+            if (obj is MessageResponse message)
+            {
+                var result = MessageBox.Show("Are you sure you want to report this message?", "Confirmation", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    await MessagesService.AddReportAsync(message.Id);
+                }
+            }
         }
 
         public void Dispose()

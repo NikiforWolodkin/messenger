@@ -1,5 +1,6 @@
 using Azure.Storage.Blobs;
 using MessengerApi.Hubs;
+using MessengerApi.Middleware;
 using MessengerApiDomain.RepositoryInterfaces;
 using MessengerApiInfrasctructure.Data;
 using MessengerApiInfrasctructure.Repositories;
@@ -96,7 +97,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseAuthorization();
+
+app.UseMiddleware<BannedUserAuthorizationBlockerMiddleware>();
 
 app.MapControllers();
 
