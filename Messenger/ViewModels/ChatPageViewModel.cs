@@ -182,7 +182,7 @@ namespace Messenger.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("Only PNG and JPEG files are allowed.");
+                    MessageBox.Show("Only PNG and JPEG files are allowed.", "Incorrect file format");
                 }
             }
         }

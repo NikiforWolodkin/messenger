@@ -56,11 +56,15 @@ namespace Messenger.ViewModels
             if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
             {
                 MessageBox.Show("Login and password can't be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
             }
 
             if (Password != RepeatPassword)
             {
                 MessageBox.Show("Please check your password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
             }
 
             try

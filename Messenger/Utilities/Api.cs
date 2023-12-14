@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Cache;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -39,6 +40,10 @@ namespace Messenger.Utilities
 
                 return new Result<TResponse>(response);
             }
+            else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LoggedOutException("You are logged out, please log in again.");
+            }
             else
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
@@ -69,6 +74,10 @@ namespace Messenger.Utilities
 
                 return new Result<TResponse>(response);
             }
+            else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LoggedOutException("You are logged out, please log in again.");
+            }
             else
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
@@ -96,6 +105,10 @@ namespace Messenger.Utilities
             if (httpResponse.IsSuccessStatusCode)
             {
                 return new Result<EmptyResult>(new EmptyResult());
+            }
+            else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LoggedOutException("You are logged out, please log in again.");
             }
             else
             {
@@ -127,6 +140,10 @@ namespace Messenger.Utilities
 
                 return new Result<TResponse>(response);
             }
+            else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LoggedOutException("You are logged out, please log in again.");
+            }
             else
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
@@ -157,6 +174,10 @@ namespace Messenger.Utilities
             {
                 return new Result<string>(result);
             }
+            else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LoggedOutException("You are logged out, please log in again.");
+            }
             else
             {
                 var error = JsonSerializer.Deserialize<ErrorResponse>(result);
@@ -181,6 +202,10 @@ namespace Messenger.Utilities
             if (httpResponse.IsSuccessStatusCode)
             {
                 return new Result<EmptyResult>(new EmptyResult());
+            }
+            else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LoggedOutException("You are logged out, please log in again.");
             }
             else
             {

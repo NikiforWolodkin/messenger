@@ -69,7 +69,7 @@ namespace MessengerApi.Controllers
             var token = new JwtSecurityToken(
                 claims: claims,
                 signingCredentials: credentials,
-                expires: DateTime.Now.AddHours(4)
+                expires: DateTime.Now.AddHours(2)
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

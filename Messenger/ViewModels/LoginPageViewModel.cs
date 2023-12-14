@@ -51,6 +51,13 @@ namespace Messenger.ViewModels
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
+                {
+                    MessageBox.Show("Login and password can't be empty.", "Error");
+
+                    return;
+                }
+
                 await AuthorizationProvider.LogInAsync(Login, Password);
 
                 AuthorizationProvider.SetWindow(_window);
