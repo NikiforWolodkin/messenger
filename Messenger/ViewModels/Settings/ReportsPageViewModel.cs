@@ -77,7 +77,7 @@ namespace Messenger.ViewModels.Settings
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    await UsersService.BanAndDeleteMessages(message.Id);
+                    await UsersService.BanAndDeleteMessagesAsync(message.Id);
 
                     await GetMessagesAsync();
                 }

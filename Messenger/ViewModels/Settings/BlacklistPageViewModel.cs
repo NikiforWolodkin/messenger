@@ -71,7 +71,7 @@ namespace Messenger.ViewModels.Settings
         {
             if (obj is UserResponse user)
             {
-                await UsersService.RemoveFromBlacklist(user.Id);
+                await UsersService.RemoveFromBlacklistAsync(user.Id);
 
                 user.IsBlacklisted = false;
 

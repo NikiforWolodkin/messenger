@@ -45,7 +45,7 @@ namespace Messenger.Services
             }
         }
 
-        public static async Task RemoveFromBlacklist(Guid userId)
+        public static async Task RemoveFromBlacklistAsync(Guid userId)
         {
             var result = await Api.DeleteAsync($"profile/blacklist/{userId}");
 
@@ -93,7 +93,7 @@ namespace Messenger.Services
             return result.Response;
         }
 
-        public static async Task BanAndDeleteMessages(Guid messageId)
+        public static async Task BanAndDeleteMessagesAsync(Guid messageId)
         {
             var result = await Api.DeleteAsync($"users/{messageId}");
 

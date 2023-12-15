@@ -27,6 +27,22 @@ namespace MessengerApiInfrasctructure.Data
                 .HasMany(user => user.Chats)
                 .WithMany(chat => chat.Participants);
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Blacklist)
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                    "Blacklist",
+                    j => j
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey("BlacklistedUserId")
+                        .OnDelete(DeleteBehavior.Restrict),
+                    j => j
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict));
+
             modelBuilder.Entity<Message>()
                 .HasOne(message => message.Author)
                 .WithMany(user => user.Messages)
