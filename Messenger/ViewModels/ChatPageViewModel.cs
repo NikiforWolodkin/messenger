@@ -11,12 +11,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Policy;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using static System.Net.WebRequestMethods;
 
 namespace Messenger.ViewModels
 {
@@ -82,6 +86,7 @@ namespace Messenger.ViewModels
 
             SendMessageCommand = new AsyncRelayCommand(SendMessageAsync);
             AddAttachmentCommand = new AsyncRelayCommand(AddAttachmentAsync);
+            DownloadAttachmentCommand = new AsyncRelayCommand(DownloadAttachmentAsync);
             RemoveAttachmentCommand = new AsyncRelayCommand(RemoveAttachmentAsync);
             ReportMessageCommand = new AsyncRelayCommand(ReportMessageAsync);
 
@@ -137,6 +142,7 @@ namespace Messenger.ViewModels
 
         public ICommand SendMessageCommand { get; set; }
         public ICommand AddAttachmentCommand { get; set; }
+        public ICommand DownloadAttachmentCommand { get; set; }
         public ICommand RemoveAttachmentCommand { get; set; }
         public ICommand ReportMessageCommand { get; set; }
 
@@ -169,21 +175,12 @@ namespace Messenger.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                var extension = Path.GetExtension(openFileDialog.FileName).ToLower();
+                var imageUrl = await FilesService.UploadImageAsync(openFileDialog.FileName);
 
-                if (extension == ".png" || extension == ".jpg" || extension == ".jpeg")
-                {
-                    var imageUrl = await FilesService.UploadImageAsync(openFileDialog.FileName);
+                _imageUrl = imageUrl;
 
-                    _imageUrl = imageUrl;
-
-                    IsAttachmentAdded = true;
-                    AttachmentName = Path.GetFileName(openFileDialog.FileName);
-                }
-                else
-                {
-                    MessageBox.Show("Only PNG and JPEG files are allowed.", "Incorrect file format");
-                }
+                IsAttachmentAdded = true;
+                AttachmentName = Path.GetFileName(openFileDialog.FileName);
             }
         }
 
@@ -191,6 +188,40 @@ namespace Messenger.ViewModels
         {
             _imageUrl = null;
             IsAttachmentAdded = false;
+        }
+
+        private async Task DownloadAttachmentAsync(object obj)
+        {
+            if (obj is string url)
+            {
+                try
+                {
+                    using var client = new HttpClient();
+
+                    var fileName = Path.GetFileName(new Uri(url).AbsolutePath);
+
+                    var saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.FileName = fileName; // Default file name
+                    saveFileDialog.DefaultExt = Path.GetExtension(fileName); // Default file extension
+                    saveFileDialog.Filter = "All files (*.*)|*.*"; // Filter files by extension
+
+                    // Show save file dialog box
+                    var result = saveFileDialog.ShowDialog();
+
+                    // Process save file dialog box results
+                    if (result == true)
+                    {
+                        // Save document
+                        var downloadPath = saveFileDialog.FileName;
+                        var fileBytes = await client.GetByteArrayAsync(url);
+                        await System.IO.File.WriteAllBytesAsync(downloadPath, fileBytes);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private async Task ReportMessageAsync(object obj)

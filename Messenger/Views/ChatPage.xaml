@@ -7,7 +7,12 @@
              xmlns:utils="clr-namespace:Messenger.Utilities"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
+    <UserControl.Resources>
+        <utils:FileExtensionConverter x:Key="FileConverter" />
+        <utils:FilePathToFileNameConverter x:Key="NameConverter" />
+    </UserControl.Resources>
+
     <Grid Margin="0,10,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -82,11 +87,58 @@
                                        TextWrapping="Wrap"
                                        Margin="10,4,10,4"
                                        MaxWidth="584" />
-                            
+
                             <Image Source="{Binding ImageUrl}"
                                    Margin="10"
                                    MaxHeight="320"
-                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                                   RenderOptions.BitmapScalingMode="HighQuality">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ImageUrl, Converter={StaticResource FileConverter}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button Command="{Binding Path=DataContext.DownloadAttachmentCommand, ElementName=messagesList}"
+                                        CommandParameter="{Binding ImageUrl}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                    <Image Source="/Resources/Icons/Attachment.png"
+                                           RenderOptions.BitmapScalingMode="HighQuality"
+                                           Width="20"
+                                           Height="20"
+                                           Margin="10,0,0,0"/>
+                                </Button>
+
+                                <TextBlock Text="{Binding ImageUrl, Converter={StaticResource NameConverter}}"
+                                           Foreground="White"
+                                           FontFamily="/Resources/Fonts/#Kanit Regular"
+                                           FontSize="16"
+                                           TextWrapping="Wrap"
+                                           Margin="10,4,10,4"
+                                           MaxWidth="584"
+                                           VerticalAlignment="Center"/>
+
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ImageUrl, Converter={StaticResource FileConverter}}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                            </StackPanel>
                         </Grid>
 
                         <Button Command="{Binding Path=DataContext.ReportMessageCommand, ElementName=messagesList}"
