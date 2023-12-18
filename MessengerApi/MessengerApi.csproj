@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\default-avatar.jpg" />
+    <None Remove="Images\default-avatar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.12" />
@@ -22,6 +27,11 @@
     <ProjectReference Include="..\MessengerApiInfrasctructure\MessengerApiInfrasctructure.csproj" />
     <ProjectReference Include="..\MessengerApiServices\MessengerApiServices.csproj" />
     <ProjectReference Include="..\MessengerModels\MessengerModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\default-avatar.jpg" />
+    <Resource Include="Images\default-avatar.png" />
   </ItemGroup>
 
 </Project>

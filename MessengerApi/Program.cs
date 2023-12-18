@@ -1,4 +1,5 @@
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using MessengerApi.Hubs;
 using MessengerApi.Middleware;
 using MessengerApiDomain.RepositoryInterfaces;
@@ -7,6 +8,7 @@ using MessengerApiInfrasctructure.Repositories;
 using MessengerApiServices.Interfaces;
 using MessengerApiServices.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -108,4 +110,31 @@ app.MapControllers();
 app.MapHub<ChatHub>("api/chat-hub");
 app.MapHub<UserChatsHub>("api/user-chats-hub");
 
+await CreateContainerIfNotExistsAsync();
+
 app.Run();
+
+
+
+async Task CreateContainerIfNotExistsAsync()
+{
+    var connectionString = builder.Configuration.GetValue<string>("AzureBlobStorage:ConnectionString");
+
+    var blobServiceClient = new BlobServiceClient(connectionString);
+
+    var blobContainerName = builder.Configuration.GetSection("AzureBlobStorage:ContainerName").Value!;
+    var containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);
+    var createdContainer = containerClient.CreateIfNotExists();
+    containerClient.SetAccessPolicy(PublicAccessType.Blob);
+
+    if (createdContainer is null)
+    {
+        return;
+    }
+
+    var imagePath = @"./Images/default-avatar.png";
+    var fileName = Path.GetFileName(imagePath);
+    var blobClient = containerClient.GetBlobClient(fileName);
+    using var stream = File.OpenRead(imagePath);
+    await blobClient.UploadAsync(stream, new BlobHttpHeaders { ContentType = "image/png" });
+}

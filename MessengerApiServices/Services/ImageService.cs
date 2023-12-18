@@ -56,5 +56,19 @@ namespace MessengerApiServices.Services
 
             return contentType;
         }
+
+        private async Task UploadImageAsync(string imagePath)
+        {
+            var blobContainerName = _configuration.GetSection("AzureBlobStorage:ContainerName").Value!;
+            var containerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+
+            var fileName = Path.GetFileName(imagePath);
+            var blobClient = containerClient.GetBlobClient(fileName);
+            using var stream = File.OpenRead(imagePath);
+            await blobClient.UploadAsync(stream, new BlobHttpHeaders
+            {
+                ContentType = GetContentType(fileName)
+            });
+        }
     }
 }
