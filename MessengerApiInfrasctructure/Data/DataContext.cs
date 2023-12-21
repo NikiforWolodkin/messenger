@@ -1,4 +1,5 @@
-﻿using MessengerApiDomain.Models;
+﻿using BCrypt.Net;
+using MessengerApiDomain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,17 @@ namespace MessengerApiInfrasctructure.Data
             modelBuilder.Entity<Message>()
                 .HasMany(message => message.UserReports)
                 .WithMany(user => user.ReportedMessages);
+
+            var moderator = new User
+            {
+                Name = "Moderator",
+                DisplayName = "Moderator",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Moderator"),
+                AvatarUrl = "http://127.0.0.1:10000/devstoreaccount1/messenger-container/default-avatar.png",
+                IsAdmin = true,
+            };
+
+            modelBuilder.Entity<User>().HasData(moderator);
         }
     }
 }
