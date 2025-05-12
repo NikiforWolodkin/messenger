@@ -94,12 +94,20 @@ namespace MessengerApi.Controllers
             return Created($"api/users/{user.Id}", user);
         }
 
+        [Authorize]
         [HttpDelete("users/{messageId:Guid}")]
-        public async Task<IActionResult> AddAsync(Guid messageId)
+        public async Task<IActionResult> BanUserAndDeleteAllMessagesAsync(Guid messageId)
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            await _userService.BanUserAndDeleteAllMessagesAsync(messageId);
+            var user = await _userService.GetByIdAsync(id);
+
+            if (user?.IsAdmin is false)
+            {
+                return Unauthorized(new ErrorResponse("You are not an admin and can not perform this operation."));
+            }
+
+            await _userService.BanUserAndDeleteAllMessagesAsync(messageId, id);
 
             return NoContent();
         }

@@ -14,7 +14,7 @@ namespace MessengerApiServices.Interfaces
         Task<ICollection<MessageResponse>> GetReportedMessageAsync();
         Task<MessageResponse> AddAsync(Guid userId, MessageAddRequest request);
         Task<MessageResponse> AddUserReportAsync(Guid userId, UserReportAddRequest request);
-        Task RemoveUserReportsAsync(Guid id);
-        Task RemoveAsync(Guid id);
+        Task RemoveUserReportsAsync(Guid id, Guid adminId);
+        Task RemoveAsync(Guid id, Guid adminId);
     }
 }

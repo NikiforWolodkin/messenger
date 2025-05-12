@@ -77,7 +77,7 @@ namespace MessengerApi.Controllers
                 return Unauthorized(new ErrorResponse("You are not an admin and can not perform this operation."));
             }
 
-            await _messageService.RemoveUserReportsAsync(messageId);
+            await _messageService.RemoveUserReportsAsync(messageId, id);
 
             return NoContent();
         }
@@ -94,7 +94,7 @@ namespace MessengerApi.Controllers
                 return Unauthorized(new ErrorResponse("You are not an admin and can not perform this operation."));
             }
 
-            await _messageService.RemoveAsync(messageId);
+            await _messageService.RemoveAsync(messageId, id);
 
             return NoContent();
         }

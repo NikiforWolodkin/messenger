@@ -20,7 +20,8 @@ namespace MessengerApiServices.Interfaces
         Task<bool> IsBlacklistedAsync(Guid FirstId, Guid SecondId);
         Task AddToBlacklistAsync(Guid id, BlacklistAddRequest request);
         Task RemoveFromBlacklistAsync(Guid id, Guid blacklistedUserId);
-        Task BanUserAndDeleteAllMessagesAsync(Guid messageId);
+        Task BanUserAndDeleteAllMessagesAsync(Guid messageId, Guid adminId);
+        Task RecordUserOperationAsync(Guid id, DateTime time, string operationName, string operationDescription);
         Task<bool> UserExistsAsync(string name);
         Task<bool> VerifyPasswordAsync(UserLogInRequest request);
     }

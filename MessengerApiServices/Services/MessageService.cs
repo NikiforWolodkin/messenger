@@ -17,14 +17,16 @@ namespace MessengerApiServices.Services
         private readonly IMessageRepository _messageRepository;
         private readonly IUserRepository _userRepository;
         private readonly IChatRepository _chatRepository;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
         public MessageService(IMessageRepository messageRepository, IUserRepository userRepository, 
-                              IChatRepository chatRepository, IMapper mapper)
+                              IChatRepository chatRepository, IUserService userService, IMapper mapper)
         {
             _messageRepository = messageRepository;
             _userRepository = userRepository;
             _chatRepository = chatRepository;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -82,7 +84,7 @@ namespace MessengerApiServices.Services
             return _mapper.Map<ICollection<MessageResponse>>(messages);
         }
 
-        async Task IMessageService.RemoveAsync(Guid id)
+        async Task IMessageService.RemoveAsync(Guid id, Guid adminId)
         {
             var message = await _messageRepository.GetByIdAsync(id)
                 ?? throw new NotFoundException("Message not found.");
@@ -92,9 +94,14 @@ namespace MessengerApiServices.Services
             message.ImageUrl = null;
 
             await _messageRepository.SaveChangesAsync();
+
+            await _userService.RecordUserOperationAsync(adminId,
+                                                        DateTime.Now,
+                                                        nameof(IMessageService.RemoveAsync),
+                                                        $"Removed message with id {id}.");
         }
 
-        async Task IMessageService.RemoveUserReportsAsync(Guid id)
+        async Task IMessageService.RemoveUserReportsAsync(Guid id, Guid adminId)
         {
             var message = await _messageRepository.GetByIdAsync(id)
                 ?? throw new NotFoundException("Message not found.");
@@ -102,6 +109,11 @@ namespace MessengerApiServices.Services
             message.UserReports.Clear();
 
             await _messageRepository.SaveChangesAsync();
+
+            await _userService.RecordUserOperationAsync(adminId,
+                                                        DateTime.Now,
+                                                        nameof(IMessageService.RemoveUserReportsAsync),
+                                                        $"Removed all reports from message with id {id}.");
         }
     }
 }

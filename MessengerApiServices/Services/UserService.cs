@@ -17,12 +17,17 @@ namespace MessengerApiServices.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMessageRepository _messageRepository;
+        private readonly IOperationLogRepository _operationLogRepository;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMessageRepository messageRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, 
+                           IMessageRepository messageRepository, 
+                           IOperationLogRepository operationLogRepository,
+                           IMapper mapper)
         {
             _userRepository = userRepository;
             _messageRepository = messageRepository;
+            _operationLogRepository = operationLogRepository;
             _mapper = mapper;
         }
 
@@ -194,7 +199,7 @@ namespace MessengerApiServices.Services
             return false;
         }
 
-        async Task IUserService.BanUserAndDeleteAllMessagesAsync(Guid messageId)
+        async Task IUserService.BanUserAndDeleteAllMessagesAsync(Guid messageId, Guid adminId)
         {
             var message = await _messageRepository.GetByIdAsync(messageId)
                 ?? throw new NotFoundException("Message not found.");
@@ -215,6 +220,29 @@ namespace MessengerApiServices.Services
             }
 
             await _userRepository.SaveChangesAsync();
+
+            await RecordUserOperationAsync(adminId, 
+                                           DateTime.Now, 
+                                           nameof(IUserService.BanUserAndDeleteAllMessagesAsync),
+                                           $"User with id {message.Author.Id} banned, all messages deleted.");
+        }
+
+        public async Task RecordUserOperationAsync(Guid id, DateTime time, string operationName, string operationDescription)
+        {
+            var user = await _userRepository.GetByIdAsync(id)
+                ?? throw new NotFoundException("User not found.");
+
+            var log = new OperationLog
+            {
+                UserId = user.Id,
+                UserName = user.Name,
+                UserDisplayName = user.DisplayName,
+                OperationName = operationName,
+                OperationDescription = operationDescription,
+                Time = time,
+            };
+
+            await _operationLogRepository.AddAsync(log);
         }
     }
 }
