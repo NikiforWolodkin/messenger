@@ -55,6 +55,7 @@ namespace MessengerApiInfrasctructure.Data
 
             var moderator = new User
             {
+                Id = Guid.NewGuid(),
                 Name = "Moderator",
                 DisplayName = "Moderator",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("Moderator"),
