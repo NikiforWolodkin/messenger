@@ -82,7 +82,7 @@ namespace Messenger.ViewModels
             _hubConnection = HubConnectionFactory.CreateChatConnection();
 
             ChatId = chat.Id;
-            IsBlacklisted = (bool)chat.IsBlacklisted;
+            IsBlacklisted = chat.IsBlacklisted ?? false;
 
             SendMessageCommand = new AsyncRelayCommand(SendMessageAsync);
             AddAttachmentCommand = new AsyncRelayCommand(AddAttachmentAsync);
