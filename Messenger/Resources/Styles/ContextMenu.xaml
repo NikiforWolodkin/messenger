@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
+        <StackPanel Margin="-30,0,0,0" Background="Transparent"/>
+    </ItemsPanelTemplate>
+
+    <Style TargetType="MenuItem">
+        <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Grid x:Name="RootGrid" Background="Transparent">
+                        <!-- Main content -->
+                        <ContentPresenter x:Name="ContentPresenter"
+                                    Content="{TemplateBinding Header}"
+                                    RecognizesAccessKey="True"
+                                    Margin="32,0,12,0"/>
+                    </Grid>
+
+                    <!-- Simplified triggers - no hover effect -->
+                    <ControlTemplate.Triggers>
+                        <!-- Remove IsHighlighted trigger completely -->
+
+                        <!-- Optional: Keep keyboard focus visual if needed -->
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="RootGrid" Property="Background" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ContextMenu}">
+        <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
+        <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource GrayBrush}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <!-- Rounded Border Container -->
+                    <Border x:Name="MenuBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            Margin="0"
+                            Padding="{TemplateBinding Padding}">
+                        <!-- Items Host -->
+                        <ItemsPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

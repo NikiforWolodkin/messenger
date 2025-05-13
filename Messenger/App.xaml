@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="Resources/Styles/Text.xaml" />
                 <ResourceDictionary Source="Resources/Styles/TextBox.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ListBox.xaml" />
+                <ResourceDictionary Source="Resources/Styles/ContextMenu.xaml" />
                 <ResourceDictionary Source="Utilities/DataTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
