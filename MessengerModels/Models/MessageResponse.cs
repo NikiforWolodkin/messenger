@@ -23,5 +23,9 @@ namespace MessengerModels.Models
         public string? ImageUrl { get; set; }
         [JsonPropertyName("sendTime")]
         public DateTime SendTime { get; set; }
+        [JsonPropertyName("isLiked")]
+        public bool IsLiked { get; set; }
+        [JsonPropertyName("likeAmount")]
+        public int LikeAmount { get; set; }
     }
 }

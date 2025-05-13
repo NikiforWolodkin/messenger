@@ -21,7 +21,9 @@ namespace MessengerApiServices.Profiles
                 .ForMember(destination => destination.AuthorId, config =>
                     config.MapFrom(source => source.Author.Id))
                 .ForMember(destination => destination.AuthorAvatarUrl, config =>
-                    config.MapFrom(source => source.Author.AvatarUrl));
+                    config.MapFrom(source => source.Author.AvatarUrl))
+                .ForMember(destination => destination.LikeAmount, config =>
+                    config.MapFrom(source => source.Likes.Count));
         }
     }
 }

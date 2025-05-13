@@ -18,6 +18,7 @@ namespace MessengerApiDomain.Models
         public virtual ICollection<Chat> Chats { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<Message> ReportedMessages { get; set; }
+        public virtual ICollection<Message> LikedMessages { get; set; }
         public virtual ICollection<User> Blacklist { get; set; }
     }
 }

@@ -54,6 +54,10 @@ namespace MessengerApiInfrasctructure.Data
                 .HasMany(message => message.UserReports)
                 .WithMany(user => user.ReportedMessages);
 
+            modelBuilder.Entity<Message>()
+                .HasMany(message => message.Likes)
+                .WithMany(user => user.LikedMessages);
+
             var moderator = new User
             {
                 Id = Guid.NewGuid(),

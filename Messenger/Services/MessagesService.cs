@@ -72,7 +72,7 @@ namespace Messenger.Services
             return result.Response;
         }
 
-        public static async Task<MessageResponse> AddReportAsync(Guid messageId)
+        public static async Task AddReportAsync(Guid messageId)
         {
             var request = new UserReportAddRequest
             {
@@ -85,8 +85,6 @@ namespace Messenger.Services
             {
                 throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
             }
-
-            return result.Response;
         }
 
         public static async Task DeleteReportAsync(Guid messageId)

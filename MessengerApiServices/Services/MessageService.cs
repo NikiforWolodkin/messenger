@@ -54,7 +54,7 @@ namespace MessengerApiServices.Services
             return _mapper.Map<MessageResponse>(message);
         }
 
-        async Task<MessageResponse> IMessageService.AddUserReportAsync(Guid userId, UserReportAddRequest request)
+        async Task IMessageService.AddUserReportAsync(Guid userId, UserReportAddRequest request)
         {
             var user = await _userRepository.GetByIdAsync(userId)
                 ?? throw new NotFoundException("User not found.");
@@ -65,20 +65,61 @@ namespace MessengerApiServices.Services
             message.UserReports.Add(user);
 
             await _messageRepository.SaveChangesAsync();
-
-            return _mapper.Map<MessageResponse>(message);
         }
 
-        async Task<ICollection<MessageResponse>> IMessageService.GetAllChatMessagesAsync(Guid chatId)
+        async Task<MessageResponse> IMessageService.LikeAsync(Guid id, Guid userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId)
+                ?? throw new NotFoundException("User not found.");
+
+            var message = await _messageRepository.GetByIdAsync(id)
+                ?? throw new NotFoundException("Message not found.");
+
+            var isLiked = false;
+            if (message.Likes.Contains(user))
+            {
+                message.Likes.Remove(user);
+            }
+            else
+            {
+                message.Likes.Add(user);
+                isLiked = true;
+            }
+
+            await _messageRepository.SaveChangesAsync();
+
+            var response = _mapper.Map<MessageResponse>(message);
+            response.IsLiked = isLiked;
+
+            return response;
+        }
+
+        async Task<ICollection<MessageResponse>> IMessageService.GetAllChatMessagesAsync(Guid chatId, Guid userId)
         {
             var chat = await _chatRepository.GetByIdAsync(chatId)
                 ?? throw new NotFoundException("Chat not found.");
+
+            var user = await _userRepository.GetByIdAsync(userId)
+                ?? throw new NotFoundException("User not found.");
 
             var messages = await _messageRepository.GetAllChatMessagesAsync(chat);
 
             await DeleteSelfDeletingMessages(messages);
             
-            return _mapper.Map<ICollection<MessageResponse>>(messages);
+            var responses = _mapper.Map<ICollection<MessageResponse>>(messages);
+
+            var mergedMessages = messages.Zip(responses, (message, response) => new
+            {
+                Message = message,
+                Response = response
+            });
+
+            foreach (var item in mergedMessages)
+            {
+                item.Response.IsLiked = item.Message.Likes.Contains(user);
+            }
+
+            return responses;
         }
 
         async Task<ICollection<MessageResponse>> IMessageService.GetReportedMessageAsync()

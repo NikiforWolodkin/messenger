@@ -32,10 +32,12 @@ namespace MessengerApi.Controllers
             _userChatsHubContext = userChatsHubContext;
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetChatMessagesAsync(Guid id)
+        [HttpGet("{chatId:guid}")]
+        public async Task<IActionResult> GetChatMessagesAsync(Guid chatId)
         {
-            return Ok(await _messageService.GetAllChatMessagesAsync(id));
+            var userId = JwtClaimsHelper.GetId(User.Identity);
+
+            return Ok(await _messageService.GetAllChatMessagesAsync(chatId, userId));
         }
 
         [HttpGet("reported")]
@@ -61,9 +63,19 @@ namespace MessengerApi.Controllers
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            var message = await _messageService.AddUserReportAsync(id, request);
+            await _messageService.AddUserReportAsync(id, request);
 
-            return Created($"api/messages/{message.Id}", message);
+            return Ok();
+        }
+
+        [HttpPut("likes/{messageId:Guid}")]
+        public async Task<IActionResult> LikeAsync(Guid messageId)
+        {
+            var userId = JwtClaimsHelper.GetId(User.Identity);
+
+            var message = await _messageService.LikeAsync(messageId, userId);
+
+            return Ok(message);
         }
 
         [HttpDelete("reports/{messageId:Guid}")]
