@@ -1,6 +1,7 @@
 ﻿using MessengerApi.Helpers;
 using MessengerApi.Hubs;
 using MessengerApiDomain.Models;
+using MessengerApiServices.Exceptions;
 using MessengerApiServices.Interfaces;
 using MessengerModels.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -87,14 +88,14 @@ namespace MessengerApi.Controllers
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            var user = await _userService.GetByIdAsync(id);
-
-            if (!user.IsAdmin)
+            try
             {
-                return Unauthorized(new ErrorResponse("You are not an admin and can not perform this operation."));
+                await _messageService.RemoveAsync(messageId, id);
             }
-
-            await _messageService.RemoveAsync(messageId, id);
+            catch (UnauthorizedException ex)
+            {
+                return Unauthorized(new ErrorResponse(ex.Message));
+            }
 
             return NoContent();
         }

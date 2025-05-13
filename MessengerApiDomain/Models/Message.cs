@@ -16,5 +16,6 @@ namespace MessengerApiDomain.Models
         public virtual DateTime SendTime { get; set; }
         public virtual ICollection<User> UserReports { get; set; }
         public virtual bool IsBanned { get; set; }
+        public virtual DateTime? SelfDeletionDeadline { get; set; }
     }
 }

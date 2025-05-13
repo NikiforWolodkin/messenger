@@ -45,6 +45,8 @@ namespace MessengerApiServices.Services
                 SendTime = DateTime.Now,
                 Text = request.Text,
                 ImageUrl = request.ImageUrl,
+                SelfDeletionDeadline = request.MinutesBeforeSelfDeletion is not null 
+                    ? DateTime.Now.AddMinutes((int)request.MinutesBeforeSelfDeletion) : null,
             };
 
             await _messageRepository.AddAsync(message);
@@ -73,6 +75,8 @@ namespace MessengerApiServices.Services
                 ?? throw new NotFoundException("Chat not found.");
 
             var messages = await _messageRepository.GetAllChatMessagesAsync(chat);
+
+            await DeleteSelfDeletingMessages(messages);
             
             return _mapper.Map<ICollection<MessageResponse>>(messages);
         }
@@ -84,10 +88,19 @@ namespace MessengerApiServices.Services
             return _mapper.Map<ICollection<MessageResponse>>(messages);
         }
 
-        async Task IMessageService.RemoveAsync(Guid id, Guid adminId)
+        async Task IMessageService.RemoveAsync(Guid id, Guid userId)
         {
             var message = await _messageRepository.GetByIdAsync(id)
                 ?? throw new NotFoundException("Message not found.");
+
+            var user = await _userRepository.GetByIdAsync(userId)
+                ?? throw new NotFoundException("User not found.");
+
+            if (user.IsAdmin is false ||
+                user.Id != message.Author.Id)
+            {
+                throw new UnauthorizedException("You are not an admin and can not perform this operation.");
+            }
 
             message.UserReports.Clear();
             message.Text = "[Message deleted]";
@@ -95,7 +108,7 @@ namespace MessengerApiServices.Services
 
             await _messageRepository.SaveChangesAsync();
 
-            await _userService.RecordUserOperationAsync(adminId,
+            await _userService.RecordUserOperationAsync(userId,
                                                         DateTime.Now,
                                                         nameof(IMessageService.RemoveAsync),
                                                         $"Removed message with id {id}.");
@@ -114,6 +127,23 @@ namespace MessengerApiServices.Services
                                                         DateTime.Now,
                                                         nameof(IMessageService.RemoveUserReportsAsync),
                                                         $"Removed all reports from message with id {id}.");
+        }
+
+        private async Task DeleteSelfDeletingMessages(ICollection<Message> messages)
+        {
+            foreach (var message in messages)
+            {
+                if (message.SelfDeletionDeadline > DateTime.Now)
+                {
+                    continue;
+                }
+
+                message.UserReports.Clear();
+                message.Text = "[Message deleted]";
+                message.ImageUrl = null;
+            }
+
+            await _messageRepository.SaveChangesAsync();
         }
     }
 }
