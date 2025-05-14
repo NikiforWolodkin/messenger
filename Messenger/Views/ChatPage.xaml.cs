@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Messenger.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,24 @@ namespace Messenger.Views
         public ChatPage()
         {
             InitializeComponent();
+        }
+
+        private async void ReportClicked(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menu &&
+                DataContext is ChatPageViewModel vm)
+            {
+                await vm.ReportMessageAsync(menu.DataContext);
+            }
+        }
+
+        private async void DeleteClicked(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menu &&
+                DataContext is ChatPageViewModel vm)
+            {
+                await vm.DeleteMessageAsync(menu.DataContext);
+            }
         }
     }
 }

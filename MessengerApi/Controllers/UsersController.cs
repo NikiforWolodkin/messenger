@@ -104,7 +104,7 @@ namespace MessengerApi.Controllers
 
             if (user?.IsAdmin is false)
             {
-                return Unauthorized(new ErrorResponse("You are not an admin and can not perform this operation."));
+                return new ObjectResult(new ErrorResponse("You are not an admin and can not perform this operation.")) { StatusCode = 403 };
             }
 
             await _userService.BanUserAndDeleteAllMessagesAsync(messageId, id);

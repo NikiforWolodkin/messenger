@@ -37,6 +37,13 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="10,0,10,10">
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Report" Click="ReportClicked" />
+                                <MenuItem Header="Delete" Click="DeleteClicked" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                        
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40" />
                             <ColumnDefinition Width="Auto" />
@@ -141,25 +148,40 @@
                             </StackPanel>
                         </Grid>
 
-                        <Button Command="{Binding Path=DataContext.ReportMessageCommand, ElementName=messagesList}"
-                                CommandParameter="{Binding}"
-                                Grid.Column="2"
-                                Grid.Row="1">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <ContentPresenter />
-                                </ControlTemplate>
-                            </Button.Template>
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Column="2"
+                                    Grid.Row="1">
+                            <Button Command="{Binding Path=DataContext.LikeMessageCommand, ElementName=messagesList}"
+                                    CommandParameter="{Binding}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Button.Template>
 
-                            <Image Source="/Resources/Icons/Report.png"
-                                   RenderOptions.BitmapScalingMode="HighQuality"
-                                   Grid.Row="1"
-                                   Grid.Column="2"
-                                   VerticalAlignment="Center"
-                                   Margin="10,0,0,0"
-                                   Width="20"
-                                   Height="20" />
-                        </Button>
+                                <Image RenderOptions.BitmapScalingMode="HighQuality"
+                                       Grid.Row="1"
+                                       Grid.Column="2"
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"
+                                       Width="20"
+                                       Height="20">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="/Resources/Icons/Like.png" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsLiked}" Value="True">
+                                                    <Setter Property="Source" Value="/Resources/Icons/Like_filled.png" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </Button>
+
+                            <TextBlock Text="{Binding LikeAmount}"
+                                       Margin="5,0,0,0"/>
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

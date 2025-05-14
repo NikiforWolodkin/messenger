@@ -32,7 +32,7 @@ namespace Messenger
             // Handle HttpException differently
             if (e.Exception is HttpException httpEx)
             {
-                if (httpEx.ErrorCode == HttpStatusCode.Unauthorized || httpEx.ErrorCode == HttpStatusCode.Forbidden)
+                if (httpEx.ErrorCode == HttpStatusCode.Unauthorized)
                 {
                     MessageBox.Show($"An authorization error occurred: {httpEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 

@@ -74,6 +74,23 @@ namespace Messenger.Services
             return result.Response;
         }
 
+        public static async Task<MessageResponse> LikeAsync(Guid id)
+        {
+            var request = new MessageLikeRequest
+            {
+                Id = id,
+            };
+
+            var result = await Api.PutAsync<MessageResponse, MessageLikeRequest>("messages/likes", request);
+
+            if (!result.IsSuccessful)
+            {
+                throw new HttpException(result.Error, (HttpStatusCode)result.StatusCode);
+            }
+
+            return result.Response;
+        }
+
         public static async Task AddReportAsync(Guid messageId)
         {
             var request = new UserReportAddRequest

@@ -33,6 +33,8 @@
     <None Remove="Resources\Icons\Ban.png" />
     <None Remove="Resources\Icons\Delete.png" />
     <None Remove="Resources\Icons\Image.png" />
+    <None Remove="Resources\Icons\Like.png" />
+    <None Remove="Resources\Icons\Like_filled.png" />
     <None Remove="Resources\Icons\Menu.png" />
     <None Remove="Resources\Icons\Minus.png" />
     <None Remove="Resources\Icons\Plus.png" />
@@ -104,6 +106,8 @@
     <Resource Include="Resources\Icons\Ban.png" />
     <Resource Include="Resources\Icons\Delete.png" />
     <Resource Include="Resources\Icons\Image.png" />
+    <Resource Include="Resources\Icons\Like.png" />
+    <Resource Include="Resources\Icons\Like_filled.png" />
   </ItemGroup>
 
   <ItemGroup>

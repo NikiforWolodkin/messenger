@@ -63,17 +63,15 @@ namespace MessengerApi.Controllers
         {
             var id = JwtClaimsHelper.GetId(User.Identity);
 
-            await _messageService.AddUserReportAsync(id, request);
-
-            return Ok();
+            return Ok(await _messageService.AddUserReportAsync(id, request));
         }
 
-        [HttpPut("likes/{messageId:Guid}")]
-        public async Task<IActionResult> LikeAsync(Guid messageId)
+        [HttpPut("likes")]
+        public async Task<IActionResult> LikeAsync(MessageLikeRequest request)
         {
             var userId = JwtClaimsHelper.GetId(User.Identity);
 
-            var message = await _messageService.LikeAsync(messageId, userId);
+            var message = await _messageService.LikeAsync(request.Id, userId);
 
             return Ok(message);
         }
@@ -87,7 +85,7 @@ namespace MessengerApi.Controllers
 
             if (!user.IsAdmin)
             {
-                return Unauthorized(new ErrorResponse("You are not an admin and can not perform this operation."));
+                return new ObjectResult(new ErrorResponse("You are not an admin and can not perform this operation.")) { StatusCode = 403 };
             }
 
             await _messageService.RemoveUserReportsAsync(messageId, id);
@@ -106,7 +104,7 @@ namespace MessengerApi.Controllers
             }
             catch (UnauthorizedException ex)
             {
-                return Unauthorized(new ErrorResponse(ex.Message));
+                return new ObjectResult(new ErrorResponse(ex.Message)) { StatusCode = 403 };
             }
 
             return NoContent();

@@ -54,7 +54,7 @@ namespace MessengerApiServices.Services
             return _mapper.Map<MessageResponse>(message);
         }
 
-        async Task IMessageService.AddUserReportAsync(Guid userId, UserReportAddRequest request)
+        async Task<MessageResponse> IMessageService.AddUserReportAsync(Guid userId, UserReportAddRequest request)
         {
             var user = await _userRepository.GetByIdAsync(userId)
                 ?? throw new NotFoundException("User not found.");
@@ -65,6 +65,8 @@ namespace MessengerApiServices.Services
             message.UserReports.Add(user);
 
             await _messageRepository.SaveChangesAsync();
+
+            return _mapper.Map<MessageResponse>(message);
         }
 
         async Task<MessageResponse> IMessageService.LikeAsync(Guid id, Guid userId)
@@ -137,7 +139,7 @@ namespace MessengerApiServices.Services
             var user = await _userRepository.GetByIdAsync(userId)
                 ?? throw new NotFoundException("User not found.");
 
-            if (user.IsAdmin is false ||
+            if (user.IsAdmin is false &&
                 user.Id != message.Author.Id)
             {
                 throw new UnauthorizedException("You are not an admin and can not perform this operation.");

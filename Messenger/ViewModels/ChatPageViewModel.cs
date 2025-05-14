@@ -3,6 +3,7 @@ using Messenger.Interfaces;
 using Messenger.Providers;
 using Messenger.Services;
 using Messenger.Utilities;
+using MessengerApiDomain.Models;
 using MessengerModels.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Win32;
@@ -19,6 +20,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using static System.Net.WebRequestMethods;
 
@@ -97,7 +99,7 @@ namespace Messenger.ViewModels
             AddAttachmentCommand = new AsyncRelayCommand(AddAttachmentAsync);
             DownloadAttachmentCommand = new AsyncRelayCommand(DownloadAttachmentAsync);
             RemoveAttachmentCommand = new AsyncRelayCommand(RemoveAttachmentAsync);
-            ReportMessageCommand = new AsyncRelayCommand(ReportMessageAsync);
+            LikeMessageCommand = new AsyncRelayCommand(LikeMessageAsync);
             SetSelfDeletionTimeCommand = new AsyncRelayCommand(SetSelfDeletionTimeAsync);
 
             Text = string.Empty;
@@ -154,7 +156,7 @@ namespace Messenger.ViewModels
         public ICommand AddAttachmentCommand { get; set; }
         public ICommand DownloadAttachmentCommand { get; set; }
         public ICommand RemoveAttachmentCommand { get; set; }
-        public ICommand ReportMessageCommand { get; set; }
+        public ICommand LikeMessageCommand { get; set; }
         public ICommand SetSelfDeletionTimeCommand { get; set; }
 
         private async Task SendMessageAsync(object obj)
@@ -237,7 +239,7 @@ namespace Messenger.ViewModels
             }
         }
 
-        private async Task ReportMessageAsync(object obj)
+        public async Task ReportMessageAsync(object obj)
         {
             if (obj is MessageResponse message)
             {
@@ -247,6 +249,39 @@ namespace Messenger.ViewModels
                 {
                     await MessagesService.AddReportAsync(message.Id);
                 }
+            }
+        }
+
+        public async Task DeleteMessageAsync(object obj)
+        {
+            if (obj is MessageResponse message)
+            {
+                var result = MessageBox.Show("Are you sure you want to delete this message?", "Confirmation", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        await MessagesService.DeleteMessageAsync(message.Id);
+
+                        message.Text = "[Message deleted]";
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
+        private async Task LikeMessageAsync(object obj)
+        {
+            if (obj is MessageResponse message)
+            {
+                message.IsLiked = !message.IsLiked;
+                message.LikeAmount += message.IsLiked ? 1 : -1;
+
+                await MessagesService.LikeAsync(message.Id);
             }
         }
 
