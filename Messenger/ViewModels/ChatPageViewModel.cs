@@ -32,6 +32,8 @@ namespace Messenger.ViewModels
         private bool _disconnected = false;
         private string? _imageUrl = null;
 
+        private int? _selfDeletionTime = null;
+
         public Guid ChatId { get; set; }
 
         private bool _isBlacklisted;
@@ -76,6 +78,13 @@ namespace Messenger.ViewModels
             set { _isAttachmentAdded = value; OnPropertyChanged(); }
         }
 
+        private bool _isSelfDeletionTimeSet;
+        public bool IsSelfDeletionTimeSet
+        {
+            get { return _isSelfDeletionTimeSet; }
+            set { _isSelfDeletionTimeSet = value; OnPropertyChanged(); }
+        }
+
         public ChatPageViewModel(IMainPage mainPage, ChatResponse chat)
         {
             _mainPage = mainPage;
@@ -89,6 +98,7 @@ namespace Messenger.ViewModels
             DownloadAttachmentCommand = new AsyncRelayCommand(DownloadAttachmentAsync);
             RemoveAttachmentCommand = new AsyncRelayCommand(RemoveAttachmentAsync);
             ReportMessageCommand = new AsyncRelayCommand(ReportMessageAsync);
+            SetSelfDeletionTimeCommand = new AsyncRelayCommand(SetSelfDeletionTimeAsync);
 
             Text = string.Empty;
             SelectedItem = null;
@@ -145,6 +155,7 @@ namespace Messenger.ViewModels
         public ICommand DownloadAttachmentCommand { get; set; }
         public ICommand RemoveAttachmentCommand { get; set; }
         public ICommand ReportMessageCommand { get; set; }
+        public ICommand SetSelfDeletionTimeCommand { get; set; }
 
         private async Task SendMessageAsync(object obj)
         {
@@ -152,11 +163,11 @@ namespace Messenger.ViewModels
 
             if (_imageUrl is not null)
             {
-                message = await MessagesService.AddImageMessageAsync(ChatId, _imageUrl);
+                message = await MessagesService.AddImageMessageAsync(ChatId, _imageUrl, _selfDeletionTime);
             }
             else
             {
-                message = await MessagesService.AddAsync(ChatId, Text);
+                message = await MessagesService.AddAsync(ChatId, Text, _selfDeletionTime);
             }
 
             Messages.Add(message);
@@ -165,6 +176,8 @@ namespace Messenger.ViewModels
             Text = string.Empty;
             IsAttachmentAdded = false;
             _imageUrl = null;
+            _selfDeletionTime = null;
+            IsSelfDeletionTimeSet = false;
 
             _mainPage.UpdateLastMessage(ChatId, message);
         }
@@ -234,6 +247,24 @@ namespace Messenger.ViewModels
                 {
                     await MessagesService.AddReportAsync(message.Id);
                 }
+            }
+        }
+
+        private async Task SetSelfDeletionTimeAsync(object param)
+        {
+            if (param is null)
+            {
+                _selfDeletionTime = null;
+                IsSelfDeletionTimeSet = false;
+
+                return;
+            }
+
+            // TODO: This is bad but I couldn't be bothered
+            if (int.TryParse(param as string, out var time))
+            {
+                _selfDeletionTime = time;
+                IsSelfDeletionTimeSet = true;
             }
         }
 

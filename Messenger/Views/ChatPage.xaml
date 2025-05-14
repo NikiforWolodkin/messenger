@@ -251,6 +251,22 @@
 
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Image Source="/Resources/Icons/Timer.png"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,10,0">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelfDeletionTimeSet}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
 
                     <Button Command="{Binding AddAttachmentCommand}">
                         <Button.Style>
@@ -300,7 +316,18 @@
 
                     <Button Style="{StaticResource SendButton}"
                             Command="{Binding SendMessageCommand}"
-                            Margin="0,0,10,0"/>
+                            Margin="0,0,10,0">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Delete in 15 minutes" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="15" />
+                                <MenuItem Header="Delete in 30 minutes" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="30" />
+                                <MenuItem Header="Delete in an hour" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="60" />
+                                <MenuItem Header="Delete in 8 hours" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="480" />
+                                <Separator />
+                                <MenuItem Header="Don't delete" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="{x:Null}" />
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
 
                 </StackPanel>
 

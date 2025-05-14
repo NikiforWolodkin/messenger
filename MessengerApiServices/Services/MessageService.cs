@@ -174,7 +174,8 @@ namespace MessengerApiServices.Services
         {
             foreach (var message in messages)
             {
-                if (message.SelfDeletionDeadline > DateTime.Now)
+                if (message.SelfDeletionDeadline is null ||
+                    message.SelfDeletionDeadline > DateTime.Now)
                 {
                     continue;
                 }

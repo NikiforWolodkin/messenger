@@ -36,12 +36,13 @@ namespace Messenger.Services
             return result.Response;
         }
 
-        public static async Task<MessageResponse> AddAsync(Guid chatId, string text)
+        public static async Task<MessageResponse> AddAsync(Guid chatId, string text, int? selfDeletionTime)
         {
             var request = new MessageAddRequest
             {
                 ChatId = chatId,
                 Text = text,
+                MinutesBeforeSelfDeletion = selfDeletionTime,
             };
 
             var result = await Api.PostAsync<MessageResponse, MessageAddRequest>("messages", request);
@@ -54,12 +55,13 @@ namespace Messenger.Services
             return result.Response;
         }
 
-        public static async Task<MessageResponse> AddImageMessageAsync(Guid chatId, string imageUrl)
+        public static async Task<MessageResponse> AddImageMessageAsync(Guid chatId, string imageUrl, int? selfDeletionTime)
         {
             var request = new MessageAddRequest
             {
                 ChatId = chatId,
                 ImageUrl = imageUrl,
+                MinutesBeforeSelfDeletion = selfDeletionTime,
             };
 
             var result = await Api.PostAsync<MessageResponse, MessageAddRequest>("messages", request);
