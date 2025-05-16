@@ -14,6 +14,8 @@ namespace MessengerApiInfrasctructure.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<CalendarEvent> CalendarEvents { get; set; }
+        public DbSet<UserEventAttendance> EventAttendance { get; set; }
         public DbSet<OperationLog> OperationLogs { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -58,12 +60,24 @@ namespace MessengerApiInfrasctructure.Data
                 .HasMany(message => message.Likes)
                 .WithMany(user => user.LikedMessages);
 
+            modelBuilder.Entity<CalendarEvent>()
+                .HasOne(calendarEvent => calendarEvent.Organizer)
+                .WithMany(user => user.Events);
+
+            modelBuilder.Entity<CalendarEvent>()
+                .HasMany(calendarEvent => calendarEvent.Participants)
+                .WithMany(user => user.Events);
+
+            modelBuilder.Entity<UserEventAttendance>()
+                .HasOne(eventParticipation => eventParticipation.Event)
+                .WithMany(calendarEvent => calendarEvent.Attendance);
+
             var moderator = new User
             {
                 Id = Guid.NewGuid(),
-                Name = "Moderator",
-                DisplayName = "Moderator",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Moderator"),
+                Name = "Admin",
+                DisplayName = "Admin",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin"),
                 AvatarUrl = "http://127.0.0.1:10000/devstoreaccount1/messenger-container/default-avatar.png",
                 IsAdmin = true,
             };

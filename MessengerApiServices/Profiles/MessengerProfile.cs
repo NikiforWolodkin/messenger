@@ -24,6 +24,12 @@ namespace MessengerApiServices.Profiles
                     config.MapFrom(source => source.Author.AvatarUrl))
                 .ForMember(destination => destination.LikeAmount, config =>
                     config.MapFrom(source => source.Likes.Count));
+
+            CreateMap<CalendarEvent, CalendarEventResponse>()
+                .ForMember(destination => destination.Participants, config =>
+                    config.Ignore());
+
+            CreateMap<User, CalendarEventUserResponse>();
         }
     }
 }
