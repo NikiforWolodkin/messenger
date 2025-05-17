@@ -54,6 +54,7 @@ namespace Messenger.ViewModels
             NewChatCommand = new RelayCommand(NewChat);
             SettingsCommand = new RelayCommand(Settings);
             SelectChatCommand = new RelayCommand(SelectChat);
+            CalendarCommand = new RelayCommand(Calendar);
 
             SelectedChat = null;
             Chats = new ObservableCollection<ChatResponseDecorator>();
@@ -129,6 +130,7 @@ namespace Messenger.ViewModels
         public ICommand NewChatCommand { get; set; }
         public ICommand SettingsCommand { get; set; }
         public ICommand SelectChatCommand { get; set; }
+        public ICommand CalendarCommand { get; set; }
 
         private void NewChat(object obj)
         {
@@ -138,6 +140,11 @@ namespace Messenger.ViewModels
         private void Settings(object obj)
         {
             _window.NavigateToSettings(SettingsTab.Profile);
+        }
+
+        private void Calendar(object obj)
+        {
+            _window.NavigateToCalendar();
         }
 
         private void SelectChat(object obj)

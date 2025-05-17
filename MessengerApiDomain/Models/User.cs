@@ -21,5 +21,6 @@ namespace MessengerApiDomain.Models
         public virtual ICollection<Message> LikedMessages { get; set; }
         public virtual ICollection<User> Blacklist { get; set; }
         public virtual ICollection<CalendarEvent> Events { get; set; }
+        public virtual ICollection<CalendarEvent> OrganizedEvents { get; set; }
     }
 }

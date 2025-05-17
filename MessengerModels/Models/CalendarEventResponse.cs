@@ -16,4 +16,7 @@ public class CalendarEventResponse
     public string? Agenda { get; set; }
     [JsonPropertyName("participants")]
     public ICollection<CalendarEventUserResponse> Participants { get; set; }
+
+    [JsonIgnore]
+    public DateTime EndTime => StartTime.AddMinutes(DurationInMinutes);
 }

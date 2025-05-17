@@ -43,4 +43,8 @@
     <DataTemplate DataType="{x:Type vm:ChatPageViewModel}">
         <view:ChatPage />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:CalendarPageViewModel}">
+        <view:CalendarPage />
+    </DataTemplate>
 </ResourceDictionary>

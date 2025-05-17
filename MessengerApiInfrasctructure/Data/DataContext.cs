@@ -62,7 +62,8 @@ namespace MessengerApiInfrasctructure.Data
 
             modelBuilder.Entity<CalendarEvent>()
                 .HasOne(calendarEvent => calendarEvent.Organizer)
-                .WithMany(user => user.Events);
+                .WithMany(user => user.OrganizedEvents)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<CalendarEvent>()
                 .HasMany(calendarEvent => calendarEvent.Participants)

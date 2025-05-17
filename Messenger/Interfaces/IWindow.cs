@@ -13,5 +13,6 @@ namespace Messenger.Interfaces
         void NavigateToSignup();
         void NavigateToMain();
         void NavigateToSettings(SettingsTab tab);
+        void NavigateToCalendar();
     }
 }

@@ -34,10 +34,17 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Babble"
-                           Margin="20,10"
-                           FontFamily="/Resources/Fonts/#Kanit Medium"
-                           FontSize="26"/>
+                    <Grid>
+                        <Grid.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" 
+                                          Command="{Binding CalendarCommand}" />
+                        </Grid.InputBindings>
+                        
+                        <TextBlock Text="Babble"
+                               Margin="20,10"
+                               FontFamily="/Resources/Fonts/#Kanit Medium"
+                               FontSize="26"/>
+                    </Grid>
 
                     <Button Command="{Binding SettingsCommand}"
                             Grid.Column="1">
