@@ -15,4 +15,13 @@ public partial class CalendarPage : UserControl
     {
         InitializeComponent();
     }
+
+    private async void RemoveClicked(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem menu &&
+            DataContext is CalendarPageViewModel vm)
+        {
+            await vm.RemoveAsync(menu.DataContext);
+        }
+    }
 }

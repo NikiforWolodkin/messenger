@@ -1,0 +1,438 @@
+﻿<UserControl x:Class="Messenger.Views.EventPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Messenger.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{StaticResource BackgroundBrush}">
+
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Border x:Name="Border" 
+            Background="Transparent"
+            BorderBrush="Transparent"
+            BorderThickness="0"
+            Padding="4,0">
+                <Grid Width="18" Height="18">
+                    <Path x:Name="Arrow"
+                  Fill="{StaticResource LessLightGrayBrush}"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Data="M 0 0 L 4 4 L 8 0 Z"/>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource LightGrayBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource LightPurpleBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="1"
+                    Grid.ColumnSpan="2">
+            <TextBlock Margin="27,7,0,0" Text="Event name"
+                       FontSize="22"
+                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+
+            <TextBox Margin="7,5,0,0" 
+                     Style="{StaticResource TextBox}"
+                     Text="{Binding Name}"/>
+
+            <Grid Margin="7,25,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Date"
+                               FontSize="22"
+                               Margin="27,0,0,0"
+                               FontFamily="/Resources/Fonts/#Kanit Medium"/>
+
+                    <Border BorderBrush="{StaticResource PurpleBrush}" 
+                            BorderThickness="1" 
+                            CornerRadius="20" 
+                            Background="Transparent" 
+                            Width="300" 
+                            Height="40"
+                            HorizontalAlignment="Left">
+                        <Grid HorizontalAlignment="Left"
+                              Margin="20,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Date display -->
+                            <TextBlock Grid.Column="0" 
+                                       Text="{Binding Date, StringFormat='dd.MM.yyyy'}"
+                                       VerticalAlignment="Center" />
+
+                            <!-- Calendar toggle button -->
+                            <ToggleButton Grid.Column="1" 
+                                          x:Name="CalendarToggle" 
+                                          Width="30" Height="30"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          Padding="0">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Image x:Name="calendarImage" 
+                                               Source="/Resources/Icons/Calendar.png" 
+                                               Width="18" Height="18"
+                                               RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <!-- Calendar popup -->
+                            <Popup IsOpen="{Binding IsChecked, ElementName=CalendarToggle}"
+                                   PlacementTarget="{Binding ElementName=CalendarToggle}"
+                                   Placement="Bottom" 
+                                   StaysOpen="False">
+                                <Border Background="{StaticResource BackgroundLightBrush}"
+                                        BorderBrush="{StaticResource GrayBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Padding="4">
+                                    <Calendar SelectedDate="{Binding Date}"
+                                              DisplayDate="{Binding Date}"
+                                              Background="{StaticResource DarkGrayBrush}" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Time"
+                               FontSize="22"
+                               FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox Grid.Column="0"
+                                  ItemsSource="{Binding AvailableStartTimes}"
+                                  SelectedItem="{Binding StartTime}"
+                                  Margin="0,5,5,0"
+                                  Background="{StaticResource BackgroundLightBrush}"
+                                  BorderBrush="{StaticResource GrayBrush}"
+                                  Foreground="White">
+
+                            <!-- Complete template that preserves dropdown functionality -->
+                            <ComboBox.Template>
+                                <ControlTemplate TargetType="ComboBox">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Main content area -->
+                                        <Border x:Name="ContentBorder"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="2">
+                                            <ContentPresenter Content="{TemplateBinding SelectedItem}"
+                                                              Margin="6,2,6,2"
+                                                              VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"/>
+                                        </Border>
+
+                                        <!-- Custom toggle button -->
+                                        <ToggleButton x:Name="ToggleButton"
+                                                      Grid.Column="1"
+                                                      Template="{StaticResource ComboBoxToggleButton}"
+                                                      Focusable="false"
+                                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      ClickMode="Press"/>
+
+                                        <!-- Popup part (essential for dropdown) -->
+                                        <Popup x:Name="PART_Popup"
+                                               Placement="Bottom"
+                                               IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                               PopupAnimation="Slide"
+                                               AllowsTransparency="True">
+                                            <Border x:Name="DropDownBorder"
+                                                    Background="{StaticResource BackgroundLightBrush}"
+                                                    BorderBrush="{StaticResource GrayBrush}"
+                                                    BorderThickness="1"
+                                                    Width="154"
+                                                    Height="200"
+                                                    CornerRadius="4">
+                                                <ScrollViewer>
+                                                    <ItemsPresenter/>
+                                                </ScrollViewer>
+                                            </Border>
+                                        </Popup>
+                                    </Grid>
+                                </ControlTemplate>
+                            </ComboBox.Template>
+
+                            <ComboBox.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" 
+                                                 Color="{StaticResource BackgroundLight}"/>
+                            </ComboBox.Resources>
+                        </ComboBox>
+
+                        <TextBlock Grid.Column="1" Text="to" VerticalAlignment="Center" Margin="5,0,5,0"/>
+
+                        <ComboBox Grid.Column="2"
+                                  ItemsSource="{Binding AvailableEndTimes}"
+                                  SelectedItem="{Binding EndTime}"
+                                  Margin="0,5,5,0"
+                                  Background="{StaticResource BackgroundLightBrush}"
+                                  BorderBrush="{StaticResource GrayBrush}"
+                                  Foreground="White">
+
+                            <!-- Complete template that preserves dropdown functionality -->
+                            <ComboBox.Template>
+                                <ControlTemplate TargetType="ComboBox">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Main content area -->
+                                        <Border x:Name="ContentBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="2">
+                                            <ContentPresenter Content="{TemplateBinding SelectedItem}"
+                                      Margin="6,2,6,2"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"/>
+                                        </Border>
+
+                                        <!-- Custom toggle button -->
+                                        <ToggleButton x:Name="ToggleButton"
+                              Grid.Column="1"
+                              Template="{StaticResource ComboBoxToggleButton}"
+                              Focusable="false"
+                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              ClickMode="Press"/>
+
+                                        <!-- Popup part (essential for dropdown) -->
+                                        <Popup x:Name="PART_Popup"
+                       Placement="Bottom"
+                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                       PopupAnimation="Slide"
+                       AllowsTransparency="True">
+                                            <Border x:Name="DropDownBorder"
+                            Background="{StaticResource BackgroundLightBrush}"
+                            BorderBrush="{StaticResource GrayBrush}"
+                            BorderThickness="1"
+                            Width="154"
+                            Height="200"
+                            CornerRadius="4">
+                                                <ScrollViewer>
+                                                    <ItemsPresenter/>
+                                                </ScrollViewer>
+                                            </Border>
+                                        </Popup>
+                                    </Grid>
+                                </ControlTemplate>
+                            </ComboBox.Template>
+
+                            <ComboBox.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" 
+                         Color="{StaticResource BackgroundLight}"/>
+                            </ComboBox.Resources>
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock Margin="27,25,0,0" Text="Agenda"
+                       FontSize="22"
+                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+
+            <TextBox Margin="7,5,0,0" 
+                     Style="{StaticResource TextBox}"
+                     Text="{Binding Agenda}"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"/>
+
+            <TextBlock Margin="27,25,0,0" Text="Search participants"
+                       FontSize="22"
+                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+
+            <TextBox Margin="7,5,0,0" 
+                     Style="{StaticResource TextBox}"
+                     Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding SearchUsersCommand}" Key="Enter"/>
+                </TextBox.InputBindings>
+            </TextBox>
+        </StackPanel>
+
+        <ListBox ItemsSource="{Binding Users}"
+                 Style="{StaticResource ListBox}"
+                 Grid.Column="1"
+                 Grid.ColumnSpan="2"
+                 x:Name="usersList"
+                 Grid.Row="1"
+                 Margin="0,20,0,0"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Width="50" Height="50" Stretch="UniformToFill"
+                               RenderOptions.BitmapScalingMode="HighQuality">
+                            <Image.Clip>
+                                <EllipseGeometry RadiusX="25" RadiusY="25" Center="25,25"/>
+                            </Image.Clip>
+                            <Image.Source>
+                                <BitmapImage RenderOptions.BitmapScalingMode="HighQuality" UriSource="{Binding AvatarUrl}" />
+                            </Image.Source>
+                        </Image>
+
+                        <Grid Grid.Column="1" Margin="10,-2,10,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding DisplayName}" Grid.Row="0"/>
+                            <TextBlock Text="{Binding Name, StringFormat=\@{0}}"
+                                       Grid.Row="1"
+                                       Foreground="{StaticResource LessLightGrayBrush}"/>
+                        </Grid>
+
+                        <Button Grid.Column="2"
+                                Width="120"
+                                Command="{Binding Path=DataContext.AddParticipantCommand, ElementName=usersList}"
+                                CommandParameter="{Binding}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource RoundPlusButtonPurple}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            Add
+                        </Button>
+
+                        <Button Grid.Column="2"
+                                Width="120"
+                                Command="{Binding Path=DataContext.RemoveParticipantCommand, ElementName=usersList}"
+                                CommandParameter="{Binding}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource RoundMinusButtonPurple}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            Remove
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border x:Name="Border" Padding="6,6" SnapsToDevicePixels="true" CornerRadius="5" Margin="0,2,0,2">
+                                    <Border.Background>
+                                        <SolidColorBrush x:Name="BorderBackground"
+                                         Color="{StaticResource BackgroundLight}" />
+                                    </Border.Background>
+                                    <ContentPresenter />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <EventTrigger RoutedEvent="Border.MouseEnter"
+                                  SourceName="Border">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                                Storyboard.TargetProperty="Color"
+                                                From="{StaticResource BackgroundLight}"
+                                                To="{StaticResource DarkGray}"
+                                                Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="Border.MouseLeave"
+                                  SourceName="Border">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                                Storyboard.TargetProperty="Color"
+                                                From="{StaticResource BackgroundLight}"
+                                                To="{StaticResource BackgroundLight}"
+                                                Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <StackPanel Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+            <Button Style="{StaticResource RoundButton}"
+                    Margin="7,0,0,0" 
+                    Width="150"
+                    Command="{Binding BackCommand}">
+                Back
+            </Button>
+
+            <Button Style="{StaticResource Button}"
+                Margin="20,0,0,0" 
+                Width="150"
+                Command="{Binding CreateEventCommand}">
+                Create Event
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

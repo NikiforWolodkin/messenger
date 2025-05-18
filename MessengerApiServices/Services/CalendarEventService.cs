@@ -143,7 +143,7 @@ public class CalendarEventService : ICalendarEventService
             var participantResponse = _mapper.Map<CalendarEventUserResponse>(participant);
 
             participantResponse.IsOrganizer = participant == calendarEvent.Organizer;
-            participantResponse.IsAttending = calendarEvent.Attendance
+            participantResponse.IsAttending = calendarEvent.Attendance?
                 .FirstOrDefault(attendance => attendance.User == participant)?
                 .IsAttending ?? null;
 

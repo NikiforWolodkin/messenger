@@ -46,6 +46,8 @@ namespace Messenger.ViewModels
             set { _selectedChat = value; OnPropertyChanged();}
         }
 
+        public DateTime Date => DateTime.Now.Date;
+
         public MainPageViewModel(IWindow window)
         {
             _window = window;

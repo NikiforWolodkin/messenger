@@ -47,4 +47,8 @@
     <DataTemplate DataType="{x:Type vm:CalendarPageViewModel}">
         <view:CalendarPage />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:EventPageViewModel}">
+        <view:EventPage />
+    </DataTemplate>
 </ResourceDictionary>

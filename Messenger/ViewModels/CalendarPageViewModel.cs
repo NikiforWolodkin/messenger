@@ -5,11 +5,19 @@ using System;
 using MessengerModels.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Messenger.MarkupModels;
+using System.Windows.Input;
+using Messenger.Interfaces;
+using Messenger.Services;
+using MessengerApiDomain.Models;
+using System.Threading.Tasks;
 
 namespace Messenger.ViewModels;
 
-public class CalendarPageViewModel : ViewModelBase
+public class CalendarPageViewModel : ViewModelBase, IDisposable
 {
+    private readonly IWindow _window;
+
     private ObservableCollection<CalendarEventResponse> _events = [];
     public ObservableCollection<CalendarEventResponse> Events 
     {
@@ -17,144 +25,90 @@ public class CalendarPageViewModel : ViewModelBase
         set { _events = value; OnPropertyChanged(); }
     }
 
-    public CalendarPageViewModel()
+    private DateTime _selectedDay = DateTime.Now;
+    public DateTime SelectedDay
     {
-        InitializeMockEvents();
-
-        InitializeHours();
-        CalculateEventLayout();
-        UpdateCurrentTimeIndicator();
-
-        // TODO: Dispose timer on exit
-        var timer = new System.Windows.Threading.DispatcherTimer();
-        timer.Interval = TimeSpan.FromMinutes(1);
-        timer.Tick += (s, e) => UpdateCurrentTimeIndicator();
-        timer.Start();
-    }
-
-    private void InitializeMockEvents()
-    {
-        var today = DateTime.Today; // Gets today at 00:00:00
-
-        var events = new[]
-        {
-            new CalendarEventResponse
-            {
-                Id = Guid.NewGuid(),
-                StartTime = today.AddHours(9), // 09:00 AM
-                DurationInMinutes = 60,
-                Name = "Team Meeting",
-                Agenda = "Discuss project timeline",
-                Participants = new List<CalendarEventUserResponse>
-                {
-                    new CalendarEventUserResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = "Alex Johnson",
-                        AvatarUrl = "https://previews.123rf.com/images/creativenature/creativenature1612/creativenature161200015/69636462-%C5%9Bredniowieczny-lynx-eurazjatycki-lynx-lynx-pochodzi-od-syberii-%C5%9Brodkowej-wschodniej-i.jpg",
-                        IsAttending = true,
-                        IsOrganizer = true
-                    },
-                    new CalendarEventUserResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = "Sam Wilson",
-                        AvatarUrl = "https://cdn-kjfbh.nitrocdn.com/NmkBGmJwBiCPDQidszuILLREQDRzBIzf/assets/images/optimized/rev-010ab0f/www.whitemarmotte.com/wp-content/uploads/2020/06/lynx_head.jpg",
-                        IsAttending = true,
-                        IsOrganizer = false
-                    }
-                }
-            },
-            new CalendarEventResponse
-            {
-                Id = Guid.NewGuid(),
-                StartTime = today.AddHours(9.5), // 09:30 AM
-                DurationInMinutes = 90,
-                Name = "Client Call",
-                Agenda = "Requirements review",
-                Participants = new List<CalendarEventUserResponse>
-                {
-                    new CalendarEventUserResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = "Taylor Smith (Client)",
-                        AvatarUrl = "https://previews.123rf.com/images/creativenature/creativenature1612/creativenature161200015/69636462-%C5%9Bredniowieczny-lynx-eurazjatycki-lynx-lynx-pochodzi-od-syberii-%C5%9Brodkowej-wschodniej-i.jpg",
-                        IsAttending = true,
-                        IsOrganizer = false
-                    },
-                    new CalendarEventUserResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = "Alex Johnson",
-                        AvatarUrl = "https://previews.123rf.com/images/creativenature/creativenature1612/creativenature161200015/69636462-%C5%9Bredniowieczny-lynx-eurazjatycki-lynx-lynx-pochodzi-od-syberii-%C5%9Brodkowej-wschodniej-i.jpg",
-                        IsAttending = true,
-                        IsOrganizer = true
-                    }
-                }
-            },
-            new CalendarEventResponse
-            {
-                Id = Guid.NewGuid(),
-                StartTime = today.AddHours(11), // 11:00 AM
-                DurationInMinutes = 30,
-                Name = "Standup",
-                Agenda = "Daily updates",
-                Participants = new List<CalendarEventUserResponse>
-                {
-                    new CalendarEventUserResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = "Morgan Lee",
-                        AvatarUrl = "https://cdn-kjfbh.nitrocdn.com/NmkBGmJwBiCPDQidszuILLREQDRzBIzf/assets/images/optimized/rev-010ab0f/www.whitemarmotte.com/wp-content/uploads/2020/06/lynx_head.jpg",
-                        IsAttending = true,
-                        IsOrganizer = false
-                    },
-                    new CalendarEventUserResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = "Alex Johnson",
-                        AvatarUrl = "https://previews.123rf.com/images/creativenature/creativenature1612/creativenature161200015/69636462-%C5%9Bredniowieczny-lynx-eurazjatycki-lynx-lynx-pochodzi-od-syberii-%C5%9Brodkowej-wschodniej-i.jpg",
-                        IsAttending = true,
-                        IsOrganizer = true
-                    },
-                    new CalendarEventUserResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = "Casey Kim",
-                        AvatarUrl = "https://cdn-kjfbh.nitrocdn.com/NmkBGmJwBiCPDQidszuILLREQDRzBIzf/assets/images/optimized/rev-010ab0f/www.whitemarmotte.com/wp-content/uploads/2020/06/lynx_head.jpg",
-                        IsAttending = false,
-                        IsOrganizer = false
-                    }
-                }
-            },
-            new CalendarEventResponse
-            {
-                Id = Guid.NewGuid(),
-                StartTime = today.AddHours(10.25), // 10:15 AM
-                DurationInMinutes = 45,
-                Name = "Lunch Break",
-                Agenda = "",
-                Participants = new List<CalendarEventUserResponse>
-                {
-                    new CalendarEventUserResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = "Alex Johnson",
-                        AvatarUrl = "https://previews.123rf.com/images/creativenature/creativenature1612/creativenature161200015/69636462-%C5%9Bredniowieczny-lynx-eurazjatycki-lynx-lynx-pochodzi-od-syberii-%C5%9Brodkowej-wschodniej-i.jpg",
-                        IsAttending = true,
-                        IsOrganizer = true
-                    }
-                }
-            }
-        };
-
-        foreach (var e in events)
-        {
-            Events.Add(e);
+        get => _selectedDay;
+        set 
+        { 
+            _selectedDay = value; 
+            OnPropertyChanged(); 
+            OnPropertyChanged(nameof(IsCurrentDay));
+            GetEventsAsync();
         }
     }
 
+    public ICommand BackCommand { get; set; }
+    public ICommand NewEventCommand { get; set; }
+    public ICommand YesCommand { get; set; }
+    public ICommand NoCommand { get; set; }
+
+    public CalendarPageViewModel(IWindow window)
+    {
+        _window = window;
+
+        BackCommand = new RelayCommand(Back);
+        NewEventCommand = new RelayCommand(NewEvent);
+        YesCommand = new RelayCommand(YesAsync);
+        NoCommand = new RelayCommand(NoAsync);
+
+        InitializeHours();
+        InitializeTimer();
+        UpdateCurrentTimeIndicator();
+
+        GetEventsAsync();
+    }
+
+    public async Task RemoveAsync(object obj)
+    {
+        if (obj is CalendarEventResponse eventResponse)
+        {
+            await EventService.DeleteAsync(eventResponse.Id);
+
+            await GetEventsAsync();
+        }
+    }
+
+    private async Task GetEventsAsync()
+    {
+        Events = [.. await EventService.GetUserEventsForDayAsync(SelectedDay)];
+
+        CalculateEventLayout();
+    }
+
+    public async void YesAsync(object obj)
+    {
+        if (obj is Guid id)
+        {
+            await EventService.SetAttendanceAsync(id, true);
+
+            await GetEventsAsync();
+        }
+    }
+
+    public async void NoAsync(object obj)
+    {
+        if (obj is Guid id)
+        {
+            await EventService.SetAttendanceAsync(id, false);
+
+            await GetEventsAsync();
+        }
+    }
+
+    private void Back(object obj)
+    {
+        _window.NavigateToMain();
+    }
+
+    private void NewEvent(object obj)
+    {
+        _window.NavigateToNewEvent();
+    }
+
     #region Calendar display logic
+    private System.Windows.Threading.DispatcherTimer _timer;
+
     public List<string> Hours { get; } = [];
     public ObservableCollection<CalendarEventModel> EventModels { get; } = [];
 
@@ -165,12 +119,7 @@ public class CalendarPageViewModel : ViewModelBase
         set { _currentTimePosition = value; OnPropertyChanged(); }
     }
 
-    private bool _isCurrentDay = true;
-    public bool IsCurrentDay
-    {
-        get => _isCurrentDay;
-        set { _isCurrentDay = value; OnPropertyChanged(); }
-    }
+    public bool IsCurrentDay => SelectedDay.Date == DateTime.Now.Date;
 
     private void InitializeHours()
     {
@@ -178,6 +127,19 @@ public class CalendarPageViewModel : ViewModelBase
         {
             Hours.Add($"{hour:00}:00");
         }
+    }
+
+    void InitializeTimer()
+    {
+        _timer = new System.Windows.Threading.DispatcherTimer();
+        _timer.Interval = TimeSpan.FromMinutes(1);
+        _timer.Tick += OnTimerTick;
+        _timer.Start();
+    }
+
+    void OnTimerTick(object? sender, EventArgs e)
+    {
+        UpdateCurrentTimeIndicator();
     }
 
     private void UpdateCurrentTimeIndicator()
@@ -191,6 +153,8 @@ public class CalendarPageViewModel : ViewModelBase
 
     private void CalculateEventLayout()
     {
+        EventModels.Clear();
+
         // Group overlapping events
         var eventGroups = new List<List<CalendarEventResponse>>();
         var sortedEvents = Events.OrderBy(e => e.StartTime).ToList();
@@ -270,14 +234,11 @@ public class CalendarPageViewModel : ViewModelBase
             Height = evt.DurationInMinutes
         };
     }
-    #endregion
-}
 
-public class CalendarEventModel
-{
-    public string EventText { get; set; }
-    public int Column { get; set; }
-    public int ColumnSpan { get; set; }
-    public double Top { get; set; }
-    public double Height { get; set; }
+    public void Dispose()
+    {
+        _timer.Stop();
+        _timer.Tick -= OnTimerTick;
+    }
+    #endregion
 }

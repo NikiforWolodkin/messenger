@@ -31,6 +31,7 @@
     <None Remove="Resources\Fonts\Kanit-ThinItalic.ttf" />
     <None Remove="Resources\Icons\Attachment.png" />
     <None Remove="Resources\Icons\Ban.png" />
+    <None Remove="Resources\Icons\calendar.png" />
     <None Remove="Resources\Icons\Delete.png" />
     <None Remove="Resources\Icons\Image.png" />
     <None Remove="Resources\Icons\Like.png" />
@@ -104,6 +105,7 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\Attachment.png" />
     <Resource Include="Resources\Icons\Ban.png" />
+    <Resource Include="Resources\Icons\Calendar.png" />
     <Resource Include="Resources\Icons\Delete.png" />
     <Resource Include="Resources\Icons\Image.png" />
     <Resource Include="Resources\Icons\Like.png" />

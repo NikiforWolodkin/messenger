@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Messenger.Views"
              xmlns:utils="clr-namespace:Messenger.Utilities"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="450" d:DesignWidth="1000"
              Background="{StaticResource BackgroundBrush}">
     <UserControl.Resources>
         <utils:ColumnSpanToWidthConverter x:Key="ColumnSpanToWidthConverter" />
@@ -62,10 +62,22 @@
                 </ItemsControl>
 
                 <!-- Current time line -->
-                <Line X1="60" X2="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}"
-                      Y1="{Binding CurrentTimePosition}" Y2="{Binding CurrentTimePosition}"
+                <Line X1="60" 
+                      X2="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}"
+                      Y1="{Binding CurrentTimePosition}" 
+                      Y2="{Binding CurrentTimePosition}"
                       Stroke="{StaticResource LightPurpleBrush}"
-                      StrokeThickness="1"/>
+                      StrokeThickness="1">
+                    <Line.Style>
+                        <Style TargetType="Line">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCurrentDay}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Line.Style>
+                </Line>
 
                 <Canvas Margin="60,0,0,0">
                     <!-- Events -->
@@ -111,6 +123,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Button Style="{StaticResource RoundButton}"
+                    Command="{Binding BackCommand}"
                     HorizontalAlignment="Stretch"
                     Margin="0,0,0,12">
                 Back
@@ -119,25 +132,81 @@
             <Border Grid.Row="1"
                     CornerRadius="8"
                     Background="{StaticResource DarkGrayBrush}">
-                <Grid>
+                <Grid Margin="12,12,12,0">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Button Margin="0,12,0,0"
+
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Date display -->
+                        <TextBlock Grid.Column="0" 
+                                   Text="{Binding SelectedDay, StringFormat='dd.MM.yyyy'}"
+                                   VerticalAlignment="Center" />
+
+                        <!-- Calendar toggle button -->
+                        <ToggleButton Grid.Column="1" 
+                                      x:Name="CalendarToggle" 
+                                      Width="30" Height="30"
+                                      Background="Transparent"
+                                      BorderThickness="0"
+                                      Padding="0">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Image x:Name="calendarImage" 
+                                           Source="/Resources/Icons/Calendar.png" 
+                                           Width="18" Height="18"
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+
+                        <!-- Calendar popup -->
+                        <Popup IsOpen="{Binding IsChecked, ElementName=CalendarToggle}"
+                               PlacementTarget="{Binding ElementName=CalendarToggle}"
+                               Placement="Bottom" 
+                               StaysOpen="False">
+                            <Border Background="{StaticResource BackgroundLightBrush}"
+                                    BorderBrush="{StaticResource GrayBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="4"
+                                    Padding="4">
+                                <Calendar SelectedDate="{Binding SelectedDay}"
+                                          DisplayDate="{Binding SelectedDay}"
+                                          Background="{StaticResource DarkGrayBrush}" />
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <Button Grid.Row="1"
+                            Margin="0,12,0,0"
+                            Command="{Binding NewEventCommand}"
                             Style="{StaticResource RoundPlusButton}"
-                            HorizontalAlignment="Center">
+                            HorizontalAlignment="Center" VerticalAlignment="Top">
                         New event
                     </Button>
 
-                    <ScrollViewer Grid.Row="1"
+                    <ScrollViewer Grid.Row="2"
                                   VerticalScrollBarVisibility="Hidden"
                                   Margin="0,12,0,0">
-                        <ItemsControl ItemsSource="{Binding Events}">
+                        <ItemsControl ItemsSource="{Binding Events}"
+                                      x:Name="eventsList">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Padding="12" Margin="12,0,12,12" CornerRadius="6"
+                                    <Border Padding="12" Margin="0,0,0,12" CornerRadius="6"
                                             Background="{StaticResource GrayBrush}">
+                                        <Border.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Delete" Click="RemoveClicked" />
+                                            </ContextMenu>
+                                        </Border.ContextMenu>
+                                        
                                         <StackPanel>
                                             <!-- Event Name -->
                                             <TextBlock Text="{Binding Name}" 
@@ -231,12 +300,16 @@
 
                                             <StackPanel Orientation="Horizontal">
                                                 <Button Style="{StaticResource RoundButton}"
+                                                        Command="{Binding Path=DataContext.YesCommand, ElementName=eventsList}"
+                                                        CommandParameter="{Binding Id}"
                                                         Width="80"
                                                         Margin="0">
                                                     Yes
                                                 </Button>
 
                                                 <Button Style="{StaticResource RoundButton}"
+                                                        Command="{Binding Path=DataContext.NoCommand, ElementName=eventsList}"
+                                                        CommandParameter="{Binding Id}"
                                                         Width="80"
                                                         Margin="6,0,0,0">
                                                     No

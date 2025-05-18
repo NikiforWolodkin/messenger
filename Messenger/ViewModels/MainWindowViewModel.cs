@@ -40,6 +40,11 @@ public class MainWindowViewModel : ViewModelBase, IWindow
 
     public void NavigateToCalendar()
     {
-        CurrentView = new CalendarPageViewModel();
+        CurrentView = new CalendarPageViewModel(this);
+    }
+
+    public void NavigateToNewEvent()
+    {
+        CurrentView = new EventPageViewModel(this);
     }
 }

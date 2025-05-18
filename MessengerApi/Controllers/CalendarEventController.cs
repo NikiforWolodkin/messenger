@@ -20,7 +20,7 @@ public class CalendarEventController : ControllerBase
         _eventService = eventService;
     }
 
-    [HttpGet]
+    [HttpPost("by-day")]
     public async Task<IActionResult> GetAsync(CalendarEventsForUserByDayRequest request)
     {
         var id = JwtClaimsHelper.GetId(User.Identity);
