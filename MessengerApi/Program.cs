@@ -1,5 +1,6 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using MessengerApi.Bots;
 using MessengerApi.Hubs;
 using MessengerApi.Middleware;
 using MessengerApiDomain.RepositoryInterfaces;
@@ -57,6 +58,8 @@ builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<ICalendarEventService, CalendarEventService>();
+
+builder.Services.AddScoped<EventBot>();
 
 builder.Services.AddDbContextPool<DataContext>(options =>
 {

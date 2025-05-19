@@ -93,7 +93,7 @@
                             <TextBlock Text="{Binding Text}"
                                        TextWrapping="Wrap"
                                        Margin="10,4,10,4"
-                                       MaxWidth="584" />
+                                       MaxWidth="540" />
 
                             <Image Source="{Binding ImageUrl}"
                                    Margin="10"
@@ -132,7 +132,7 @@
                                            FontSize="16"
                                            TextWrapping="Wrap"
                                            Margin="10,4,10,4"
-                                           MaxWidth="584"
+                                           MaxWidth="540"
                                            VerticalAlignment="Center"/>
 
                                 <StackPanel.Style>

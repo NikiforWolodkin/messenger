@@ -83,7 +83,18 @@ namespace MessengerApiInfrasctructure.Data
                 IsAdmin = true,
             };
 
+            var eventBot = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "EventBot",
+                DisplayName = "Event bot",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("EventBot"),
+                AvatarUrl = "http://127.0.0.1:10000/devstoreaccount1/messenger-container/default-avatar.png",
+                IsAdmin = false,
+            };
+
             modelBuilder.Entity<User>().HasData(moderator);
+            modelBuilder.Entity<User>().HasData(eventBot);
         }
     }
 }

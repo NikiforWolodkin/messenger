@@ -12,6 +12,7 @@ namespace MessengerApiServices.Interfaces
     {
         Task<ICollection<ChatResponse>> GetUserChatsAsync(Guid userId);
         Task<ICollection<UserResponse>> GetChatUsers(Guid id);
+        Task<Guid> GetOrCreateChatBetweenUsersAsync(Guid firstUserId, Guid secondUserId);
         Task<ChatResponse> AddConversationAsync(Guid userId, ConversationAddRequest request);
         Task<ChatResponse> AddGroupAsync(Guid userId, GroupAddRequest request);
     }

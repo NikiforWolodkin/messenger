@@ -9,6 +9,7 @@ namespace MessengerApiDomain.RepositoryInterfaces
 {
     public interface IChatRepository
     {
+        Task<Chat?> GetChatBetweenUsersAsync(Guid firstUserId, Guid secondUserId);
         Task<ICollection<Chat>> GetAllAsync();
         Task<ICollection<Chat>> GetUserChatsAsync(User user);
         Task AddAsync(Chat chat);

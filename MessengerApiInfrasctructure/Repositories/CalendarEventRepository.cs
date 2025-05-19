@@ -37,7 +37,7 @@ public class CalendarEventRepository : ICalendarEventRepository
     async Task<ICollection<CalendarEvent>> ICalendarEventRepository.GetUserEventsForDayAsync(User user, DateTime day)
     {
         return await _context.CalendarEvents
-            .Where(calendarEvent => calendarEvent.Organizer == user)
+            .Where(calendarEvent => calendarEvent.Participants.Contains(user))
             .Where(calendarEvent => calendarEvent.StartTime.Date == day.Date)
             .OrderBy(calendarEvent => calendarEvent.StartTime)
             .ToListAsync();

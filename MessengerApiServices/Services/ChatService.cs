@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using MessengerApiDomain.Enums;
 using MessengerApiDomain.Models;
 using MessengerApiDomain.RepositoryInterfaces;
@@ -27,6 +28,30 @@ namespace MessengerApiServices.Services
             _userRepository = userRepository;
             _userService = userService;
             _mapper = mapper;
+        }
+
+        async Task<Guid> IChatService.GetOrCreateChatBetweenUsersAsync(Guid firstUserId, Guid secondUserId)
+        {
+            var chat = await _chatRepository.GetChatBetweenUsersAsync(firstUserId, secondUserId);
+
+            if (chat is null)
+            {
+                var firstUser = await _userRepository.GetByIdAsync(firstUserId)
+                    ?? throw new NotFoundException("User not found.");
+
+                var secondUser = await _userRepository.GetByIdAsync(secondUserId)
+                    ?? throw new NotFoundException("User not found.");
+
+                chat = new Chat
+                {
+                    ChatType = ChatType.Conversation,
+                    Participants = new List<User> { firstUser, secondUser },
+                };
+
+                await _chatRepository.AddAsync(chat);
+            }
+            
+            return chat.Id;
         }
 
         async Task<ChatResponse> IChatService.AddConversationAsync(Guid userId, ConversationAddRequest request)

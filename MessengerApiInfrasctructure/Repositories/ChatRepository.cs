@@ -36,6 +36,20 @@ namespace MessengerApiInfrasctructure.Repositories
             return await _context.Chats.FirstOrDefaultAsync(chat => chat.Id == id);
         }
 
+        async Task<Chat?> IChatRepository.GetChatBetweenUsersAsync(Guid firstUserId, Guid secondUserId)
+        {
+            var chats = await _context.Chats
+                .Where(chat => chat.ChatType == MessengerApiDomain.Enums.ChatType.Conversation)
+                .ToListAsync();
+                
+            return chats.FirstOrDefault(chat =>
+                {
+                    var participantIds = chat.Participants.Select(participant => participant.Id);
+
+                    return participantIds.Contains(firstUserId) && participantIds.Contains(secondUserId);
+                });
+        }
+
         async Task<ICollection<Chat>> IChatRepository.GetUserChatsAsync(User user)
         {
             return await _context.Chats

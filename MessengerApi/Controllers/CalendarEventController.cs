@@ -1,4 +1,5 @@
-﻿using MessengerApi.Helpers;
+﻿using MessengerApi.Bots;
+using MessengerApi.Helpers;
 using MessengerApiDomain.Models;
 using MessengerApiServices.Exceptions;
 using MessengerApiServices.Interfaces;
@@ -13,11 +14,13 @@ namespace MessengerApi.Controllers;
 [ApiController]
 public class CalendarEventController : ControllerBase
 {
+    private readonly EventBot _eventBot;
     private readonly ICalendarEventService _eventService;
 
-    public CalendarEventController(ICalendarEventService eventService)
+    public CalendarEventController(ICalendarEventService eventService, EventBot eventBot)
     {
         _eventService = eventService;
+        _eventBot = eventBot;
     }
 
     [HttpPost("by-day")]
@@ -34,6 +37,8 @@ public class CalendarEventController : ControllerBase
         var id = JwtClaimsHelper.GetId(User.Identity);
 
         var calendarEvent = await _eventService.AddAsync(id, request);
+
+        await _eventBot.NotifyUsersOfNewEventAsync(calendarEvent);
 
         return Created($"api/events/{calendarEvent.Id}", calendarEvent);
     }
