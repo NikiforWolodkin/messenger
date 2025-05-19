@@ -86,7 +86,7 @@ namespace MessengerApi.Controllers
         {
             if (await _userService.UserExistsAsync(request.Name))
             {
-                return BadRequest(new ErrorResponse("This username is already in use."));
+                return BadRequest(new ErrorResponse("Этот логин уже занят."));
             }
 
             var user = await _userService.AddAsync(request);
@@ -104,7 +104,7 @@ namespace MessengerApi.Controllers
 
             if (user?.IsAdmin is false)
             {
-                return new ObjectResult(new ErrorResponse("You are not an admin and can not perform this operation.")) { StatusCode = 403 };
+                return new ObjectResult(new ErrorResponse("Эта операция доступна только администратору.")) { StatusCode = 403 };
             }
 
             await _userService.BanUserAndDeleteAllMessagesAsync(messageId, id);

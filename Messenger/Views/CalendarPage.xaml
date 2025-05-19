@@ -211,7 +211,7 @@
                                             <!-- Event Name -->
                                             <TextBlock Text="{Binding Name}" 
                                                        FontSize="18"
-                                                       FontFamily="/Resources/Fonts/#Rubik Medium"
+                                                       FontFamily="/Resources/Fonts/#Manrope Medium"
                                                        Foreground="White"
                                                        TextWrapping="Wrap"
                                                        Margin="0,0,0,4"/>
@@ -257,11 +257,11 @@
                                                                        FontSize="14">
                                                                 <TextBlock.Style>
                                                                     <Style TargetType="TextBlock">
-                                                                        <Setter Property="FontFamily" Value="/Resources/Fonts/#Rubik Light"/>
+                                                                        <Setter Property="FontFamily" Value="/Resources/Fonts/#Manrope Light"/>
                                                                         <Setter Property="Foreground" Value="White"/>
                                                                         <Style.Triggers>
                                                                             <DataTrigger Binding="{Binding IsOrganizer}" Value="True">
-                                                                                <Setter Property="FontFamily" Value="/Resources/Fonts/#Rubik Bold"/>
+                                                                                <Setter Property="FontFamily" Value="/Resources/Fonts/#Manrope Bold"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
                                                                     </Style>

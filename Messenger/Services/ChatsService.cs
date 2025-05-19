@@ -36,7 +36,7 @@ namespace Messenger.Services
 
             if (!result.IsSuccessful)
             {
-                MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(result.Error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return result.Response;

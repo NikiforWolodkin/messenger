@@ -11,14 +11,14 @@
             
         </Border>
 
-        <StackPanel Width="300" Height="310">
+        <StackPanel Width="300" Height="320">
             <TextBlock Text="Мессенджер"
                        HorizontalAlignment="Center"
-                       FontFamily="/Resources/Fonts/#Rubik Medium"
+                       FontFamily="/Resources/Fonts/#Manrope Bold"
                        FontSize="32"/>
 
             <TextBlock Text="Логин:"
-                       Margin="20,10,0,5"/>
+                       Margin="20,20,0,5"/>
 
             <TextBox Style="{StaticResource TextBox}"
                      Text="{Binding Login}"/>

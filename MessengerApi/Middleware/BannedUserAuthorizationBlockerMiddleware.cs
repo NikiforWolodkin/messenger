@@ -40,7 +40,7 @@ namespace MessengerApi.Middleware
 
                 string result = JsonSerializer.Serialize(new ErrorResponse
                 {
-                    Message = "You are banned and can not use the service anymore.",
+                    Message = "Вы были заблокированы и не можете пользоваться сервисом.",
                 });
 
                 await context.Response.WriteAsync(result);

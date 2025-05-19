@@ -58,7 +58,7 @@ namespace Messenger.ViewModels.Settings
         {
             if (obj is MessageResponse message)
             {
-                var result = MessageBox.Show("Are you sure you want to delete this message?", "Confirmation", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("Вы уверены, что хотите удалить это сообщение?", "Подтверждение", MessageBoxButton.YesNo);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -73,7 +73,7 @@ namespace Messenger.ViewModels.Settings
         {
             if (obj is MessageResponse message)
             {
-                var result = MessageBox.Show("Are you sure you want to ban this user and delete their messages?", "Confirmation", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("Вы уверены, что хотите заблокировать пользователя и удалить его сообщения?", "Подтверждение", MessageBoxButton.YesNo);
 
                 if (result == MessageBoxResult.Yes)
                 {

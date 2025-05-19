@@ -90,7 +90,7 @@ public class CalendarEventService : ICalendarEventService
 
         if (calendarEvent.Organizer != user)
         {
-            throw new UnauthorizedException("You are not the organizer and can not delete this event.");
+            throw new UnauthorizedException("Вы не являетесь организатором мероприятия и не можете его удалить.");
         }
 
         await _eventRepository.RemoveAsync(calendarEvent);

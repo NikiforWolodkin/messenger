@@ -234,7 +234,7 @@ namespace Messenger.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -243,7 +243,7 @@ namespace Messenger.ViewModels
         {
             if (obj is MessageResponse message)
             {
-                var result = MessageBox.Show("Are you sure you want to report this message?", "Confirmation", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("Вы уверены, что хотите пожаловаться на это сообщение?", "Подтверждение", MessageBoxButton.YesNo);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -256,7 +256,7 @@ namespace Messenger.ViewModels
         {
             if (obj is MessageResponse message)
             {
-                var result = MessageBox.Show("Are you sure you want to delete this message?", "Confirmation", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("Вы уверены, что хотите удалить это сообщение?", "Подтверждение", MessageBoxButton.YesNo);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -264,11 +264,11 @@ namespace Messenger.ViewModels
                     {
                         await MessagesService.DeleteMessageAsync(message.Id);
 
-                        message.Text = "[Message deleted]";
+                        message.Text = "[Удаленное сообщение]";
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

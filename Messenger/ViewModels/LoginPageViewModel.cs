@@ -53,7 +53,7 @@ namespace Messenger.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
                 {
-                    MessageBox.Show("Login and password can't be empty.", "Error");
+                    MessageBox.Show("Логин и пароль не могут быть пустые.", "Ошибка");
 
                     return;
                 }
@@ -64,7 +64,7 @@ namespace Messenger.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return;
             }

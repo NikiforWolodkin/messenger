@@ -34,20 +34,20 @@ namespace Messenger
             {
                 if (httpEx.ErrorCode == HttpStatusCode.Unauthorized)
                 {
-                    MessageBox.Show($"An authorization error occurred: {httpEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Ошибка авторизации: {httpEx.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     AuthorizationProvider.LogOutAndGoToLogin();
                 }
             }
             else if (e.Exception is LoggedOutException loggedOutEx)
             {
-                MessageBox.Show($"An authorization error occurred: {loggedOutEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка авторизации: {loggedOutEx.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 AuthorizationProvider.LogOutAndGoToLogin();
             }
             else
             {
-                MessageBox.Show($"An error occurred: {e.Exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка: {e.Exception.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             e.Handled = true;
         }
@@ -57,22 +57,22 @@ namespace Messenger
             // Handle HttpException differently
             if (e.ExceptionObject is HttpException httpEx)
             {
-                if (httpEx.ErrorCode == HttpStatusCode.Unauthorized || httpEx.ErrorCode == HttpStatusCode.Forbidden)
+                if (httpEx.ErrorCode == HttpStatusCode.Unauthorized)
                 {
-                    MessageBox.Show($"An authorization error occurred: {httpEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Ошибка авторизации: {httpEx.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     AuthorizationProvider.LogOutAndGoToLogin();
                 }
             }
             else if (e.ExceptionObject is LoggedOutException loggedOutEx)
             {
-                MessageBox.Show($"An authorization error occurred: {loggedOutEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка авторизации: {loggedOutEx.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 AuthorizationProvider.LogOutAndGoToLogin();
             }
             else
             {
-                MessageBox.Show($"An error occurred: {(e.ExceptionObject as Exception).Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка: {(e.ExceptionObject as Exception).Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

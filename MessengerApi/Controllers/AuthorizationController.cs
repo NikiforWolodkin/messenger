@@ -29,15 +29,15 @@ namespace MessengerApi.Controllers
 
             if (!verificationResult)
             {
-                return BadRequest(new ErrorResponse("Login or password is incorrect."));
+                return BadRequest(new ErrorResponse("Неверный логин или пароль."));
             }
 
             var user = await _userService.GetByNameAsync(request.Name)
-                ?? throw new NotFoundException("User not found.");
+                ?? throw new NotFoundException("Пользователь не найден.");
 
             if (user.IsBanned)
             {
-                return BadRequest(new ErrorResponse("You are banned and can not log in anymore."));
+                return BadRequest(new ErrorResponse("Вы были заблокированы и не можете пользоваться сервисом."));
             }
 
             var token = CreateToken(user.Id, user.Name);

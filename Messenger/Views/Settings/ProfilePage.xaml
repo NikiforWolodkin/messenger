@@ -9,12 +9,12 @@
         <StackPanel Margin="7,0,0,0">
             <TextBlock Margin="20,7,0,0" Text="Мой профиль"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
+                       FontFamily="/Resources/Fonts/#Manrope Medium"/>
 
             <TextBlock Margin="20,5,0,0" Text="{Binding Profile.Name, StringFormat=\@{0}}"
                        FontSize="22"
                        Foreground="{StaticResource LessLightGrayBrush}"
-                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
+                       FontFamily="/Resources/Fonts/#Manrope Medium"/>
 
             <Grid Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
@@ -45,7 +45,7 @@
             
             <TextBlock Margin="20,20,0,0" Text="Отображаемое имя"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
+                       FontFamily="/Resources/Fonts/#Manrope Medium"/>
 
             <TextBox Margin="0,5,0,0" 
                      Style="{StaticResource TextBox}"
@@ -54,14 +54,14 @@
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding SaveCommand}"
-                    Width="110"
+                    Width="130"
                     Margin="0,20,0,0">
                 Сохранить
             </Button>
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding SignOutCommand}"
-                    Width="110"
+                    Width="130"
                     Margin="0,20,0,0">
                 Выйти
             </Button>

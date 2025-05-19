@@ -16,7 +16,7 @@
         <StackPanel>
             <TextBlock Margin="27,7,0,0" Text="Жалобы"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
+                       FontFamily="/Resources/Fonts/#Manrope Medium"/>
 
         </StackPanel>
 

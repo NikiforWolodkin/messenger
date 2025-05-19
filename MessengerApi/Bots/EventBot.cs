@@ -47,7 +47,14 @@ public class EventBot
         {
             chatIds.Add(await _chatService.GetOrCreateChatBetweenUsersAsync(user.Id, bot.Id));
         }
-        var message = $"Скоро начинается мероприятие: {calendarEvent.Name}, {calendarEvent.StartTime} - {calendarEvent.EndTime}; присутствующие: {string.Join(", ", calendarEvent.Participants.Where(participant => participant.IsAttending == true).Select(participant => participant.DisplayName))}";
+
+        var message = $"Скоро начинается мероприятие: {calendarEvent.Name}, {calendarEvent.StartTime:HH:mm} - {calendarEvent.EndTime:HH:mm}";
+
+        if (calendarEvent.Participants.Any(participant => participant.IsAttending == true))
+        {
+            message += $"; присутствующие: {string.Join(", ", calendarEvent.Participants.Where(participant => participant.IsAttending == true).Select(participant => participant.DisplayName))}";
+        }
+
         foreach (var chatId in chatIds)
         {
             var response = await _messageService.AddAsync(bot.Id, new()
@@ -75,7 +82,7 @@ public class EventBot
             chatIds.Add(await _chatService.GetOrCreateChatBetweenUsersAsync(user.Id, bot.Id));
         }
         
-        var message = $"Вас пригласили на мероприятие: {calendarEvent.Name} - {calendarEvent.Agenda}, {calendarEvent.StartTime} - {calendarEvent.EndTime}; участники: {string.Join(", ", calendarEvent.Participants.Select(participant => participant.DisplayName))}";
+        var message = $"Вас пригласили на мероприятие: {calendarEvent.Name}{(string.IsNullOrWhiteSpace(calendarEvent.Agenda) ? "" : $" - {calendarEvent.Agenda}")}, {calendarEvent.StartTime:dd.MM.yyyy} {calendarEvent.StartTime:HH:mm} - {calendarEvent.EndTime:HH:mm}; участники: {string.Join(", ", calendarEvent.Participants.Select(participant => participant.DisplayName))}";
 
         foreach (var chatId in chatIds)
         {

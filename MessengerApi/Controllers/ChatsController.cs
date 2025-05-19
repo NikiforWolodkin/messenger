@@ -41,7 +41,7 @@ namespace MessengerApi.Controllers
 
             if (await _userService.IsBlacklistedAsync(id, request.userId))
             {
-                return BadRequest(new ErrorResponse("You can't start this conversation because of the blacklist policy."));
+                return BadRequest(new ErrorResponse("Вы не можете начать этот чат из-за политики черного списка."));
             }
 
             var chat = await _chatService.AddConversationAsync(id, request);

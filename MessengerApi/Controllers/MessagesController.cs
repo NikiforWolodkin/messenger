@@ -85,7 +85,7 @@ namespace MessengerApi.Controllers
 
             if (!user.IsAdmin)
             {
-                return new ObjectResult(new ErrorResponse("You are not an admin and can not perform this operation.")) { StatusCode = 403 };
+                return new ObjectResult(new ErrorResponse("Эта операция доступна только администратору.")) { StatusCode = 403 };
             }
 
             await _messageService.RemoveUserReportsAsync(messageId, id);

@@ -183,7 +183,7 @@ namespace MessengerApiServices.Services
                 }
 
                 message.UserReports.Clear();
-                message.Text = "[Message deleted]";
+                message.Text = "[Удаленное сообщение]";
                 message.ImageUrl = null;
             }
 

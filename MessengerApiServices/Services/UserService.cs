@@ -209,12 +209,12 @@ namespace MessengerApiServices.Services
 
             user.IsBanned = true;
 
-            user.DisplayName = "[Banned user]";
+            user.DisplayName = "[Заблокированный пользователь]";
             user.AvatarUrl = "http://127.0.0.1:10000/devstoreaccount1/messenger-container/default-avatar.png";
 
             foreach (var userMessage in user.Messages)
             {
-                userMessage.Text = "[Deleted message]";
+                userMessage.Text = "[Удаленное сообщение]";
                 userMessage.ImageUrl = null;
                 userMessage.UserReports.Clear();
             }

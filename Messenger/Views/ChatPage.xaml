@@ -128,7 +128,7 @@
 
                                 <TextBlock Text="{Binding ImageUrl, Converter={StaticResource NameConverter}}"
                                            Foreground="White"
-                                           FontFamily="/Resources/Fonts/#Rubik Regular"
+                                           FontFamily="/Resources/Fonts/#Manrope Regular"
                                            FontSize="16"
                                            TextWrapping="Wrap"
                                            Margin="10,4,10,4"
@@ -228,7 +228,7 @@
                          Foreground="White"
                          VerticalAlignment="Center"
                          FontSize="16"
-                         FontFamily="/Resources/Fonts/#Rubik Regular"
+                         FontFamily="/Resources/Fonts/#Manrope Regular"
                          Margin="15,0,15,0">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
@@ -265,7 +265,7 @@
 
                     <TextBlock Text="{Binding AttachmentName}"
                                Foreground="White"
-                               FontFamily="/Resources/Fonts/#Rubik Regular"
+                               FontFamily="/Resources/Fonts/#Manrope Regular"
                                FontSize="16"
                                Margin="15,0,15,0"
                                VerticalAlignment="Center"/>

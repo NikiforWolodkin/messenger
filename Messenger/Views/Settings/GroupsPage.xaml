@@ -21,7 +21,7 @@
         <StackPanel>
             <TextBlock Margin="27,7,0,0" Text="Имя группы"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
+                       FontFamily="/Resources/Fonts/#Manrope Medium"/>
 
             <TextBox Margin="7,5,0,0" 
                      Style="{StaticResource TextBox}"
@@ -33,7 +33,7 @@
 
             <TextBlock Margin="27,25,0,0" Text="Поиск пользователей"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
+                       FontFamily="/Resources/Fonts/#Manrope Medium"/>
 
             <TextBox Margin="7,5,0,0" 
                      Style="{StaticResource TextBox}"
@@ -124,7 +124,7 @@
 
                         </Grid>
                         <Button Grid.Column="2"
-                                Width="120"
+                                Width="140"
                                 Command="{Binding Path=DataContext.AddParticipantCommand, ElementName=usersList}"
                                 CommandParameter="{Binding}">
                             <Button.Style>
@@ -141,7 +141,7 @@
                         </Button>
 
                         <Button Grid.Column="2"
-                                Width="120"
+                                Width="140"
                                 Command="{Binding Path=DataContext.RemoveParticipantCommand, ElementName=usersList}"
                                 CommandParameter="{Binding}">
                             <Button.Style>

@@ -11,16 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\Rubik-Black.ttf" />
-    <None Remove="Resources\Fonts\Rubik-BlackItalic.ttf" />
-    <None Remove="Resources\Fonts\Rubik-Bold.ttf" />
-    <None Remove="Resources\Fonts\Rubik-BoldItalic.ttf" />
-    <None Remove="Resources\Fonts\Rubik-Italic.ttf" />
-    <None Remove="Resources\Fonts\Rubik-Light.ttf" />
-    <None Remove="Resources\Fonts\Rubik-LightItalic.ttf" />
-    <None Remove="Resources\Fonts\Rubik-Medium.ttf" />
-    <None Remove="Resources\Fonts\Rubik-MediumItalic.ttf" />
-    <None Remove="Resources\Fonts\Rubik-Regular.ttf" />
+    <None Remove="Resources\Fonts\Manrope-Bold.ttf" />
+    <None Remove="Resources\Fonts\Manrope-ExtraBold.ttf" />
+    <None Remove="Resources\Fonts\Manrope-ExtraLight.ttf" />
+    <None Remove="Resources\Fonts\Manrope-Light.ttf" />
+    <None Remove="Resources\Fonts\Manrope-Medium.ttf" />
+    <None Remove="Resources\Fonts\Manrope-Regular.ttf" />
+    <None Remove="Resources\Fonts\Manrope-SemiBold.ttf" />
     <None Remove="Resources\Icons\Attachment.png" />
     <None Remove="Resources\Icons\Ban.png" />
     <None Remove="Resources\Icons\calendar.png" />
@@ -41,16 +38,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Fonts\Rubik-Black.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-BlackItalic.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-Light.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Rubik-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Manrope-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Manrope-ExtraBold.ttf" />
+    <Resource Include="Resources\Fonts\Manrope-ExtraLight.ttf" />
+    <Resource Include="Resources\Fonts\Manrope-Light.ttf" />
+    <Resource Include="Resources\Fonts\Manrope-Medium.ttf" />
+    <Resource Include="Resources\Fonts\Manrope-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Manrope-SemiBold.ttf" />
     <Resource Include="Resources\Icons\Attachment.png" />
     <Resource Include="Resources\Icons\Ban.png" />
     <Resource Include="Resources\Icons\Calendar.png" />
@@ -62,7 +56,6 @@
 
   <ItemGroup>
     <Resource Include="Resources\Icons\Minus.png" />
-    <Resource Include="Resources\Icons\Report.png" />
     <Resource Include="Resources\Icons\Send.png" />
   </ItemGroup>
 
