@@ -14,9 +14,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Margin="27,7,0,0" Text="Search users"
+            <TextBlock Margin="27,7,0,0" Text="Поиск пользователей"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
             <TextBox Margin="7,5,0,0" 
                      Style="{StaticResource TextBox}"

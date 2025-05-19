@@ -12,24 +12,24 @@
         </Border>
 
         <StackPanel Width="300" Height="390">
-            <TextBlock Text="Babble"
+            <TextBlock Text="Мессенджер"
                        HorizontalAlignment="Center"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"
+                       FontFamily="/Resources/Fonts/#Rubik Medium"
                        FontSize="32"/>
 
-            <TextBlock Text="Login:"
-                       Margin="20,0,0,5"/>
+            <TextBlock Text="Логин:"
+                       Margin="20,10,0,5"/>
 
             <TextBox Style="{StaticResource TextBox}"
                      Text="{Binding Login}"/>
 
-            <TextBlock Text="Password:"
+            <TextBlock Text="Пароль:"
                        Margin="20,10,0,5" />
             
             <TextBox Style="{StaticResource TextBox}"
                      Text="{Binding Password}"/>
 
-            <TextBlock Text="Repeat password:"
+            <TextBlock Text="Повторите пароль:"
                        Margin="20,10,0,5" />
 
             <TextBox Style="{StaticResource TextBox}"
@@ -39,7 +39,7 @@
             <Button Style="{StaticResource Button}"
                     Margin="0,20,0,0"
                     Width="300"
-                    Command="{Binding SignUpCommand}">Sign up</Button>
+                    Command="{Binding SignUpCommand}">Зарегистрироваться</Button>
 
             <Button Command="{Binding ToLoginPageCommand}">
                 <Button.Template>
@@ -47,7 +47,7 @@
                         <ContentPresenter />
                     </ControlTemplate>
                 </Button.Template>
-                <TextBlock Text="Log in"
+                <TextBlock Text="Войти"
                            TextDecorations="Underline"
                            HorizontalAlignment="Center"
                            Margin="0,20,0,0"

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="TextBlock">
         <Setter Property="FontFamily"
-                Value="/Resources/Fonts/#Kanit Regular" />
+                Value="/Resources/Fonts/#Rubik" />
         <Setter Property="Foreground"
                 Value="White"/>
         <Setter Property="VerticalAlignment"

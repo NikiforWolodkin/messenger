@@ -79,7 +79,7 @@
                 <Button Style="{StaticResource RoundPlusButton}"
                         HorizontalAlignment="Center"
                         Command="{Binding NewChatCommand}">
-                    New chat
+                    Новый чат
                 </Button>
 
             </StackPanel>

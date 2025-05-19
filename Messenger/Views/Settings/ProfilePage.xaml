@@ -7,14 +7,14 @@
              d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
         <StackPanel Margin="7,0,0,0">
-            <TextBlock Margin="20,7,0,0" Text="My profile"
+            <TextBlock Margin="20,7,0,0" Text="Мой профиль"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
             <TextBlock Margin="20,5,0,0" Text="{Binding Profile.Name, StringFormat=\@{0}}"
                        FontSize="22"
                        Foreground="{StaticResource LessLightGrayBrush}"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
             <Grid Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
@@ -39,13 +39,13 @@
                         VerticalAlignment="Center"
                         Grid.Column="1"
                         Margin="20,0,0,0">
-                    Upload image
+                    Изменть аватар
                 </Button>
             </Grid>
             
-            <TextBlock Margin="20,20,0,0" Text="Display name"
+            <TextBlock Margin="20,20,0,0" Text="Отображаемое имя"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
             <TextBox Margin="0,5,0,0" 
                      Style="{StaticResource TextBox}"
@@ -56,14 +56,14 @@
                     Command="{Binding SaveCommand}"
                     Width="110"
                     Margin="0,20,0,0">
-                Save
+                Сохранить
             </Button>
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding SignOutCommand}"
                     Width="110"
                     Margin="0,20,0,0">
-                Sign out
+                Выйти
             </Button>
         </StackPanel>
     </Grid>

@@ -14,9 +14,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Margin="27,7,0,0" Text="Reported messages"
+            <TextBlock Margin="27,7,0,0" Text="Жалобы"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
         </StackPanel>
 

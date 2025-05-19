@@ -126,7 +126,7 @@
                     Command="{Binding BackCommand}"
                     HorizontalAlignment="Stretch"
                     Margin="0,0,0,12">
-                Back
+                Назад
             </Button>
 
             <Border Grid.Row="1"
@@ -189,7 +189,7 @@
                             Command="{Binding NewEventCommand}"
                             Style="{StaticResource RoundPlusButton}"
                             HorizontalAlignment="Center" VerticalAlignment="Top">
-                        New event
+                        Новое мероприятие
                     </Button>
 
                     <ScrollViewer Grid.Row="2"
@@ -203,7 +203,7 @@
                                             Background="{StaticResource GrayBrush}">
                                         <Border.ContextMenu>
                                             <ContextMenu>
-                                                <MenuItem Header="Delete" Click="RemoveClicked" />
+                                                <MenuItem Header="Удалить" Click="RemoveClicked" />
                                             </ContextMenu>
                                         </Border.ContextMenu>
                                         
@@ -211,7 +211,7 @@
                                             <!-- Event Name -->
                                             <TextBlock Text="{Binding Name}" 
                                                        FontSize="18"
-                                                       FontFamily="/Resources/Fonts/#Kanit Medium"
+                                                       FontFamily="/Resources/Fonts/#Rubik Medium"
                                                        Foreground="White"
                                                        TextWrapping="Wrap"
                                                        Margin="0,0,0,4"/>
@@ -257,11 +257,11 @@
                                                                        FontSize="14">
                                                                 <TextBlock.Style>
                                                                     <Style TargetType="TextBlock">
-                                                                        <Setter Property="FontFamily" Value="/Resources/Fonts/#Kanit Light"/>
+                                                                        <Setter Property="FontFamily" Value="/Resources/Fonts/#Rubik Light"/>
                                                                         <Setter Property="Foreground" Value="White"/>
                                                                         <Style.Triggers>
                                                                             <DataTrigger Binding="{Binding IsOrganizer}" Value="True">
-                                                                                <Setter Property="FontFamily" Value="/Resources/Fonts/#Kanit Bold"/>
+                                                                                <Setter Property="FontFamily" Value="/Resources/Fonts/#Rubik Bold"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
                                                                     </Style>
@@ -293,7 +293,7 @@
                                             </ItemsControl>
                                             
                                             <!--Attendance buttons-->
-                                            <TextBlock Text="Going?"
+                                            <TextBlock Text="Учавствуете?"
                                                        Margin="0,8" 
                                                        FontSize="14" 
                                                        Foreground="{StaticResource LessLightGrayBrush}" />
@@ -304,7 +304,7 @@
                                                         CommandParameter="{Binding Id}"
                                                         Width="80"
                                                         Margin="0">
-                                                    Yes
+                                                    Да
                                                 </Button>
 
                                                 <Button Style="{StaticResource RoundButton}"
@@ -312,7 +312,7 @@
                                                         CommandParameter="{Binding Id}"
                                                         Width="80"
                                                         Margin="6,0,0,0">
-                                                    No
+                                                    Нет
                                                 </Button>
                                             </StackPanel>
                                         </StackPanel>

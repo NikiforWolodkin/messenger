@@ -49,9 +49,9 @@
 
         <StackPanel Grid.Column="1"
                     Grid.ColumnSpan="2">
-            <TextBlock Margin="27,7,0,0" Text="Event name"
+            <TextBlock Margin="27,7,0,0" Text="Название мероприятия"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
             <TextBox Margin="7,5,0,0" 
                      Style="{StaticResource TextBox}"
@@ -64,10 +64,10 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
-                    <TextBlock Text="Date"
+                    <TextBlock Text="Дата"
                                FontSize="22"
-                               Margin="27,0,0,0"
-                               FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                               Margin="27,0,0,5"
+                               FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
                     <Border BorderBrush="{StaticResource PurpleBrush}" 
                             BorderThickness="1" 
@@ -125,9 +125,9 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
-                    <TextBlock Text="Time"
+                    <TextBlock Text="Время"
                                FontSize="22"
-                               FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                               FontFamily="/Resources/Fonts/#Rubik Medium"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -200,7 +200,7 @@
                             </ComboBox.Resources>
                         </ComboBox>
 
-                        <TextBlock Grid.Column="1" Text="to" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <TextBlock Grid.Column="1" Text="до" VerticalAlignment="Center" Margin="5,0,5,0"/>
 
                         <ComboBox Grid.Column="2"
                                   ItemsSource="{Binding AvailableEndTimes}"
@@ -270,9 +270,9 @@
                 </StackPanel>
             </Grid>
 
-            <TextBlock Margin="27,25,0,0" Text="Agenda"
+            <TextBlock Margin="27,25,0,0" Text="Тема мероприятия"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
             <TextBox Margin="7,5,0,0" 
                      Style="{StaticResource TextBox}"
@@ -281,9 +281,9 @@
                      TextWrapping="Wrap"
                      VerticalScrollBarVisibility="Auto"/>
 
-            <TextBlock Margin="27,25,0,0" Text="Search participants"
+            <TextBlock Margin="27,25,0,0" Text="Поиск пользователей"
                        FontSize="22"
-                       FontFamily="/Resources/Fonts/#Kanit Medium"/>
+                       FontFamily="/Resources/Fonts/#Rubik Medium"/>
 
             <TextBox Margin="7,5,0,0" 
                      Style="{StaticResource TextBox}"
@@ -349,7 +349,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            Add
+                            Добавить
                         </Button>
 
                         <Button Grid.Column="2"
@@ -366,7 +366,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            Remove
+                            Убрать
                         </Button>
                     </Grid>
                 </DataTemplate>
@@ -419,19 +419,20 @@
 
         <StackPanel Grid.Row="2"
                     Grid.Column="1"
+                    Grid.ColumnSpan="2"
                     Orientation="Horizontal">
             <Button Style="{StaticResource RoundButton}"
                     Margin="7,0,0,0" 
                     Width="150"
                     Command="{Binding BackCommand}">
-                Back
+                Назад
             </Button>
 
             <Button Style="{StaticResource Button}"
                 Margin="20,0,0,0" 
-                Width="150"
+                Width="230"
                 Command="{Binding CreateEventCommand}">
-                Create Event
+                Создать мероприятие
             </Button>
         </StackPanel>
     </Grid>

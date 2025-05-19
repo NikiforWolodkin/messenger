@@ -39,8 +39,8 @@
                     <Grid Margin="10,0,10,10">
                         <Grid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Report" Click="ReportClicked" />
-                                <MenuItem Header="Delete" Click="DeleteClicked" />
+                                <MenuItem Header="Пожаловаться" Click="ReportClicked" />
+                                <MenuItem Header="Удалить" Click="DeleteClicked" />
                             </ContextMenu>
                         </Grid.ContextMenu>
                         
@@ -128,7 +128,7 @@
 
                                 <TextBlock Text="{Binding ImageUrl, Converter={StaticResource NameConverter}}"
                                            Foreground="White"
-                                           FontFamily="/Resources/Fonts/#Kanit Regular"
+                                           FontFamily="/Resources/Fonts/#Rubik Regular"
                                            FontSize="16"
                                            TextWrapping="Wrap"
                                            Margin="10,4,10,4"
@@ -228,7 +228,7 @@
                          Foreground="White"
                          VerticalAlignment="Center"
                          FontSize="16"
-                         FontFamily="/Resources/Fonts/#Kanit Regular"
+                         FontFamily="/Resources/Fonts/#Rubik Regular"
                          Margin="15,0,15,0">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
@@ -265,7 +265,7 @@
 
                     <TextBlock Text="{Binding AttachmentName}"
                                Foreground="White"
-                               FontFamily="/Resources/Fonts/#Kanit Regular"
+                               FontFamily="/Resources/Fonts/#Rubik Regular"
                                FontSize="16"
                                Margin="15,0,15,0"
                                VerticalAlignment="Center"/>
@@ -341,12 +341,12 @@
                             Margin="0,0,10,0">
                         <Button.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Delete in 15 minutes" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="15" />
-                                <MenuItem Header="Delete in 30 minutes" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="30" />
-                                <MenuItem Header="Delete in an hour" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="60" />
-                                <MenuItem Header="Delete in 8 hours" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="480" />
+                                <MenuItem Header="Удалить через 15 мин." Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="15" />
+                                <MenuItem Header="Удалить через 30 мин." Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="30" />
+                                <MenuItem Header="Удалить через час" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="60" />
+                                <MenuItem Header="Удалить через 8 часов" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="480" />
                                 <Separator />
-                                <MenuItem Header="Don't delete" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="{x:Null}" />
+                                <MenuItem Header="Не удалять" Command="{Binding SetSelfDeletionTimeCommand}" CommandParameter="{x:Null}" />
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>

@@ -42,28 +42,28 @@
                                                     Command="{Binding ProfileCommand}"
                                                     IsChecked="{Binding ProfileSelected}">
                             <Grid>
-                                <TextBlock Text="My profile" />
+                                <TextBlock Text="Мой профиль" />
                             </Grid>
                         </menu:RadioNavigationButton>
                         <menu:RadioNavigationButton Style="{StaticResource RadioNavigation}"
                                                     Command="{Binding GroupsCommand}"
                                                     IsChecked="{Binding GroupsSelected}">
                             <Grid>
-                                <TextBlock Text="Groups" />
+                                <TextBlock Text="Группы" />
                             </Grid>
                         </menu:RadioNavigationButton>
                         <menu:RadioNavigationButton Style="{StaticResource RadioNavigation}"
                                                     Command="{Binding ContactsCommand}"
                                                     IsChecked="{Binding ContactsSelected}">
                             <Grid>
-                                <TextBlock Text="Contacts" />
+                                <TextBlock Text="Контакты" />
                             </Grid>
                         </menu:RadioNavigationButton>
                         <menu:RadioNavigationButton Style="{StaticResource RadioNavigation}"
                                                     Command="{Binding BlacklistCommand}"
                                                     IsChecked="{Binding BlacklistSelected}">
                             <Grid>
-                                <TextBlock Text="Blacklist" />
+                                <TextBlock Text="Черный список" />
                             </Grid>
                         </menu:RadioNavigationButton>
                         <menu:RadioNavigationButton Command="{Binding ReportsCommand}"
@@ -81,7 +81,7 @@
                                 </Style>
                             </menu:RadioNavigationButton.Style>
                             <Grid>
-                                <TextBlock Text="Reports" />
+                                <TextBlock Text="Жалобы" />
                             </Grid>
                         </menu:RadioNavigationButton>
                     </StackPanel>
@@ -92,7 +92,7 @@
                             HorizontalAlignment="Center"
                             Width="150"
                             Command="{Binding BackCommand}">
-                        Back
+                        Назад
                     </Button>
                 </Grid>
 

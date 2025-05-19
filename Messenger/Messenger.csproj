@@ -11,24 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\Kanit-Black.ttf" />
-    <None Remove="Resources\Fonts\Kanit-BlackItalic.ttf" />
-    <None Remove="Resources\Fonts\Kanit-Bold.ttf" />
-    <None Remove="Resources\Fonts\Kanit-BoldItalic.ttf" />
-    <None Remove="Resources\Fonts\Kanit-ExtraBold.ttf" />
-    <None Remove="Resources\Fonts\Kanit-ExtraBoldItalic.ttf" />
-    <None Remove="Resources\Fonts\Kanit-ExtraLight.ttf" />
-    <None Remove="Resources\Fonts\Kanit-ExtraLightItalic.ttf" />
-    <None Remove="Resources\Fonts\Kanit-Italic.ttf" />
-    <None Remove="Resources\Fonts\Kanit-Light.ttf" />
-    <None Remove="Resources\Fonts\Kanit-LightItalic.ttf" />
-    <None Remove="Resources\Fonts\Kanit-Medium.ttf" />
-    <None Remove="Resources\Fonts\Kanit-MediumItalic.ttf" />
-    <None Remove="Resources\Fonts\Kanit-Regular.ttf" />
-    <None Remove="Resources\Fonts\Kanit-SemiBold.ttf" />
-    <None Remove="Resources\Fonts\Kanit-SemiBoldItalic.ttf" />
-    <None Remove="Resources\Fonts\Kanit-Thin.ttf" />
-    <None Remove="Resources\Fonts\Kanit-ThinItalic.ttf" />
+    <None Remove="Resources\Fonts\Rubik-Black.ttf" />
+    <None Remove="Resources\Fonts\Rubik-BlackItalic.ttf" />
+    <None Remove="Resources\Fonts\Rubik-Bold.ttf" />
+    <None Remove="Resources\Fonts\Rubik-BoldItalic.ttf" />
+    <None Remove="Resources\Fonts\Rubik-Italic.ttf" />
+    <None Remove="Resources\Fonts\Rubik-Light.ttf" />
+    <None Remove="Resources\Fonts\Rubik-LightItalic.ttf" />
+    <None Remove="Resources\Fonts\Rubik-Medium.ttf" />
+    <None Remove="Resources\Fonts\Rubik-MediumItalic.ttf" />
+    <None Remove="Resources\Fonts\Rubik-Regular.ttf" />
     <None Remove="Resources\Icons\Attachment.png" />
     <None Remove="Resources\Icons\Ban.png" />
     <None Remove="Resources\Icons\calendar.png" />
@@ -46,63 +38,19 @@
 
   <ItemGroup>
     <Content Include="fbmessenger_121036.ico" />
-    <Content Include="Resources\Fonts\Kanit-Black.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-BlackItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-Bold.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-BoldItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-ExtraBold.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-ExtraBoldItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-ExtraLight.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-ExtraLightItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-Italic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-Light.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-LightItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-Medium.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-MediumItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-Regular.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-SemiBold.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-SemiBoldItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-Thin.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Fonts\Kanit-ThinItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Fonts\Rubik-Black.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-BlackItalic.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-BoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-Italic.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-Light.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-LightItalic.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-Medium.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-MediumItalic.ttf" />
+    <Resource Include="Resources\Fonts\Rubik-Regular.ttf" />
     <Resource Include="Resources\Icons\Attachment.png" />
     <Resource Include="Resources\Icons\Ban.png" />
     <Resource Include="Resources\Icons\Calendar.png" />
