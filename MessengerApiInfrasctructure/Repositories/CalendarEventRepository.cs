@@ -15,7 +15,7 @@ public class CalendarEventRepository : ICalendarEventRepository
         _context = context;
     }
 
-    public async Task AddUserAttendanceAsync(UserEventAttendance userAttendance)
+    async Task ICalendarEventRepository.AddUserAttendanceAsync(UserEventAttendance userAttendance)
     {
         await _context.EventAttendance.AddAsync(userAttendance);
 
@@ -32,6 +32,18 @@ public class CalendarEventRepository : ICalendarEventRepository
     async Task<CalendarEvent?> ICalendarEventRepository.GetByIdAsync(Guid id)
     {
         return await _context.CalendarEvents.FindAsync(id);
+    }
+
+    async Task<ICollection<CalendarEvent>> ICalendarEventRepository.GetEventsToNotifyParticipantsAsync(TimeSpan maximumTimeBeforeEvent)
+    {
+        var maxNotificationTime = DateTime.Now.Add(maximumTimeBeforeEvent);
+
+        return await _context.CalendarEvents
+            .Where(calendarEvent => !calendarEvent.IsNotificationSent)
+            .Where(calendarEvent =>
+                calendarEvent.StartTime >= DateTime.Now &&
+                calendarEvent.StartTime <= maxNotificationTime)
+            .ToListAsync();
     }
 
     async Task<ICollection<CalendarEvent>> ICalendarEventRepository.GetUserEventsForDayAsync(User user, DateTime day)

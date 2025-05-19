@@ -61,6 +61,8 @@ builder.Services.AddScoped<ICalendarEventService, CalendarEventService>();
 
 builder.Services.AddScoped<EventBot>();
 
+builder.Services.AddHostedService<EventNotificationService>();
+
 builder.Services.AddDbContextPool<DataContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

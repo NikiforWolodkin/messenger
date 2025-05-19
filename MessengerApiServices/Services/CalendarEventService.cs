@@ -56,6 +56,20 @@ public class CalendarEventService : ICalendarEventService
         return ToModel(calendarEvent);
     }
 
+    public async Task<ICollection<CalendarEventResponse>> GetEventsToNotifyParticipantsAsync(TimeSpan maximumTimeBeforeEvent)
+    {
+        var eventsWithoutNotification = await _eventRepository.GetEventsToNotifyParticipantsAsync(maximumTimeBeforeEvent);
+
+        foreach (var calendarEvent in eventsWithoutNotification)
+        {
+            calendarEvent.IsNotificationSent = true;
+        }
+
+        await _eventRepository.SaveChangesAsync();
+
+        return ToModel(eventsWithoutNotification);
+    }
+
     public async Task<ICollection<CalendarEventResponse>> GetUserEventsForDayAsync(Guid userId, DateTime day)
     {
         var user = await _userRepository.GetByIdAsync(userId)

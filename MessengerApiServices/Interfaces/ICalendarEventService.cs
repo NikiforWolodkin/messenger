@@ -5,6 +5,7 @@ namespace MessengerApiServices.Interfaces;
 public interface ICalendarEventService
 {
     Task<ICollection<CalendarEventResponse>> GetUserEventsForDayAsync(Guid userId, DateTime day);
+    Task<ICollection<CalendarEventResponse>> GetEventsToNotifyParticipantsAsync(TimeSpan maximumTimeBeforeEvent);
     Task<CalendarEventResponse> AddAsync(Guid organizerId, CalendarEventAddRequest addCalendarEventRequest);
     Task RemoveAsync(Guid id, Guid userId);
     Task<CalendarEventResponse> SetUserAttendanceAsync(Guid id, Guid userId, bool isAttending);
