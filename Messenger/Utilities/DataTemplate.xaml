@@ -51,4 +51,8 @@
     <DataTemplate DataType="{x:Type vm:EventPageViewModel}">
         <view:EventPage />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:LandingPageViewModel}">
+        <view:LandingPage />
+    </DataTemplate>
 </ResourceDictionary>

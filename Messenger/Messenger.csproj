@@ -31,6 +31,7 @@
     <None Remove="Resources\Icons\Report.png" />
     <None Remove="Resources\Icons\Send.png" />
     <None Remove="Resources\Icons\timer.png" />
+    <None Remove="Resources\Images\Landing.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +74,7 @@
     <Resource Include="Resources\Icons\Menu.png" />
     <Resource Include="Resources\Icons\Plus.png" />
     <Resource Include="Resources\Icons\Timer.png" />
+    <Resource Include="Resources\Images\Landing.png" />
   </ItemGroup>
 
   <ItemGroup>

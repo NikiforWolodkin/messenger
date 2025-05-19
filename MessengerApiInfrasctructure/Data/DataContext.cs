@@ -89,7 +89,7 @@ namespace MessengerApiInfrasctructure.Data
                 Name = "EventBot",
                 DisplayName = "Event bot",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("EventBot"),
-                AvatarUrl = "http://127.0.0.1:10000/devstoreaccount1/messenger-container/default-avatar.png",
+                AvatarUrl = "http://127.0.0.1:10000/devstoreaccount1/messenger-container/event-bot.png",
                 IsAdmin = false,
             };
 

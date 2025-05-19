@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:Messenger.ViewModels"
         mc:Ignorable="d"
         Background="Transparent"
-        Title="Babble" Height="600" Width="1000"
+        Title="Мессенджер" Height="600" Width="1000"
         MinHeight="600" MinWidth="1000">
 
     <Window.DataContext>

@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\default-avatar.jpg" />
     <None Remove="Images\default-avatar.png" />
+    <None Remove="Images\event-bot.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,8 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\default-avatar.jpg" />
     <Resource Include="Images\default-avatar.png" />
+    <Resource Include="Images\event-bot.png" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@ public class MainWindowViewModel : ViewModelBase, IWindow
 
     public MainWindowViewModel()
     {
-        CurrentView = new LoginPageViewModel(this);
+        CurrentView = new LandingPageViewModel(this);
     }
 
     public void NavigateToLogin()

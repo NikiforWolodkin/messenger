@@ -6,7 +6,76 @@
              xmlns:local="clr-namespace:Messenger.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="ContentGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="{StaticResource BackgroundLight}" Offset="0"/>
+            <GradientStop Color="{StaticResource DarkGray}" Offset="1"/>
+        </LinearGradientBrush>
+    </UserControl.Resources>
+
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Image with overlay gradient for smooth transition -->
+        <Grid Grid.Column="0">
+            <Image Source="/Resources/Images/Landing.png" Stretch="UniformToFill"/>
+
+            <!-- Overlay gradient at the right edge -->
+            <Rectangle HorizontalAlignment="Right" Width="100"
+                       Opacity="0.5">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="Transparent" Offset="0.2"/>
+                        <GradientStop Color="{StaticResource DarkGray}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle Fill="{StaticResource DarkGrayBrush}"
+                       Opacity="0.25" />
+        </Grid>
+
+        <!-- Right side with content -->
+        <Border Grid.Column="1" Background="{StaticResource ContentGradient}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+                <TextBlock Text="Мессенджер" 
+                           FontFamily="/Resources/Fonts/#Manrope Bold"
+                           FontSize="28"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           Margin="0 0 0 30"/>
+
+                <TextBlock Text="Объединяем общение и планирование в одном приложении. Мероприятия, чаты, группы и удобный интерфейс."
+                           FontSize="14"
+                           Foreground="{StaticResource LessLightGrayBrush}"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="0 0 0 40"
+                           LineHeight="24"/>
+
+                <Button Style="{StaticResource Button}"
+                        Margin="0,20,0,0"
+                        Width="300"
+                        Command="{Binding LoginCommand}">Войти</Button>
+
+                <Button Command="{Binding RegisterCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <ContentPresenter />
+                        </ControlTemplate>
+                    </Button.Template>
+                    <TextBlock Text="Зарегистрироваться"
+                               TextDecorations="Underline"
+                               HorizontalAlignment="Center"
+                               Margin="0,20,0,0"
+                               Foreground="{StaticResource LightGrayBrush}"/>
+                </Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

@@ -145,4 +145,10 @@ async Task CreateContainerIfNotExistsAsync()
     var blobClient = containerClient.GetBlobClient(fileName);
     using var stream = File.OpenRead(imagePath);
     await blobClient.UploadAsync(stream, new BlobHttpHeaders { ContentType = "image/png" });
+
+    imagePath = @"./Images/event-bot.png";
+    fileName = Path.GetFileName(imagePath);
+    blobClient = containerClient.GetBlobClient(fileName);
+    using var stream2 = File.OpenRead(imagePath);
+    await blobClient.UploadAsync(stream2, new BlobHttpHeaders { ContentType = "image/png" });
 }
