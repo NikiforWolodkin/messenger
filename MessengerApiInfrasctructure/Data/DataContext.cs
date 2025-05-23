@@ -29,7 +29,8 @@ namespace MessengerApiInfrasctructure.Data
 
             modelBuilder.Entity<User>()
                 .HasMany(user => user.Chats)
-                .WithMany(chat => chat.Participants);
+                .WithMany(chat => chat.Participants)
+                .UsingEntity("ChatParticipants");
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Blacklist)
@@ -54,11 +55,13 @@ namespace MessengerApiInfrasctructure.Data
 
             modelBuilder.Entity<Message>()
                 .HasMany(message => message.UserReports)
-                .WithMany(user => user.ReportedMessages);
+                .WithMany(user => user.ReportedMessages)
+                .UsingEntity("ReportedMessages");
 
             modelBuilder.Entity<Message>()
                 .HasMany(message => message.Likes)
-                .WithMany(user => user.LikedMessages);
+                .WithMany(user => user.LikedMessages)
+                .UsingEntity("LikedMessages");
 
             modelBuilder.Entity<CalendarEvent>()
                 .HasOne(calendarEvent => calendarEvent.Organizer)
@@ -67,7 +70,8 @@ namespace MessengerApiInfrasctructure.Data
 
             modelBuilder.Entity<CalendarEvent>()
                 .HasMany(calendarEvent => calendarEvent.Participants)
-                .WithMany(user => user.Events);
+                .WithMany(user => user.Events)
+                .UsingEntity("UserCalendarEvents");
 
             modelBuilder.Entity<UserEventAttendance>()
                 .HasOne(eventParticipation => eventParticipation.Event)
