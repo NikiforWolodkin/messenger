@@ -2,11 +2,11 @@
 
 public class OperationLog
 {
-    public virtual Guid Id { get; set; }
-    public virtual Guid UserId { get; set; }
-    public virtual string UserName { get; set; }
-    public virtual string UserDisplayName { get; set; }
-    public virtual DateTime Time { get; set; }
-    public virtual string OperationName { get; set; }
-    public virtual string OperationDescription { get; set; }
+    public Guid Id { get; set; }
+    public Guid UserId { get; set; }
+    public string UserName { get; set; }
+    public string UserDisplayName { get; set; }
+    public DateTime Time { get; set; }
+    public string OperationName { get; set; }
+    public string OperationDescription { get; set; }
 }

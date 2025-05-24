@@ -9,11 +9,11 @@ namespace MessengerApiDomain.Models
 {
     public class Chat
     {
-        public virtual Guid Id { get; set; }
+        public Guid Id { get; set; }
         public virtual ICollection<User> Participants { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
-        public virtual ChatType ChatType { get; set; }
-        public virtual string? Name { get; set; }
-        public virtual string? ImageUrl { get; set; }
+        public ChatType ChatType { get; set; }
+        public string? Name { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }
