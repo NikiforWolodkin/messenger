@@ -14,6 +14,7 @@ public class MessageServiceTests
     private readonly Mock<IMessageRepository> _messageRepositoryMock = new Mock<IMessageRepository>();
     private readonly Mock<IUserRepository> _userRepositoryMock = new Mock<IUserRepository>();
     private readonly Mock<IChatRepository> _chatRepositoryMock = new Mock<IChatRepository>();
+    private readonly Mock<IUserService> _userServiceMock = new Mock<IUserService>();
     private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
 
     [Fact]
@@ -32,7 +33,8 @@ public class MessageServiceTests
         _messageRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Message>())).Returns(Task.CompletedTask);
         _mapperMock.Setup(x => x.Map<MessageResponse>(It.IsAny<Message>())).Returns(messageResponse);
 
-        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object, _chatRepositoryMock.Object, _mapperMock.Object);
+        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object,
+            _chatRepositoryMock.Object, _userServiceMock.Object, _mapperMock.Object);
 
         // Act
         var result = await service.AddAsync(userId, messageAddRequest);
@@ -57,7 +59,8 @@ public class MessageServiceTests
         _messageRepositoryMock.Setup(x => x.SaveChangesAsync()).Returns(Task.CompletedTask);
         _mapperMock.Setup(x => x.Map<MessageResponse>(It.IsAny<Message>())).Returns(messageResponse);
 
-        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object, _chatRepositoryMock.Object, _mapperMock.Object);
+        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object,
+            _chatRepositoryMock.Object, _userServiceMock.Object, _mapperMock.Object);
 
         // Act
         var result = await service.AddUserReportAsync(userId, userReportAddRequest);
@@ -71,18 +74,22 @@ public class MessageServiceTests
     {
         // Arrange
         var chatId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
         var chat = new Chat { Id = chatId };
-        var messages = new List<Message> { new Message() };
+        var user = new User { Id = userId };
+        var messages = new List<Message> { new Message() { Likes = [] } };
         var messageResponses = new List<MessageResponse> { new MessageResponse() };
 
         _chatRepositoryMock.Setup(x => x.GetByIdAsync(chatId)).ReturnsAsync(chat);
+        _userRepositoryMock.Setup(x => x.GetByIdAsync(userId)).ReturnsAsync(user);
         _messageRepositoryMock.Setup(x => x.GetAllChatMessagesAsync(chat)).ReturnsAsync(messages);
         _mapperMock.Setup(x => x.Map<ICollection<MessageResponse>>(It.IsAny<ICollection<Message>>())).Returns(messageResponses);
 
-        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object, _chatRepositoryMock.Object, _mapperMock.Object);
+        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object,
+            _chatRepositoryMock.Object, _userServiceMock.Object, _mapperMock.Object);
 
         // Act
-        var result = await service.GetAllChatMessagesAsync(chatId);
+        var result = await service.GetAllChatMessagesAsync(chatId, userId);
 
         // Assert
         Assert.IsType<List<MessageResponse>>(result);
@@ -98,7 +105,8 @@ public class MessageServiceTests
         _messageRepositoryMock.Setup(x => x.GetReportedMessageAsync()).ReturnsAsync(messages);
         _mapperMock.Setup(x => x.Map<ICollection<MessageResponse>>(It.IsAny<ICollection<Message>>())).Returns(messageResponses);
 
-        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object, _chatRepositoryMock.Object, _mapperMock.Object);
+        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object,
+            _chatRepositoryMock.Object, _userServiceMock.Object, _mapperMock.Object);
 
         // Act
         var result = await service.GetReportedMessageAsync();
@@ -112,15 +120,21 @@ public class MessageServiceTests
     {
         // Arrange
         var messageId = Guid.NewGuid();
-        var message = new Message { Id = messageId, UserReports = new List<User>() };
+        var userId = Guid.NewGuid();
+        var user = new User { Id = userId, IsAdmin = true };
+        var message = new Message { Id = messageId, UserReports = new List<User>(), Author = new User { Id = Guid.NewGuid() } };
 
         _messageRepositoryMock.Setup(x => x.GetByIdAsync(messageId)).ReturnsAsync(message);
+        _userRepositoryMock.Setup(x => x.GetByIdAsync(userId)).ReturnsAsync(user);
         _messageRepositoryMock.Setup(x => x.SaveChangesAsync()).Returns(Task.CompletedTask);
+        _userServiceMock.Setup(x => x.RecordUserOperationAsync(It.IsAny<Guid>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Returns(Task.CompletedTask);
 
-        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object, _chatRepositoryMock.Object, _mapperMock.Object);
+        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object,
+            _chatRepositoryMock.Object, _userServiceMock.Object, _mapperMock.Object);
 
         // Act
-        await service.RemoveAsync(messageId);
+        await service.RemoveAsync(messageId, userId);
 
         // Assert
         _messageRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
@@ -131,17 +145,46 @@ public class MessageServiceTests
     {
         // Arrange
         var messageId = Guid.NewGuid();
+        var adminId = Guid.NewGuid();
         var message = new Message { Id = messageId, UserReports = new List<User>() };
 
         _messageRepositoryMock.Setup(x => x.GetByIdAsync(messageId)).ReturnsAsync(message);
         _messageRepositoryMock.Setup(x => x.SaveChangesAsync()).Returns(Task.CompletedTask);
+        _userServiceMock.Setup(x => x.RecordUserOperationAsync(It.IsAny<Guid>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Returns(Task.CompletedTask);
 
-        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object, _chatRepositoryMock.Object, _mapperMock.Object);
+        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object,
+            _chatRepositoryMock.Object, _userServiceMock.Object, _mapperMock.Object);
 
         // Act
-        await service.RemoveUserReportsAsync(messageId);
+        await service.RemoveUserReportsAsync(messageId, adminId);
 
         // Assert
         _messageRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+    }
+
+    [Fact]
+    public async Task LikeAsync_ShouldReturnMessageResponse_WhenUserAndMessageExist()
+    {
+        // Arrange
+        var messageId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var user = new User { Id = userId };
+        var message = new Message { Id = messageId, Likes = new List<User>() };
+        var messageResponse = new MessageResponse();
+
+        _userRepositoryMock.Setup(x => x.GetByIdAsync(userId)).ReturnsAsync(user);
+        _messageRepositoryMock.Setup(x => x.GetByIdAsync(messageId)).ReturnsAsync(message);
+        _messageRepositoryMock.Setup(x => x.SaveChangesAsync()).Returns(Task.CompletedTask);
+        _mapperMock.Setup(x => x.Map<MessageResponse>(It.IsAny<Message>())).Returns(messageResponse);
+
+        IMessageService service = new MessageService(_messageRepositoryMock.Object, _userRepositoryMock.Object,
+            _chatRepositoryMock.Object, _userServiceMock.Object, _mapperMock.Object);
+
+        // Act
+        var result = await service.LikeAsync(messageId, userId);
+
+        // Assert
+        Assert.IsType<MessageResponse>(result);
     }
 }
