@@ -35,7 +35,7 @@ public static class Api
         }
         else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
         {
-            throw new LoggedOutException("You are logged out, please log in again.");
+            throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
         }
         else
         {
@@ -69,7 +69,7 @@ public static class Api
         }
         else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
         {
-            throw new LoggedOutException("You are logged out, please log in again.");
+            throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
         }
         else
         {
@@ -101,7 +101,7 @@ public static class Api
         }
         else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
         {
-            throw new LoggedOutException("You are logged out, please log in again.");
+            throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
         }
         else
         {
@@ -135,7 +135,7 @@ public static class Api
         }
         else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
         {
-            throw new LoggedOutException("You are logged out, please log in again.");
+            throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
         }
         else
         {
@@ -169,7 +169,7 @@ public static class Api
         }
         else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
         {
-            throw new LoggedOutException("You are logged out, please log in again.");
+            throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
         }
         else
         {
@@ -198,7 +198,7 @@ public static class Api
         }
         else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
         {
-            throw new LoggedOutException("You are logged out, please log in again.");
+            throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
         }
         else
         {

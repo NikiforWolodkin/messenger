@@ -24,7 +24,7 @@ namespace Messenger.Providers
         {
             if (_token is null)
             {
-                throw new LoggedOutException("You are logged out. Please log in again.");
+                throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
             }
 
             return _token;
@@ -34,7 +34,7 @@ namespace Messenger.Providers
         {
             if (_userId is null)
             {
-                throw new LoggedOutException("You are logged out. Please log in again.");
+                throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
             }
 
             return (Guid)_userId;
@@ -44,7 +44,7 @@ namespace Messenger.Providers
         {
             if (_isUserAdmin is null)
             {
-                throw new LoggedOutException("You are logged out. Please log in again.");
+                throw new LoggedOutException("время сессии истекло, пожалуйста, авторизируйтесь снова.");
             }
 
             return (bool)_isUserAdmin;

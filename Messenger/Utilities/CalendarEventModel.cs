@@ -1,4 +1,4 @@
-﻿namespace Messenger.MarkupModels;
+﻿namespace Messenger.Utilities;
 
 public class CalendarEventModel
 {

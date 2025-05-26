@@ -104,7 +104,7 @@
                                         BorderThickness="1">
                                     <TextBlock Text="{Binding EventText}"
                                                Foreground="White"
-                                               TextAlignment="Center"
+                                               TextAlignment="Left"
                                                TextWrapping="Wrap"
                                                VerticalAlignment="{Binding Height, Converter={StaticResource HeightToAlignmentConverter}}"
                                                FontSize="{Binding Height, Converter={StaticResource HeightToFontSizeConverter}}"/>

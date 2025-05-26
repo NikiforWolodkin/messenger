@@ -173,19 +173,19 @@ public class EventPageViewModel : ViewModelBase
     {
         if (string.IsNullOrEmpty(Name))
         {
-            MessageBox.Show("Имя не может быть пустым.");
+            MessageBox.Show("Имя не может быть пустым.", "Ошибка");
             return;
         }
 
         if (Date == null)
         {
-            MessageBox.Show("Пожалуйста выберите дату.");
+            MessageBox.Show("Пожалуйста выберите дату.", "Ошибка");
             return;
         }
 
         if (EndTime <= StartTime)
         {
-            MessageBox.Show("Время окончания должно быть после времени начала.");
+            MessageBox.Show("Время окончания должно быть после времени начала.", "Ошибка");
             return;
         }
 

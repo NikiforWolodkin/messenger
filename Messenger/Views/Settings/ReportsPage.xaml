@@ -22,6 +22,7 @@
 
         <ListBox Style="{StaticResource ListBox}"
                  ItemsSource="{Binding Messages}"
+                 Margin="0,20,0,0"
                  Grid.Row="1"
                  x:Name="messagesList"
                  utils:ListBoxExtensions.AutoScrollToEnd="True"

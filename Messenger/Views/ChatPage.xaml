@@ -98,6 +98,7 @@
                             <Image Source="{Binding ImageUrl}"
                                    Margin="10"
                                    MaxHeight="320"
+                                   MaxWidth="540"
                                    RenderOptions.BitmapScalingMode="HighQuality">
                                 <Image.Style>
                                     <Style TargetType="Image">
@@ -356,7 +357,7 @@
             </Grid>
 
             <TextBlock 
-                Text="This chat is unavailable because of the blacklist policy.">
+                Text="Этот чат недоступен из-за политики черного списка.">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock" >
                         <Setter Property="HorizontalAlignment" Value="Center" />

@@ -5,7 +5,6 @@ using System;
 using MessengerModels.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Messenger.MarkupModels;
 using System.Windows.Input;
 using Messenger.Interfaces;
 using Messenger.Services;
