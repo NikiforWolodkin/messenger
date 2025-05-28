@@ -45,15 +45,15 @@ namespace Messenger.ViewModels
             set { _isBlacklisted = value; OnPropertyChanged(); }
         }
 
-        private ObservableCollection<MessageResponse> _messages;
-        public ObservableCollection<MessageResponse> Messages
+        private ObservableCollection<MessageResponseDecorator> _messages;
+        public ObservableCollection<MessageResponseDecorator> Messages
         {
             get { return _messages; }
             set { _messages = value; OnPropertyChanged(); }
         }
 
-        private MessageResponse _selectedItem;
-        public MessageResponse SelectedItem
+        private MessageResponseDecorator _selectedItem;
+        public MessageResponseDecorator SelectedItem
         {
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged(); }
@@ -104,7 +104,7 @@ namespace Messenger.ViewModels
 
             Text = string.Empty;
             SelectedItem = null;
-            Messages = new ObservableCollection<MessageResponse>();
+            Messages = new ObservableCollection<MessageResponseDecorator>();
             IsAttachmentAdded = false;
             AttachmentName = string.Empty;
 
@@ -115,8 +115,8 @@ namespace Messenger.ViewModels
         {
             var messages = await MessagesService.GetAllAsync(ChatId);
 
-            Messages = new ObservableCollection<MessageResponse>(messages);
-            SelectedItem = messages.Last();
+            Messages = [.. MessageResponseDecorator.ToDecorator(messages)];
+            SelectedItem = MessageResponseDecorator.ToDecorator(messages.Last());
         }
 
         private async Task ConnectToHubAsync()
@@ -142,9 +142,9 @@ namespace Messenger.ViewModels
 
                 App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    Messages.Add(message);
+                    Messages.Add(MessageResponseDecorator.ToDecorator(message));
 
-                    SelectedItem = message;
+                    SelectedItem = MessageResponseDecorator.ToDecorator(message);
                     Text = string.Empty;
 
                     _mainPage.UpdateLastMessage(ChatId, message);
@@ -172,9 +172,9 @@ namespace Messenger.ViewModels
                 message = await MessagesService.AddAsync(ChatId, Text, _selfDeletionTime);
             }
 
-            Messages.Add(message);
+            Messages.Add(MessageResponseDecorator.ToDecorator(message));
 
-            SelectedItem = message;
+            SelectedItem = MessageResponseDecorator.ToDecorator(message);
             Text = string.Empty;
             IsAttachmentAdded = false;
             _imageUrl = null;

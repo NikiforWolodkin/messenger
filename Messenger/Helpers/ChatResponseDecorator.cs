@@ -1,41 +1,38 @@
 ﻿using MessengerModels.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Messenger.Helpers
+namespace Messenger.Helpers;
+
+public class ChatResponseDecorator : ChatResponse
 {
-    public class ChatResponseDecorator : ChatResponse
+    public int UnreadMessages { get; set; } = 0;
+    public bool LastMessageIsFromToday => LastMessageTime?.Date == DateTime.Now.Date;
+
+    private ChatResponseDecorator(ChatResponse chat) 
+    { 
+        Id = chat.Id;
+        Name = chat.Name;
+        LastMessage = chat.LastMessage;
+        LastMessageTime = chat.LastMessageTime;
+        ImageUrl = chat.ImageUrl;
+        IsBlacklisted = chat.IsBlacklisted;
+    }
+
+    public static ChatResponseDecorator ToDecorator(ChatResponse chat)
     {
-        public int UnreadMessages { get; set; } = 0;
+        return new ChatResponseDecorator(chat);
+    }
 
-        private ChatResponseDecorator(ChatResponse chat) 
-        { 
-            Id = chat.Id;
-            Name = chat.Name;
-            LastMessage = chat.LastMessage;
-            LastMessageTime = chat.LastMessageTime;
-            ImageUrl = chat.ImageUrl;
-            IsBlacklisted = chat.IsBlacklisted;
-        }
+    public static ICollection<ChatResponseDecorator> ToDecorator(ICollection<ChatResponse> chats)
+    {
+        var decorators = new List<ChatResponseDecorator>();
 
-        public static ChatResponseDecorator ToDecorator(ChatResponse chat)
+        foreach (var chat in chats)
         {
-            return new ChatResponseDecorator(chat);
+            decorators.Add(new ChatResponseDecorator(chat));
         }
 
-        public static ICollection<ChatResponseDecorator> ToDecorator(ICollection<ChatResponse> chats)
-        {
-            var decorators = new List<ChatResponseDecorator>();
-
-            foreach (var chat in chats)
-            {
-                decorators.Add(new ChatResponseDecorator(chat));
-            }
-
-            return decorators;
-        }
+        return decorators;
     }
 }

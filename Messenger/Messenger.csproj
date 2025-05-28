@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MarkupModels\**" />
+    <EmbeddedResource Remove="MarkupModels\**" />
+    <None Remove="MarkupModels\**" />
+    <Page Remove="MarkupModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Fonts\Manrope-Bold.ttf" />
     <None Remove="Resources\Fonts\Manrope-ExtraBold.ttf" />
     <None Remove="Resources\Fonts\Manrope-ExtraLight.ttf" />
@@ -81,10 +88,6 @@
     <Compile Update="Views\SignupPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="MarkupModels\" />
   </ItemGroup>
 
 </Project>

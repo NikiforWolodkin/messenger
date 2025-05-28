@@ -28,6 +28,7 @@
         <ListBox Style="{StaticResource ListBox}"
                  ItemsSource="{Binding Messages}"
                  SelectedItem="{Binding SelectedItem}"
+                 Width="675"
                  Grid.Column="1"
                  x:Name="messagesList"
                  utils:ListBoxExtensions.AutoScrollToEnd="True"
@@ -36,7 +37,18 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="10,0,10,10">
+                    <Grid MaxWidth="655"
+                          Margin="10,0,10,2">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding BelongsToCurrentUser}" Value="True">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+
                         <Grid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Пожаловаться" Click="ReportClicked" />
@@ -45,7 +57,7 @@
                         </Grid.ContextMenu>
                         
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
@@ -55,50 +67,96 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         
+                        <!--Avatar-->
                         <Image Width="40" Height="40"
                                RenderOptions.BitmapScalingMode="HighQuality"
                                VerticalAlignment="Bottom"
                                Stretch="UniformToFill" 
+                               Margin="0,0,10,0"
                                Grid.RowSpan="2">
-                            <Image.Clip>
-                                <EllipseGeometry RadiusX="20" RadiusY="20" Center="20,20"/>
-                            </Image.Clip>
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="Clip">
+                                        <Setter.Value>
+                                            <EllipseGeometry RadiusX="20" RadiusY="20" Center="20,20"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding BelongsToCurrentUser}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
 
                             <Image.Source>
                                 <BitmapImage RenderOptions.BitmapScalingMode="HighQuality" UriSource="{Binding AuthorAvatarUrl}" />
                             </Image.Source>
                         </Image>
                         
-                        <StackPanel Grid.Column="1" 
-                                    Orientation="Horizontal"
-                                    Margin="20,-5,0,0">
-                            <TextBlock Text="{Binding AuthorName}" 
-                                       VerticalAlignment="Top"
-                                       FontSize="16"/>
+                        <!--Header with name-->
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding AuthorName}" 
+                                   VerticalAlignment="Top"
+                                   Margin="10,4,10,0"
+                                   FontSize="16">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding BelongsToCurrentUser}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding BelongsToCurrentUser}" Value="True">
+                                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
 
-                            <TextBlock Text="{Binding SendTime, StringFormat=t}"
-                                       Foreground="{StaticResource LessLightGrayBrush}"
-                                       VerticalAlignment="Top"
-                                       FontSize="16"
-                                       Margin="10,0,10,0"/>
-                        </StackPanel>
+                        <!--Message content-->
+                        <Grid Grid.Row="1" 
+                              Grid.Column="1"
+                              MaxWidth="555"
+                              Margin="0,2,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            
+                            <Border CornerRadius="5" Grid.RowSpan="2">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding BelongsToCurrentUser}" Value="True">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                            <GradientStop Color="#1A1460" Offset="0.0"/>
+                                                            <GradientStop Color="#2D2591" Offset="0.5"/>
+                                                            <GradientStop Color="{StaticResource Purple}" Offset="1.0"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
 
-                        <Grid Grid.Row="1" Grid.Column="1"
-                              Margin="10,2,0,0">
-
-                            <Border Background="{StaticResource BackgroundLightBrush}"
-                                    CornerRadius="5"
-                                    Grid.RowSpan="2"/>
-
+                            <!--Text-->
                             <TextBlock Text="{Binding Text}"
-                                       TextWrapping="Wrap"
-                                       Margin="10,4,10,4"
-                                       MaxWidth="540" />
+                                       MaxWidth="505"
+                                       Margin="10,4,10,4" />
 
+                            <!--Image-->
                             <Image Source="{Binding ImageUrl}"
                                    Margin="10"
                                    MaxHeight="320"
-                                   MaxWidth="540"
                                    RenderOptions.BitmapScalingMode="HighQuality">
                                 <Image.Style>
                                     <Style TargetType="Image">
@@ -112,6 +170,7 @@
                                 </Image.Style>
                             </Image>
 
+                            <!--Download button-->
                             <StackPanel Orientation="Horizontal">
                                 <Button Command="{Binding Path=DataContext.DownloadAttachmentCommand, ElementName=messagesList}"
                                         CommandParameter="{Binding ImageUrl}">
@@ -127,18 +186,20 @@
                                            Margin="10,0,0,0"/>
                                 </Button>
 
+                                <!--Attachment name-->
                                 <TextBlock Text="{Binding ImageUrl, Converter={StaticResource NameConverter}}"
                                            Foreground="White"
                                            FontFamily="/Resources/Fonts/#Manrope Regular"
                                            FontSize="16"
                                            TextWrapping="Wrap"
+                                           MaxWidth="505"
                                            Margin="10,4,10,4"
-                                           MaxWidth="540"
                                            VerticalAlignment="Center"/>
 
                                 <StackPanel.Style>
                                     <Style TargetType="StackPanel">
                                         <Setter Property="Visibility" Value="Collapsed" />
+                                        
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ImageUrl, Converter={StaticResource FileConverter}}" Value="False">
                                                 <Setter Property="Visibility" Value="Visible" />
@@ -147,11 +208,46 @@
                                     </Style>
                                 </StackPanel.Style>
                             </StackPanel>
+
+                            <!--Time-->
+                            <TextBlock Grid.Row="1"
+                                       HorizontalAlignment="Right"
+                                       Foreground="{StaticResource LessLightGrayBrush}"
+                                       VerticalAlignment="Top"
+                                       FontSize="12"
+                                       Margin="10,-6,10,2">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding SendTime, StringFormat=HH:mm}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsFromToday}" Value="False">
+                                                <Setter Property="Text" Value="{Binding SendTime, StringFormat= dd.MM.yy HH:mm}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </Grid>
 
-                        <StackPanel Orientation="Horizontal"
-                                    Grid.Column="2"
-                                    Grid.Row="1">
+                        <!--Like button-->
+                        <Grid Margin="5,0"
+                              Grid.Row="1">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Grid.Column" Value="2" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding BelongsToCurrentUser}" Value="True">
+                                            <Setter Property="Grid.Column" Value="0"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
+                            
                             <Button Command="{Binding Path=DataContext.LikeMessageCommand, ElementName=messagesList}"
                                     CommandParameter="{Binding}">
                                 <Button.Template>
@@ -164,7 +260,6 @@
                                        Grid.Row="1"
                                        Grid.Column="2"
                                        VerticalAlignment="Center"
-                                       Margin="10,0,0,0"
                                        Width="20"
                                        Height="20">
                                     <Image.Style>
@@ -180,9 +275,10 @@
                                 </Image>
                             </Button>
 
-                            <TextBlock Text="{Binding LikeAmount}"
-                                       Margin="5,0,0,0"/>
-                        </StackPanel>
+                            <TextBlock Grid.Column="1"
+                                       HorizontalAlignment="Center"
+                                       Text="{Binding LikeAmount}"/>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

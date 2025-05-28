@@ -161,11 +161,21 @@
                                                Foreground="{StaticResource LessLightGrayBrush}"/>
 
                                     <!-- Message time below message -->
-                                    <TextBlock Text="{Binding LastMessageTime, StringFormat=t}" 
-                                               Grid.Column="1"
-                                               Margin="10,2,0,0"
+                                    <TextBlock Grid.Column="1"
+                                               Margin="10,3,0,0"
                                                Foreground="{StaticResource LessLightGrayBrush}"
-                                               FontSize="15"/>
+                                               FontSize="15">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="{Binding LastMessageTime, StringFormat=HH:mm}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding LastMessageIsFromToday}" Value="False">
+                                                        <Setter Property="Text" Value="{Binding LastMessageTime, StringFormat=dd.MM.yy}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
 
                             </Grid>
