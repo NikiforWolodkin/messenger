@@ -151,6 +151,7 @@
                             <!--Text-->
                             <TextBlock Text="{Binding Text}"
                                        MaxWidth="505"
+                                       TextWrapping="Wrap"
                                        Margin="10,4,10,4" />
 
                             <!--Image-->

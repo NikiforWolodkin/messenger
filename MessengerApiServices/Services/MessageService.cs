@@ -141,7 +141,7 @@ public class MessageService : IMessageService
         }
 
         message.UserReports.Clear();
-        message.Text = "[Message deleted]";
+        message.Text = "[Сообщение удалено]";
         message.ImageUrl = null;
 
         await _messageRepository.SaveChangesAsync();

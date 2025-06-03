@@ -18,6 +18,7 @@ public class UserRepository : IUserRepository
     {
         var usersWithConversation = filterUser
             .Chats
+            .Where(chat => chat.ChatType != MessengerApiDomain.Enums.ChatType.Group)
             .SelectMany(chat => chat.Participants)
             .Where(user => user.Id != filterUser.Id)
             .Select(user => user.Id);
