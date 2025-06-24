@@ -43,6 +43,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -300,7 +308,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_14A0F8C7C43B4D01AE13668509998F3C"
             {
-            "Name" = "8:Babble"
+            "Name" = "8:Мессенджер"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -314,7 +322,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2E0E3ADEB1D845008C71DC2B644F9510"
             {
-            "Name" = "8:Babble"
+            "Name" = "8:Messenger"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -727,7 +735,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1C4525D44B3E4B8FBE25C4F4CD4E6E43"
             {
-            "SourcePath" = "8:..\\Messenger\\obj\\Release\\net7.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\Messenger\\obj\\Release\\net9.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AEC472B7BF9D48D2805911DF71DEC641"
